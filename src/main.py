@@ -7,7 +7,7 @@ import json
 import re
 from datetime import datetime
 
-print("=== MEMULAI SCRIPT AGC BOLA (MEGA KLASEMEN HEADER LAYOUT) ===")
+print("=== MEMULAI SCRIPT AGC BOLA (MEGA KLASEMEN IFRAME - ANTI ADSTERRA) ===")
 
 API_KEYS_STRING = os.environ.get("GEMINI_API_KEYS")
 
@@ -17,7 +17,6 @@ if not API_KEYS_STRING:
 
 API_KEYS_LIST = [key.strip() for key in API_KEYS_STRING.split(",")]
 
-# Pemisahan Sumber RSS
 RSS_INT = [
     "https://feeds.bbci.co.uk/sport/football/rss.xml",
     "https://www.espn.com/espn/rss/soccer/news"
@@ -32,14 +31,14 @@ os.makedirs(OUTPUT_DIR, exist_ok=True)
 LOGO_URL = "https://upload.wikimedia.org/wikipedia/commons/d/d3/Soccerball.svg"
 
 # =====================================================================
-# WIDGET SCOREAXIS ASLI (DIMUAT TANPA DISEMBUNYIKAN)
+# SOLUSI MUTLAK: MENGGUNAKAN IFRAME (KEBAL DARI GANGGUAN ADSTERRA)
 # =====================================================================
-WIDGET_ENG = """<div id="widget-atvlmumh1msi" class="scoreaxis-widget" style="width: 100%;height: auto;font-size: 14px;background-color: #ffffff;color: #141416;border: none;overflow: auto;"><script src="https://widgets.scoreaxis.com/api/football/league-table/6232265abf1fa71a672159ec?widgetId=atvlmumh1msi&lang=id&teamLogo=1&tableLines=0&homeAway=1&header=1&position=1&goals=1&gamesCount=1&diff=1&winCount=1&drawCount=1&loseCount=1&lastGames=1&points=1&teamsLimit=all&links=1&noFollowLinks=0&font=poppins&fontSize=14&rowDensity=100&widgetWidth=auto&widgetHeight=auto&bodyColor=%23ffffff&textColor=%23141416&linkColor=%23141416&borderColor=%23ecf1f7&tabColor=%23f3f8fd" async></script></div>"""
-WIDGET_ESP = """<div id="widget-j7xwmumh3y7m" class="scoreaxis-widget" style="width: 100%;height: auto;font-size: 14px;background-color: #ffffff;color: #141416;border: none;overflow: auto;"><script src="https://widgets.scoreaxis.com/api/football/league-table/62322c053617da0b83221cc6?widgetId=j7xwmumh3y7m&lang=id&teamLogo=1&tableLines=0&homeAway=1&header=1&position=1&goals=1&gamesCount=1&diff=1&winCount=1&drawCount=1&loseCount=1&lastGames=1&points=1&teamsLimit=all&links=1&noFollowLinks=0&font=poppins&fontSize=14&rowDensity=100&widgetWidth=auto&widgetHeight=auto&bodyColor=%23ffffff&textColor=%23141416&linkColor=%23141416&borderColor=%23ecf1f7&tabColor=%23f3f8fd" async></script></div>"""
-WIDGET_ITA = """<div id="widget-llkdmumh65vu" class="scoreaxis-widget" style="width: 100%;height: auto;font-size: 14px;background-color: #ffffff;color: #141416;border: none;overflow: auto;"><script src="https://widgets.scoreaxis.com/api/football/league-table/62322b827aee66235a2be718?widgetId=llkdmumh65vu&lang=id&teamLogo=1&tableLines=0&homeAway=1&header=1&position=1&goals=1&gamesCount=1&diff=1&winCount=1&drawCount=1&loseCount=1&lastGames=1&points=1&teamsLimit=all&links=1&noFollowLinks=0&font=poppins&fontSize=14&rowDensity=100&widgetWidth=auto&widgetHeight=auto&bodyColor=%23ffffff&textColor=%23141416&linkColor=%23141416&borderColor=%23ecf1f7&tabColor=%23f3f8fd" async></script></div>"""
-WIDGET_GER = """<div id="widget-t6xvmumh55i6" class="scoreaxis-widget" style="width: 100%;height: auto;font-size: 14px;background-color: #ffffff;color: #141416;border: none;overflow: auto;"><script src="https://widgets.scoreaxis.com/api/football/league-table/62321f50f7016c22d3650732?widgetId=t6xvmumh55i6&lang=id&teamLogo=1&tableLines=0&homeAway=1&header=1&position=1&goals=1&gamesCount=1&diff=1&winCount=1&drawCount=1&loseCount=1&lastGames=1&points=1&teamsLimit=all&links=1&noFollowLinks=0&font=poppins&fontSize=14&rowDensity=100&widgetWidth=auto&widgetHeight=auto&bodyColor=%23ffffff&textColor=%23141416&linkColor=%23141416&borderColor=%23ecf1f7&tabColor=%23f3f8fd" async></script></div>"""
-WIDGET_FRA = """<div id="widget-bjs9mumh5ta6" class="scoreaxis-widget" style="width: 100%;height: auto;font-size: 14px;background-color: #ffffff;color: #141416;border: none;overflow: auto;"><script src="https://widgets.scoreaxis.com/api/football/league-table/62322b4efd209951602c9096?widgetId=bjs9mumh5ta6&lang=id&teamLogo=1&tableLines=0&homeAway=1&header=1&position=1&goals=1&gamesCount=1&diff=1&winCount=1&drawCount=1&loseCount=1&lastGames=1&points=1&teamsLimit=all&links=1&noFollowLinks=0&font=poppins&fontSize=14&rowDensity=100&widgetWidth=auto&widgetHeight=auto&bodyColor=%23ffffff&textColor=%23141416&linkColor=%23141416&borderColor=%23ecf1f7&tabColor=%23f3f8fd" async></script></div>"""
-WIDGET_IDN = """<div id="widget-wrt7mumh7146" class="scoreaxis-widget" style="width: 100%;height: auto;font-size: 14px;background-color: #ffffff;color: #141416;border: none;overflow: auto;"><script src="https://widgets.scoreaxis.com/api/football/league-table/623225c009ac1611ee0dc0f6?widgetId=wrt7mumh7146&lang=id&teamLogo=1&tableLines=0&homeAway=1&header=1&position=1&goals=1&gamesCount=1&diff=1&winCount=1&drawCount=1&loseCount=1&lastGames=1&points=1&teamsLimit=all&links=1&noFollowLinks=0&font=poppins&fontSize=14&rowDensity=100&widgetWidth=auto&widgetHeight=auto&bodyColor=%23ffffff&textColor=%23141416&linkColor=%23141416&borderColor=%23ecf1f7&tabColor=%23f3f8fd" async></script></div>"""
+WIDGET_ENG = """<iframe src="https://www.scoreaxis.com/widget/standings-widget/8?autoHeight=0&links=0" width="100%" height="100%" frameborder="0" style="border:none; min-height: 420px; background: #fff;"></iframe>"""
+WIDGET_ESP = """<iframe src="https://www.scoreaxis.com/widget/standings-widget/3?autoHeight=0&links=0" width="100%" height="100%" frameborder="0" style="border:none; min-height: 420px; background: #fff;"></iframe>"""
+WIDGET_ITA = """<iframe src="https://www.scoreaxis.com/widget/standings-widget/4?autoHeight=0&links=0" width="100%" height="100%" frameborder="0" style="border:none; min-height: 420px; background: #fff;"></iframe>"""
+WIDGET_GER = """<iframe src="https://www.scoreaxis.com/widget/standings-widget/1?autoHeight=0&links=0" width="100%" height="100%" frameborder="0" style="border:none; min-height: 420px; background: #fff;"></iframe>"""
+WIDGET_FRA = """<iframe src="https://www.scoreaxis.com/widget/standings-widget/5?autoHeight=0&links=0" width="100%" height="100%" frameborder="0" style="border:none; min-height: 420px; background: #fff;"></iframe>"""
+WIDGET_IDN = """<iframe src="https://www.sofascore.com/id/turnamen/10634/sepak-bola/indonesia/liga-1/klasemen/embed" width="100%" height="100%" frameborder="0" style="border:none; min-height: 420px; background: #fff;"></iframe>"""
 
 SCRIPT_ADSTERRA_728 = """
 <script>
@@ -88,7 +87,6 @@ hs.src = ('//s10.histats.com/js15_as.js');
 
 SCRIPT_PAGINATION_SEARCH = """
 <script>
-    // Search Logic
     function searchNews() {
         const input = document.getElementById('searchInput').value.toLowerCase();
         const cards = document.querySelectorAll('.news-card');
@@ -108,7 +106,6 @@ SCRIPT_PAGINATION_SEARCH = """
         }
     }
 
-    // Pagination Logic
     const itemsPerPage = 5;
     let currentPage = 1;
     const articles = document.querySelectorAll('.news-card');
@@ -132,8 +129,6 @@ SCRIPT_PAGINATION_SEARCH = """
     function changePage(delta) {
         currentPage += delta;
         showPage(currentPage);
-        
-        // Scroll mulus ke bagian berita saat ganti halaman
         const newsSection = document.getElementById('berita-terbaru');
         if(newsSection) {
             newsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -390,7 +385,7 @@ def update_homepage():
             .section-heading {{ font-size: 1.8em; color: #0f2027; border-left: 5px solid #e74c3c; padding-left: 15px; margin-bottom: 20px; font-weight: 700; }}
             
             .standings-grid {{ display: grid; grid-template-columns: repeat(3, 1fr); gap: 25px; }}
-            .standings-box {{ background: #fff; border-radius: 12px; padding: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); height: 450px; overflow-y: auto; border: 1px solid #f0f0f0; }}
+            .standings-box {{ background: #fff; border-radius: 12px; padding: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); height: 500px; overflow: hidden; border: 1px solid #f0f0f0; }}
             .standings-box h3 {{ text-align: center; margin: 0 0 15px 0; padding-bottom: 10px; border-bottom: 2px solid #f0f0f0; color: #00416A; font-size: 1.2em; display: flex; align-items: center; justify-content: center; gap: 8px; }}
             
             /* Responsive Grid Klasemen */
@@ -451,7 +446,7 @@ def update_homepage():
         </div>
 
         <!-- ========================================== -->
-        <!-- MEGA KLASEMEN (SOLUSI MUTLAK ANTI-BLANK) -->
+        <!-- MEGA KLASEMEN (SOLUSI MUTLAK IFRAME) -->
         <!-- ========================================== -->
         <div class="mega-standings-wrapper">
             <h2 class="section-heading">🏆 PUSAT KLASEMEN LIGA DUNIA</h2>
