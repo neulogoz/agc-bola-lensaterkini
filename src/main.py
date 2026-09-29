@@ -17,34 +17,55 @@ if not API_KEYS_STRING:
     raise ValueError("GEMINI_API_KEYS belum di-set di GitHub.")
 
 API_KEYS_LIST = [key.strip() for key in API_KEYS_STRING.split(",")]
-
-# Kita berpindah menggunakan RSS Feed Berita Bola dari SkySports (diubah ke JSON agar mudah dibaca)
 RSS_URL = "https://api.rss2json.com/v1/api.json?rss_url=https://www.skysports.com/rss/12040"
-
 OUTPUT_DIR = "public/berita"
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 print(f"API Keys berhasil di-load: {len(API_KEYS_LIST)} kunci.")
 
 def get_gemini_response(prompt):
     random.shuffle(API_KEYS_LIST)
+    
+    # Memasukkan Gemini 3.8 dan 3.7 di urutan prioritas teratas sesuai saran Anda
+    ai_models = [
+        'gemini-3.8-flash', 
+        'gemini-3.7-flash', 
+        'gemini-2.5-flash', 
+        'gemini-2.0-flash', 
+        'gemini-1.5-flash'
+    ]
+    
     for current_key in API_KEYS_LIST:
         try:
-            print(f"Mencoba AI Generate dengan key: {current_key[:10]}...")
+            print(f"\nMenggunakan API Key: {current_key[:10]}...")
             client = genai.Client(api_key=current_key)
-            response = client.models.generate_content(
-                model='gemini-1.5-flash',
-                contents=prompt,
-            )
-            print("-> Berhasil mendapatkan artikel dari Gemini!")
-            return response.text
+            
+            for model_name in ai_models:
+                try:
+                    print(f"-> Memanggil model: {model_name}...")
+                    response = client.models.generate_content(
+                        model=model_name,
+                        contents=prompt,
+                    )
+                    print("=> SUKSES! Artikel berhasil ditulis oleh Gemini.")
+                    return response.text
+                except Exception as model_err:
+                    err_msg = str(model_err)
+                    if "404" in err_msg or "not found" in err_msg.lower():
+                        print(f"   X Model {model_name} tidak tersedia, mencoba model berikutnya...")
+                        continue 
+                    else:
+                        raise model_err 
+                        
         except Exception as e:
             error_msg = str(e)
-            print(f"-> Key gagal. Error: {error_msg}")
+            print(f"-> API Key gagal. Error: {error_msg}")
             if "429" in error_msg or "ResourceExhausted" in error_msg or "quota" in error_msg.lower():
                 time.sleep(2)
                 continue
             else:
                 continue
+    
+    print("FATAL: Semua API Key dan Model AI gagal digunakan.")
     return None
 
 def generate_article_with_gemini(news_item):
@@ -52,19 +73,19 @@ def generate_article_with_gemini(news_item):
     description = news_item.get('description', '')
     pub_date = news_item.get('pubDate', '')
     
-    print(f"\nMemproses Berita: {title}")
+    print(f"\n======================================")
+    print(f"Memproses Berita: {title}")
     
-    # Prompt disesuaikan untuk merangkum berita teks, bukan video
     prompt = f"""
     Bertindaklah sebagai jurnalis olahraga profesional dari Indonesia. 
-    Saya memiliki sumber berita sepak bola berbahasa Inggris berikut:
+    Saya memiliki sumber berita olahraga berbahasa Inggris berikut:
     
     - Judul Asli: {title}
     - Ringkasan/Isi: {description}
     - Waktu Rilis: {pub_date}
     
     Tugas Anda:
-    Tulis ulang berita ini menjadi artikel berita sepak bola berbahasa Indonesia yang panjangnya sekitar 300 kata. 
+    Tulis ulang berita ini menjadi artikel berita olahraga berbahasa Indonesia yang panjangnya sekitar 300 kata. 
     Buat artikel yang SEO-friendly, menarik, dan informatif.
     
     Gunakan struktur Markdown berikut:
@@ -78,7 +99,7 @@ def generate_article_with_gemini(news_item):
     ## [Buat Sub-heading 2 yang relevan dengan berita]
     [Isi paragraf detail]
     
-    PENTING: Jangan tambahkan kata pengantar atau penutup dari AI.
+    PENTING: Jangan tambahkan kata pengantar atau penutup dari AI (seperti "Berikut adalah artikelnya").
     """
     
     article_content = get_gemini_response(prompt)
@@ -107,10 +128,9 @@ def save_as_html(markdown_content, raw_title):
     </head>
     <body>
         <div class="ad-slot">Space Iklan Adsterra 728x90</div>
-        
         <article>{markdown_content}</article>
-        
         <div class="ad-slot">Space Iklan Adsterra 300x250</div>
+        <p><a href="/">Kembali ke Beranda</a></p>
     </body>
     </html>
     """
@@ -120,9 +140,8 @@ def save_as_html(markdown_content, raw_title):
 
 def main():
     try:
-        print("\nMenghubungi Sumber Berita Bola...")
+        print("\nMenghubungi Sumber Berita Olahraga...")
         
-        # Request data ke RSS API
         response = requests.get(RSS_URL, timeout=10)
         print(f"Status koneksi API: HTTP {response.status_code}")
         
@@ -135,7 +154,6 @@ def main():
             print("PERHATIAN: Tidak ada data berita. Proses dihentikan.")
             return
             
-        # Memproses 3 berita bola terbaru dari SkySports
         for item in items[:3]:
             content, title = generate_article_with_gemini(item)
             if content:
