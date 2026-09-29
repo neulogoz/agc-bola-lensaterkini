@@ -32,6 +32,6 @@ jobs:
       run: |
         git config --global user.name "github-actions[bot]"
         git config --global user.email "github-actions[bot]@users.noreply.github.com"
-        git add public/berita/*.html || true
-        git commit -m "Auto-update: Tambah artikel highlight bola" || echo "Tidak ada perubahan data"
+        git add public/berita/*.html public/index.html || true
+        git commit -m "Auto-update: Tambah artikel & perbarui homepage" || echo "Tidak ada perubahan data"
         git push
