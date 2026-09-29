@@ -7,7 +7,7 @@ import json
 import re
 from datetime import datetime
 
-print("=== MEMULAI SCRIPT AGC BOLA (SCOREAXIS ORIGINAL CAROUSEL FIX) ===")
+print("=== MEMULAI SCRIPT AGC BOLA (UI POLISH: FIX BENDERA & TEKS) ===")
 
 API_KEYS_STRING = os.environ.get("GEMINI_API_KEYS")
 
@@ -32,7 +32,7 @@ os.makedirs(OUTPUT_DIR, exist_ok=True)
 LOGO_URL = "https://upload.wikimedia.org/wikipedia/commons/d/d3/Soccerball.svg"
 
 # =====================================================================
-# WIDGET SCOREAXIS 100% ORIGINAL (TANPA MODIFIKASI APAPUN)
+# WIDGET SCOREAXIS 100% ORIGINAL
 # =====================================================================
 WIDGET_ENG = """<div id="widget-atvlmumh1msi" class="scoreaxis-widget" style="width: auto;height: auto;font-size: 14px;background-color: #ffffff;color: #141416;border: 1px solid;border-color: #ecf1f7;overflow: auto;"><script src="https://widgets.scoreaxis.com/api/football/league-table/6232265abf1fa71a672159ec?widgetId=atvlmumh1msi&lang=id&teamLogo=1&tableLines=0&homeAway=1&header=1&position=1&goals=1&gamesCount=1&diff=1&winCount=1&drawCount=1&loseCount=1&lastGames=1&points=1&teamsLimit=all&links=1&noFollowLinks=0&font=heebo&fontSize=14&rowDensity=100&widgetWidth=auto&widgetHeight=auto&bodyColor=%23ffffff&textColor=%23141416&linkColor=%23141416&borderColor=%23ecf1f7&tabColor=%23f3f8fd" async></script><div class="widget-main-link" style="padding: 6px 12px;font-weight: 500;">Live data by <a href="https://www.scoreaxis.com/" style="color: inherit;">Scoreaxis</a></div></div>"""
 WIDGET_ESP = """<div id="widget-j7xwmumh3y7m" class="scoreaxis-widget" style="width: auto;height: auto;font-size: 14px;background-color: #ffffff;color: #141416;border: 1px solid;border-color: #ecf1f7;overflow: auto;"><script src="https://widgets.scoreaxis.com/api/football/league-table/62322c053617da0b83221cc6?widgetId=j7xwmumh3y7m&lang=id&teamLogo=1&tableLines=0&homeAway=1&header=1&position=1&goals=1&gamesCount=1&diff=1&winCount=1&drawCount=1&loseCount=1&lastGames=1&points=1&teamsLimit=all&links=1&noFollowLinks=0&font=heebo&fontSize=14&rowDensity=100&widgetWidth=auto&widgetHeight=auto&bodyColor=%23ffffff&textColor=%23141416&linkColor=%23141416&borderColor=%23ecf1f7&tabColor=%23f3f8fd" async></script><div class="widget-main-link" style="padding: 6px 12px;font-weight: 500;">Live data by <a href="https://www.scoreaxis.com/" style="color: inherit;">Scoreaxis</a></div></div>"""
@@ -297,6 +297,7 @@ def save_as_html(content, title, excerpt, thumbnail, category):
             <h1>{title}</h1>
             <img src="{thumbnail}" alt="{title}" class="hero-img" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1518605368461-1e1c071d3326?q=80&w=800&auto=format&fit=crop';">
             
+            <!-- Iklan Top -->
             <div class="ad-slot">
                 {SCRIPT_ADSTERRA_728}
             </div>
@@ -306,6 +307,7 @@ def save_as_html(content, title, excerpt, thumbnail, category):
             <a href="/" class="back-btn">⬅ Kembali ke Beranda</a>
         </div>
 
+        <!-- Iklan dan Tracker -->
         <div style="display:none;">
             {SCRIPT_HISTATS}
         </div>
@@ -362,8 +364,6 @@ def update_homepage():
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Lensa Terkini Bola - Portal Berita Sepak Bola</title>
         
-        {SCRIPT_POPUNDER}
-        
         <style>
             @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
             
@@ -378,9 +378,7 @@ def update_homepage():
             
             .ad-slot {{ background: #fff; border: 1px dashed #ced4da; padding: 15px; text-align: center; margin: 20px auto; max-width: 1100px; border-radius: 8px; overflow: hidden; }}
             
-            /* ====================================================
-               MEGA KLASEMEN (CAROUSEL / SCROLL HORIZONTAL)
-               ==================================================== */
+            /* MEGA KLASEMEN (CAROUSEL) */
             .mega-standings-wrapper {{ max-width: 1250px; margin: 30px auto; padding: 0 20px; }}
             .section-heading {{ font-size: 1.8em; color: #0f2027; border-left: 5px solid #e74c3c; padding-left: 15px; margin-bottom: 20px; font-weight: 700; display: flex; align-items: center; gap: 10px; }}
             
@@ -402,7 +400,7 @@ def update_homepage():
                 padding: 15px; 
                 box-shadow: 0 4px 15px rgba(0,0,0,0.05); 
                 border: 1px solid #f0f0f0; 
-                overflow: hidden; 
+                overflow-y: auto; 
             }}
             
             .standings-box h3 {{ text-align: center; margin: 0 0 15px 0; padding-bottom: 10px; border-bottom: 2px solid #f0f0f0; color: #00416A; font-size: 1.2em; }}
@@ -411,6 +409,8 @@ def update_homepage():
             .standings-grid::-webkit-scrollbar-track {{ background: #f1f1f1; border-radius: 10px; }}
             .standings-grid::-webkit-scrollbar-thumb {{ background: #00416A; border-radius: 10px; }}
             .standings-grid::-webkit-scrollbar-thumb:hover {{ background: #e74c3c; }}
+            .standings-box::-webkit-scrollbar {{ width: 5px; }}
+            .standings-box::-webkit-scrollbar-thumb {{ background: #ccc; border-radius: 5px; }}
             
             /* BERITA DAN SIDEBAR BAWAH */
             .main-container {{ display: flex; flex-wrap: wrap; max-width: 1250px; margin: 40px auto; padding: 0 20px; gap: 35px; border-top: 2px dashed #ccc; padding-top: 40px; }}
@@ -459,39 +459,33 @@ def update_homepage():
             <p>Portal Berita & Update Skor Bola Dunia</p>
         </header>
 
-        <div class="ad-slot">
-            {SCRIPT_ADSTERRA_728}
-        </div>
-
-        <!-- ========================================== -->
-        <!-- MEGA KLASEMEN (SCOREAXIS ORIGINAL KEMBALI!) -->
-        <!-- ========================================== -->
+        <!-- MEGA KLASEMEN (TANPA EMOJI BENDERA) -->
         <div class="mega-standings-wrapper">
             <h2 class="section-heading">🏆 PUSAT KLASEMEN LIGA DUNIA</h2>
-            <p style="font-size: 0.9em; color: #7f8c8d; margin-top: -15px; margin-bottom: 15px; padding-left: 20px;">👉 Geser ke kanan untuk melihat liga lainnya</p>
+            <p style="font-size: 0.9em; color: #7f8c8d; margin-top: -15px; margin-bottom: 15px; padding-left: 20px;">Geser ke kanan untuk melihat liga lainnya.</p>
             <div class="standings-grid">
                 <div class="standings-box">
-                    <h3>🏴󠁧󠁢󠁥󠁮󠁧󠁿 Inggris</h3>
+                    <h3>Liga Inggris</h3>
                     {WIDGET_ENG}
                 </div>
                 <div class="standings-box">
-                    <h3>🇪🇸 Spanyol</h3>
+                    <h3>Liga Spanyol</h3>
                     {WIDGET_ESP}
                 </div>
                 <div class="standings-box">
-                    <h3>🇮🇹 Italia</h3>
+                    <h3>Liga Italia</h3>
                     {WIDGET_ITA}
                 </div>
                 <div class="standings-box">
-                    <h3>🇩🇪 Jerman</h3>
+                    <h3>Liga Jerman</h3>
                     {WIDGET_GER}
                 </div>
                 <div class="standings-box">
-                    <h3>🇫🇷 Prancis</h3>
+                    <h3>Liga Prancis</h3>
                     {WIDGET_FRA}
                 </div>
                 <div class="standings-box">
-                    <h3>🇮🇩 Indonesia</h3>
+                    <h3>Liga Indonesia</h3>
                     {WIDGET_IDN}
                 </div>
             </div>
@@ -515,6 +509,11 @@ def update_homepage():
 
             <div class="sidebar-right">
                 
+                <!-- Iklan Top Banner Dipindah Ke Sini agar lebih relevan -->
+                <div class="ad-slot">
+                    {SCRIPT_ADSTERRA_728}
+                </div>
+
                 <div class="telegram-banner">
                     <h3>🔥 Nonton Bola Gratis!</h3>
                     <p>Gabung komunitas kami dan dapatkan link live streaming pertandingan bola terupdate setiap harinya tanpa bayar.</p>
@@ -527,11 +526,14 @@ def update_homepage():
             </div>
         </div>
 
+        <!-- SCRIPT TRACKING DAN IKLAN POPUNDER DI LETAKKAN DI FOOTER PALING BAWAH -->
         <div style="display:none;">
             {SCRIPT_HISTATS}
         </div>
-
+        
+        {SCRIPT_POPUNDER}
         {SCRIPT_PAGINATION_SEARCH}
+
     </body>
     </html>
     """
