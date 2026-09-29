@@ -7,7 +7,7 @@ import json
 import re
 from datetime import datetime
 
-print("=== MEMULAI SCRIPT AGC BOLA PRO (PROXY GAMBAR & SOFASCORE) ===")
+print("=== MEMULAI SCRIPT AGC BOLA (URUTAN FIX & WIDGET ANTI BLOKIR) ===")
 
 API_KEYS_STRING = os.environ.get("GEMINI_API_KEYS")
 
@@ -17,7 +17,6 @@ if not API_KEYS_STRING:
 
 API_KEYS_LIST = [key.strip() for key in API_KEYS_STRING.split(",")]
 
-# Sumber RSS Berita
 RSS_SOURCES = [
     "https://feeds.bbci.co.uk/sport/football/rss.xml",
     "https://www.espn.com/espn/rss/soccer/news",
@@ -59,23 +58,15 @@ def generate_article_with_gemini(news_item):
     title = news_item.get('title', 'Berita Bola')
     description = news_item.get('description', '')
     
-    # EKSTRAKSI GAMBAR
     thumbnail = ""
     if 'enclosure' in news_item and isinstance(news_item['enclosure'], dict):
         thumbnail = news_item['enclosure'].get('link', '')
     if not thumbnail and 'thumbnail' in news_item:
         thumbnail = news_item.get('thumbnail', '')
         
-    # SOLUSI 1: Trik Proxy Gambar agar tidak diblokir & Gambar Cadangan Acak
     if not thumbnail or not thumbnail.startswith('http'):
-        fallbacks = [
-            "https://images.unsplash.com/photo-1518605368461-1e1c071d3326?q=80&w=800&auto=format&fit=crop",
-            "https://images.unsplash.com/photo-1579952363873-27f3bade9f55?q=80&w=800&auto=format&fit=crop",
-            "https://images.unsplash.com/photo-1511886929837-354d827aae26?q=80&w=800&auto=format&fit=crop"
-        ]
-        thumbnail = random.choice(fallbacks)
+        thumbnail = "https://images.unsplash.com/photo-1579952363873-27f3bade9f55?q=80&w=800&auto=format&fit=crop"
     else:
-        # Menggunakan weserv.nl proxy untuk menembus pelindung (Hotlink Protection)
         thumbnail = f"https://wsrv.nl/?url={thumbnail}&w=800&output=webp"
         
     print(f"\n======================================")
@@ -101,7 +92,6 @@ def generate_article_with_gemini(news_item):
     article_content = get_gemini_response(prompt)
     
     if article_content:
-        # Membersihkan Sisa Markdown 
         article_content = article_content.replace('**', '') 
         article_content = re.sub(r'^#+\s*', '', article_content, flags=re.MULTILINE) 
         
@@ -111,7 +101,6 @@ def generate_article_with_gemini(news_item):
             indo_title = title_match.group(1).strip()
             article_content = re.sub(r'<h1>.*?</h1>', '', article_content, count=1, flags=re.IGNORECASE)
             
-        # Memastikan semua teks terbungkus <p>
         lines = article_content.split('\n')
         clean_html = []
         for line in lines:
@@ -138,6 +127,9 @@ def save_as_html(content, title, excerpt, thumbnail):
     slug = re.sub(r'-+', '-', slug).strip('-')
     filename = f"{OUTPUT_DIR}/{slug}.html"
     
+    # PERBAIKAN: Menyuntikkan stempel waktu permanen untuk sorting
+    timestamp = int(time.time())
+    
     html_template = f"""
     <!DOCTYPE html>
     <html lang="id">
@@ -146,6 +138,7 @@ def save_as_html(content, title, excerpt, thumbnail):
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>{title} - Lensa Terkini Bola</title>
         <meta name="description" content="{excerpt}">
+        <meta name="publish-date" content="{timestamp}">
         <style>
             * {{ box-sizing: border-box; }}
             body {{ font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f7f6; margin: 0; padding: 0; color: #333; }}
@@ -153,7 +146,7 @@ def save_as_html(content, title, excerpt, thumbnail):
             header {{ border-bottom: 2px solid #1a5276; margin-bottom: 20px; padding-bottom: 10px; }}
             h1 {{ color: #1a5276; font-size: 2.2em; line-height: 1.3; margin-top: 0; }}
             h2 {{ color: #2980b9; margin-top: 30px; font-size: 1.5em; }}
-            .hero-img {{ width: 100%; max-height: 450px; object-fit: cover; border-radius: 8px; margin-bottom: 20px; }}
+            .hero-img {{ width: 100%; max-height: 450px; object-fit: cover; border-radius: 8px; margin-bottom: 20px; background-color: #eaeaea; }}
             .ad-slot {{ background: #eaeaea; border: 1px dashed #bbb; padding: 15px; text-align: center; margin: 20px 0; color: #777; font-weight: bold; font-size: 0.9em; }}
             p {{ line-height: 1.8; font-size: 1.1em; margin-bottom: 15px; text-align: justify; }}
             .back-btn {{ display: inline-block; padding: 12px 20px; background: #1a5276; color: white; text-decoration: none; border-radius: 5px; margin-top: 20px; font-weight: bold; }}
@@ -167,7 +160,8 @@ def save_as_html(content, title, excerpt, thumbnail):
             </header>
             
             <h1>{title}</h1>
-            <img src="{thumbnail}" alt="{title}" class="hero-img">
+            <!-- PERBAIKAN: Atribut onerror akan mengganti gambar otomatis jika URL asli mati -->
+            <img src="{thumbnail}" alt="{title}" class="hero-img" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1518605368461-1e1c071d3326?q=80&w=800&auto=format&fit=crop';">
             
             <div class="ad-slot">Space Iklan Adsterra 728x90</div>
             
@@ -185,8 +179,21 @@ def save_as_html(content, title, excerpt, thumbnail):
 
 def update_homepage():
     print("\nMemperbarui Halaman Utama (Homepage)...")
+    
+    # PERBAIKAN: Fungsi membaca stempel waktu dari HTML untuk urutan yang akurat
+    def get_file_timestamp(filepath):
+        try:
+            with open(filepath, 'r', encoding='utf-8') as f:
+                content = f.read()
+                match = re.search(r'<meta name="publish-date" content="(\d+)">', content)
+                if match:
+                    return int(match.group(1))
+        except:
+            pass
+        return 0 # Fallback jika artikel lama tidak punya stempel
+        
     berita_files = [f for f in os.listdir(OUTPUT_DIR) if f.endswith('.html')]
-    berita_files.sort(key=lambda x: os.path.getmtime(os.path.join(OUTPUT_DIR, x)), reverse=True)
+    berita_files.sort(key=lambda x: get_file_timestamp(os.path.join(OUTPUT_DIR, x)), reverse=True)
     
     daftar_artikel_html = ""
     for filename in berita_files:
@@ -201,12 +208,13 @@ def update_homepage():
                 excerpt_match = re.search(r'<meta name="description" content="(.*?)">', html_content)
                 excerpt = excerpt_match.group(1) if excerpt_match else "Baca selengkapnya..."
                 
-                img_match = re.search(r'<img src="(.*?)" alt=".*?" class="hero-img">', html_content)
+                img_match = re.search(r'<img src="(.*?)" alt=".*?" class="hero-img"', html_content)
                 thumbnail = img_match.group(1) if img_match else "https://images.unsplash.com/photo-1518605368461-1e1c071d3326?q=80&w=800&auto=format&fit=crop"
                 
+                # PERBAIKAN: Atribut onerror di thumbnail Halaman Utama
                 daftar_artikel_html += f'''
                 <div class="news-card">
-                    <img src="{thumbnail}" alt="Thumbnail Berita" class="news-thumb" loading="lazy">
+                    <img src="{thumbnail}" alt="Thumbnail Berita" class="news-thumb" loading="lazy" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1579952363873-27f3bade9f55?q=80&w=800&auto=format&fit=crop';">
                     <div class="news-info">
                         <h3><a href="/berita/{filename}">{title}</a></h3>
                         <p>{excerpt}</p>
@@ -215,7 +223,6 @@ def update_homepage():
         except Exception:
             continue
 
-    # SOLUSI 2: Menggunakan SofaScore untuk Widget Klasemen (Anti Blokir)
     homepage_template = f"""
     <!DOCTYPE html>
     <html lang="id">
@@ -238,7 +245,7 @@ def update_homepage():
             .section-title {{ border-left: 5px solid #1a5276; padding-left: 15px; color: #1a5276; font-size: 1.8em; margin-bottom: 25px; }}
             
             .news-card {{ display: flex; background: #fff; border-radius: 8px; margin-bottom: 20px; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }}
-            .news-thumb {{ width: 250px; height: 180px; object-fit: cover; flex-shrink: 0; }}
+            .news-thumb {{ width: 250px; height: 180px; object-fit: cover; flex-shrink: 0; background-color: #eaeaea; }}
             .news-info {{ padding: 20px; display: flex; flex-direction: column; justify-content: center; }}
             .news-info h3 {{ margin: 0 0 10px 0; font-size: 1.3em; line-height: 1.4; }}
             .news-info a {{ text-decoration: none; color: #333; transition: color 0.2s; }}
@@ -251,7 +258,7 @@ def update_homepage():
             .pagination span {{ font-weight: bold; }}
 
             .sidebar-right {{ width: 350px; flex-shrink: 0; }}
-            .widget-box {{ background: #fff; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); margin-bottom: 30px; overflow: hidden; padding-bottom: 10px; }}
+            .widget-box {{ background: #fff; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); margin-bottom: 30px; overflow: hidden; padding-bottom: 5px; }}
             .widget-box h3 {{ margin: 0 0 10px 0; color: #fff; background: #1a5276; padding: 15px; text-align: center; font-size: 1.2em; }}
             
             @media (max-width: 900px) {{
@@ -284,18 +291,18 @@ def update_homepage():
                 </div>
             </div>
 
-            <!-- KLASEMEN DARI SOFASCORE -->
+            <!-- PERBAIKAN: Widget Klasemen Anti Blokir (ScoreAxis) -->
             <div class="sidebar-right">
                 <div class="widget-box">
                     <h3>🏴󠁧󠁢󠁥󠁮󠁧󠁿 Klasemen Liga Inggris</h3>
-                    <iframe width="100%" height="450" src="https://www.sofascore.com/id/turnamen/17/sepak-bola/inggris/premier-league/klasemen/embed" frameborder="0" scrolling="yes"></iframe>
+                    <iframe src="https://www.scoreaxis.com/widget/standings-widget/8?autoHeight=1&links=0" width="100%" height="550" style="border: none;"></iframe>
                 </div>
                 
                 <div class="ad-slot">Space Iklan Adsterra 300x250</div>
                 
                 <div class="widget-box">
-                    <h3>🇮🇩 Klasemen Liga 1 Indonesia</h3>
-                    <iframe width="100%" height="450" src="https://www.sofascore.com/id/turnamen/10634/sepak-bola/indonesia/liga-1/klasemen/embed" frameborder="0" scrolling="yes"></iframe>
+                    <h3>🇪🇸 Klasemen Liga Spanyol</h3>
+                    <iframe src="https://www.scoreaxis.com/widget/standings-widget/3?autoHeight=1&links=0" width="100%" height="550" style="border: none;"></iframe>
                 </div>
             </div>
         </div>
@@ -315,8 +322,8 @@ def update_homepage():
                     }}
                 }});
                 document.getElementById('page-info').innerText = `Halaman ${{page}} dari ${{totalPages}}`;
-                document.getElementById('btn-prev').disabled = page === 1;
-                document.getElementById('btn-next').disabled = page === totalPages || totalPages === 0;
+                if(document.getElementById('btn-prev')) document.getElementById('btn-prev').disabled = page === 1;
+                if(document.getElementById('btn-next')) document.getElementById('btn-next').disabled = page === totalPages || totalPages === 0;
             }}
 
             function changePage(delta) {{
