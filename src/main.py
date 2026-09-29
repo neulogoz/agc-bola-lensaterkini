@@ -7,7 +7,7 @@ import json
 import re
 from datetime import datetime
 
-print("=== MEMULAI SCRIPT AGC BOLA (FIX TAB SCOREAXIS & LOGO HD) ===")
+print("=== MEMULAI SCRIPT AGC BOLA (SEARCH, KATEGORI, TELEGRAM, ADS & HISTATS) ===")
 
 API_KEYS_STRING = os.environ.get("GEMINI_API_KEYS")
 
@@ -26,8 +26,6 @@ RSS_SOURCES = [
 
 OUTPUT_DIR = "public/berita"
 os.makedirs(OUTPUT_DIR, exist_ok=True)
-
-# LOGO BARU: Vektor jernih dan profesional
 LOGO_URL = "https://upload.wikimedia.org/wikipedia/commons/d/d3/Soccerball.svg"
 
 def get_gemini_response(prompt):
@@ -80,13 +78,14 @@ def generate_article_with_gemini(news_item):
     - Judul: {title}
     - Ringkasan: {description}
     
-    ATURAN FORMATTING (SANGAT PENTING - DILARANG MELANGGAR):
-    1. WAJIB keluarkan dalam format HTML MURNI.
-    2. DILARANG KERAS menggunakan format Markdown (JANGAN ADA tanda # atau ** sama sekali).
-    3. Baris pertama wajib: <h1>[Judul Clickbait Bahasa Indonesia]</h1>
-    4. Sub-judul gunakan: <h2>[Sub-judul]</h2>
-    5. Setiap paragraf biasa WAJIB dibungkus tag <p> dan </p>.
-    6. Jangan buat kata pengantar. Langsung mulai dari tag <h1>.
+    ATURAN FORMATTING (DILARANG MELANGGAR):
+    1. Keluarkan HTML murni, tanpa Markdown (# atau **).
+    2. Baris pertama wajib: <h1>[Judul]</h1>
+    3. Gunakan tag <p> untuk paragraf.
+    4. Di baris paling bawah, tambahkan tag Kategori seperti ini:
+       KATEGORI: LOKAL (jika berita bola Indonesia) 
+       atau 
+       KATEGORI: INTERNASIONAL (jika berita bola luar negeri/global).
     """
     
     article_content = get_gemini_response(prompt)
@@ -94,6 +93,13 @@ def generate_article_with_gemini(news_item):
     if article_content:
         article_content = article_content.replace('**', '') 
         article_content = re.sub(r'^#+\s*', '', article_content, flags=re.MULTILINE) 
+        
+        # Ekstrak Kategori
+        category = "INTERNASIONAL"
+        if "KATEGORI: LOKAL" in article_content.upper():
+            category = "LOKAL"
+        # Hapus teks kategori agar tidak tampil jelek di artikel
+        article_content = re.sub(r'KATEGORI:\s*(LOKAL|INTERNASIONAL)', '', article_content, flags=re.IGNORECASE).strip()
         
         indo_title = title 
         title_match = re.search(r'<h1>(.*?)</h1>', article_content, re.IGNORECASE)
@@ -105,27 +111,23 @@ def generate_article_with_gemini(news_item):
         clean_html = []
         for line in lines:
             line = line.strip()
-            if not line:
-                continue
-            if not line.startswith('<'):
-                line = f"<p>{line}</p>"
+            if not line: continue
+            if not line.startswith('<'): line = f"<p>{line}</p>"
             clean_html.append(line)
-            
         article_content = '\n'.join(clean_html)
         
-        excerpt = "Berita sepak bola terbaru dan terhangat dari dalam dan luar negeri."
+        excerpt = "Berita sepak bola terbaru dan terhangat."
         p_match = re.search(r'<p>(.*?)</p>', article_content, re.IGNORECASE)
         if p_match:
             excerpt = re.sub(r'<[^>]+>', '', p_match.group(1))[:150] + "..."
             
-        return article_content, indo_title, excerpt, thumbnail
-    return None, None, None, None
+        return article_content, indo_title, excerpt, thumbnail, category
+    return None, None, None, None, None
 
-def save_as_html(content, title, excerpt, thumbnail):
+def save_as_html(content, title, excerpt, thumbnail, category):
     slug = re.sub(r'[^a-zA-Z0-9]', '-', title.lower())
     slug = re.sub(r'-+', '-', slug).strip('-')
     filename = f"{OUTPUT_DIR}/{slug}.html"
-    
     timestamp = int(time.time())
     
     html_template = f"""
@@ -137,41 +139,71 @@ def save_as_html(content, title, excerpt, thumbnail):
         <title>{title} - Lensa Terkini Bola</title>
         <meta name="description" content="{excerpt}">
         <meta name="publish-date" content="{timestamp}">
+        <meta name="article-category" content="{category}">
+        
+        <!-- RUANG IKLAN POP-UNDER ADSTERRA (HEADER) -->
+        <!-- Paste script pop-under Anda di bawah ini -->
+    
+        
         <style>
             * {{ box-sizing: border-box; }}
             body {{ font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f7f6; margin: 0; padding: 0; color: #333; }}
             .container {{ max-width: 900px; margin: 0 auto; padding: 20px; background: #fff; box-shadow: 0 0 10px rgba(0,0,0,0.1); }}
-            
-            /* CSS Logo Artikel - Tanpa Filter Putih */
-            header {{ border-bottom: 2px solid #1a5276; margin-bottom: 20px; padding-bottom: 10px; display: flex; align-items: center; gap: 15px; }}
+            header {{ border-bottom: 2px solid #1a5276; margin-bottom: 20px; padding-bottom: 10px; display: flex; align-items: center; gap: 15px; justify-content: space-between; }}
+            .logo-wrap {{ display: flex; align-items: center; gap: 15px; }}
             .logo-icon {{ width: 45px; height: 45px; }}
             .site-title {{ color: #1a5276; font-size: 1.6em; font-weight: bold; text-decoration: none; }}
-            
+            .badge-kategori {{ background: {'#e74c3c' if category == 'LOKAL' else '#2980b9'}; color: white; padding: 5px 12px; border-radius: 15px; font-size: 0.85em; font-weight: bold; }}
             h1 {{ color: #1a5276; font-size: 2.2em; line-height: 1.3; margin-top: 10px; }}
-            h2 {{ color: #2980b9; margin-top: 30px; font-size: 1.5em; }}
             .hero-img {{ width: 100%; max-height: 450px; object-fit: cover; border-radius: 8px; margin-bottom: 20px; background-color: #eaeaea; }}
-            .ad-slot {{ background: #eaeaea; border: 1px dashed #bbb; padding: 15px; text-align: center; margin: 20px 0; color: #777; font-weight: bold; font-size: 0.9em; }}
+            .ad-slot {{ background: #eaeaea; border: 1px dashed #bbb; padding: 15px; text-align: center; margin: 20px 0; color: #777; font-weight: bold; }}
             p {{ line-height: 1.8; font-size: 1.1em; margin-bottom: 15px; text-align: justify; }}
-            .back-btn {{ display: inline-block; padding: 12px 20px; background: #1a5276; color: white; text-decoration: none; border-radius: 5px; margin-top: 20px; font-weight: bold; }}
-            .back-btn:hover {{ background: #154360; }}
+            .back-btn {{ display: inline-block; padding: 12px 20px; background: #1a5276; color: white; text-decoration: none; border-radius: 5px; font-weight: bold; }}
         </style>
     </head>
     <body>
         <div class="container">
             <header>
-                <img src="{LOGO_URL}" alt="Logo Bola" class="logo-icon">
-                <a href="/" class="site-title">Lensa Terkini Bola</a>
+                <div class="logo-wrap">
+                    <img src="{LOGO_URL}" alt="Logo Bola" class="logo-icon">
+                    <a href="/" class="site-title">Lensa Terkini</a>
+                </div>
+                <span class="badge-kategori">{category}</span>
             </header>
             
             <h1>{title}</h1>
             <img src="{thumbnail}" alt="{title}" class="hero-img" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1518605368461-1e1c071d3326?q=80&w=800&auto=format&fit=crop';">
             
             <div class="ad-slot">Space Iklan Adsterra 728x90</div>
-            
+            <script>
+  atOptions = {
+    'key' : '70f7df03b8ac15936657a97b9d6d37f7',
+    'format' : 'iframe',
+    'height' : 90,
+    'width' : 728,
+    'params' : {}
+  };
+</script>
+<script src="https://www.highrevenueformat.com/70f7df03b8ac15936657a97b9d6d37f7/invoke.js"></script>
             <article>{content}</article>
-            
             <div class="ad-slot">Space Iklan Adsterra 300x250</div>
+            <script>
+  atOptions = {
+    'key' : '29f673e95ea974afd5b3ecb133ef6a9e',
+    'format' : 'iframe',
+    'height' : 250,
+    'width' : 300,
+    'params' : {}
+  };
+</script>
+<script src="https://www.highrevenueformat.com/29f673e95ea974afd5b3ecb133ef6a9e/invoke.js"></script>
+            
             <a href="/" class="back-btn">Kembali ke Beranda</a>
+        </div>
+
+        <!-- RUANG TRACKER HISTATS (HIDDEN) -->
+        <div style="display:none;">
+            <!-- Paste script Histats Anda di sini -->
         </div>
     </body>
     </html>
@@ -180,19 +212,16 @@ def save_as_html(content, title, excerpt, thumbnail):
         f.write(html_template)
 
 def update_homepage():
-    def get_file_timestamp(filepath):
+    def get_meta(filepath, meta_name, default=""):
         try:
             with open(filepath, 'r', encoding='utf-8') as f:
                 content = f.read()
-                match = re.search(r'<meta name="publish-date" content="(\d+)">', content)
-                if match:
-                    return int(match.group(1))
-        except:
-            pass
-        return 0 
+                match = re.search(fr'<meta name="{meta_name}" content="(.*?)">', content)
+                return match.group(1) if match else default
+        except: return default
         
     berita_files = [f for f in os.listdir(OUTPUT_DIR) if f.endswith('.html')]
-    berita_files.sort(key=lambda x: get_file_timestamp(os.path.join(OUTPUT_DIR, x)), reverse=True)
+    berita_files.sort(key=lambda x: int(get_meta(os.path.join(OUTPUT_DIR, x), "publish-date", "0")), reverse=True)
     
     daftar_artikel_html = ""
     for filename in berita_files:
@@ -200,17 +229,19 @@ def update_homepage():
         try:
             with open(filepath, 'r', encoding='utf-8') as f:
                 html_content = f.read()
-                title_match = re.search(r'<title>(.*?)</title>', html_content)
-                title = title_match.group(1).replace(' - Lensa Terkini Bola', '') if title_match else filename
-                excerpt_match = re.search(r'<meta name="description" content="(.*?)">', html_content)
-                excerpt = excerpt_match.group(1) if excerpt_match else "Baca selengkapnya..."
+                title = re.search(r'<title>(.*?)</title>', html_content).group(1).replace(' - Lensa Terkini Bola', '')
+                excerpt = get_meta(filepath, "description", "Baca selengkapnya...")
+                category = get_meta(filepath, "article-category", "INTERNASIONAL")
                 img_match = re.search(r'<img src="(.*?)" alt=".*?" class="hero-img"', html_content)
-                thumbnail = img_match.group(1) if img_match else "https://images.unsplash.com/photo-1518605368461-1e1c071d3326?q=80&w=800&auto=format&fit=crop"
+                thumbnail = img_match.group(1) if img_match else "https://images.unsplash.com/photo-1518605368461-1e1c071d3326?q=80&w=800"
+                
+                cat_color = "#e74c3c" if category == "LOKAL" else "#2980b9"
                 
                 daftar_artikel_html += f'''
-                <div class="news-card">
+                <div class="news-card" data-title="{title.lower()}">
                     <img src="{thumbnail}" alt="Thumbnail Berita" class="news-thumb" loading="lazy" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1579952363873-27f3bade9f55?q=80&w=800&auto=format&fit=crop';">
                     <div class="news-info">
+                        <span style="background:{cat_color};color:white;padding:3px 8px;border-radius:10px;font-size:0.75em;font-weight:bold;display:inline-block;margin-bottom:8px;">{category}</span>
                         <h3><a href="/berita/{filename}">{title}</a></h3>
                         <p>{excerpt}</p>
                     </div>
@@ -225,50 +256,56 @@ def update_homepage():
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Lensa Terkini Bola - Portal Berita Sepak Bola</title>
+        
+        <!-- RUANG IKLAN POP-UNDER ADSTERRA (HEADER) -->
+        <!-- Paste script pop-under Anda di sini -->
+        <script src="https://pl31570858.profitableratecpmnetwork.com/bf/7c/c8/bf7cc8b38eeb859ad03672bf296c81ba.js"></script>
+        
         <style>
             * {{ box-sizing: border-box; }}
             body {{ font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f7f6; margin: 0; padding: 0; color: #333; }}
             
-            /* CSS HEADER & LOGO (FIX LOGO BERSIH) */
             header {{ background: #1a5276; color: white; padding: 30px 20px; text-align: center; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }}
             .logo-container {{ display: flex; align-items: center; justify-content: center; gap: 15px; margin-bottom: 10px; }}
             .header-logo {{ width: 55px; height: 55px; filter: drop-shadow(0px 2px 4px rgba(0,0,0,0.3)); }}
             header h1 {{ margin: 0; font-size: 2.5em; text-shadow: 1px 1px 2px rgba(0,0,0,0.2); }}
-            header p {{ margin: 5px 0 0 0; opacity: 0.9; font-size: 1.1em; }}
             
             .ad-slot {{ background: #fff; border: 1px dashed #ccc; padding: 15px; text-align: center; margin: 20px auto; max-width: 1100px; color: #888; font-weight: bold; }}
             .main-container {{ display: flex; flex-wrap: wrap; max-width: 1200px; margin: 0 auto; padding: 20px; gap: 30px; }}
             .content-left {{ flex: 1; min-width: 60%; }}
-            .section-title {{ border-left: 5px solid #1a5276; padding-left: 15px; color: #1a5276; font-size: 1.8em; margin-bottom: 25px; }}
+            
+            /* CSS PENCARIAN */
+            .search-box {{ width: 100%; padding: 12px 20px; margin-bottom: 20px; border: 2px solid #bdc3c7; border-radius: 25px; font-size: 1.1em; outline: none; transition: 0.3s; }}
+            .search-box:focus {{ border-color: #1a5276; box-shadow: 0 0 8px rgba(26,82,118,0.2); }}
             
             .news-card {{ display: flex; background: #fff; border-radius: 8px; margin-bottom: 20px; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }}
             .news-thumb {{ width: 250px; height: 180px; object-fit: cover; flex-shrink: 0; background-color: #eaeaea; }}
             .news-info {{ padding: 20px; display: flex; flex-direction: column; justify-content: center; }}
             .news-info h3 {{ margin: 0 0 10px 0; font-size: 1.3em; line-height: 1.4; }}
-            .news-info a {{ text-decoration: none; color: #333; transition: color 0.2s; }}
+            .news-info a {{ text-decoration: none; color: #333; }}
             .news-info a:hover {{ color: #1a5276; }}
             .news-info p {{ margin: 0; color: #666; font-size: 0.95em; line-height: 1.6; }}
             
             .pagination {{ display: flex; justify-content: center; align-items: center; margin: 30px 0; gap: 15px; }}
             .pagination button {{ padding: 10px 20px; background: #1a5276; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; }}
             .pagination button:disabled {{ background: #ccc; cursor: not-allowed; }}
-            .pagination span {{ font-weight: bold; }}
-
+            
             .sidebar-right {{ width: 350px; flex-shrink: 0; }}
             
+            /* CSS BANNER TELEGRAM STREAMING */
+            .telegram-banner {{ background: linear-gradient(135deg, #0088cc, #00aaff); border-radius: 8px; padding: 20px; text-align: center; color: white; margin-bottom: 30px; box-shadow: 0 4px 10px rgba(0,136,204,0.3); }}
+            .telegram-banner h3 {{ margin: 0 0 10px 0; font-size: 1.4em; }}
+            .telegram-banner p {{ font-size: 0.95em; margin-bottom: 15px; opacity: 0.9; }}
+            .btn-telegram {{ display: inline-block; background: #fff; color: #0088cc; padding: 10px 20px; border-radius: 25px; text-decoration: none; font-weight: bold; font-size: 1.1em; transition: 0.3s; }}
+            .btn-telegram:hover {{ transform: scale(1.05); box-shadow: 0 4px 10px rgba(255,255,255,0.4); }}
+            
             .widget-box {{ background: #fff; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); margin-bottom: 30px; overflow: hidden; border: 1px solid #eaeaea; }}
-            .widget-box h3 {{ margin: 0; color: #fff; background: #1a5276; padding: 15px; text-align: center; font-size: 1.2em; letter-spacing: 1px; }}
+            .widget-box h3 {{ margin: 0; color: #fff; background: #1a5276; padding: 15px; text-align: center; font-size: 1.2em; }}
             
-            .tab {{ display: flex; flex-wrap: wrap; background-color: #f1f1f1; border-bottom: 2px solid #1a5276; position: relative; z-index: 10; }}
-            .tab button {{ background-color: inherit; color: #555; border: none; outline: none; cursor: pointer; padding: 12px 10px; transition: 0.3s; font-size: 13px; font-weight: bold; flex-grow: 1; text-align: center; border-right: 1px solid #ddd; border-bottom: 1px solid #ddd; }}
-            .tab button:hover {{ background-color: #ddd; }}
+            .tab {{ display: flex; flex-wrap: wrap; background-color: #f1f1f1; border-bottom: 2px solid #1a5276; }}
+            .tab button {{ background-color: inherit; color: #555; border: none; outline: none; cursor: pointer; padding: 12px 10px; font-size: 13px; font-weight: bold; flex-grow: 1; border-right: 1px solid #ddd; border-bottom: 1px solid #ddd; }}
             .tab button.active {{ background-color: #1a5276; color: white; border-bottom: none; }}
-            
-            /* PERBAIKAN CSS TAB SCOREAXIS AGAR TIDAK BLANK */
-            /* Kita menggunakan trik lempar layar (left: -9999px) agar Script widget tetap jalan */
-            .tab-wrapper {{ position: relative; overflow: hidden; }}
-            .tabcontent {{ position: absolute; visibility: hidden; left: -9999px; top: 0; width: 100%; transition: opacity 0.3s; opacity: 0; }}
-            .tabcontent.active-tab {{ position: relative; visibility: visible; left: 0; opacity: 1; }}
+            .dynamic-widget-container {{ padding: 10px; min-height: 500px; text-align: center; }}
             
             @media (max-width: 900px) {{
                 .main-container {{ flex-direction: column; }}
@@ -284,14 +321,16 @@ def update_homepage():
                 <img src="{LOGO_URL}" alt="Logo Lensa Terkini" class="header-logo">
                 <h1>Lensa Terkini Bola</h1>
             </div>
-            <p>Berita & Klasemen Sepak Bola Dalam & Luar Negeri</p>
+            <p>Portal Berita & Update Skor Bola Dunia</p>
         </header>
 
         <div class="ad-slot">Space Iklan Adsterra 728x90</div>
 
         <div class="main-container">
             <div class="content-left">
-                <h2 class="section-title">Berita Terbaru</h2>
+                <!-- FITUR PENCARIAN -->
+                <input type="text" id="searchInput" class="search-box" placeholder="🔍 Cari berita bola di sini..." onkeyup="searchNews()">
+                
                 <div id="news-list">
                     {daftar_artikel_html}
                 </div>
@@ -304,78 +343,117 @@ def update_homepage():
             </div>
 
             <div class="sidebar-right">
+                
+                <!-- BANNER TELEGRAM STREAMING BOLA -->
+                <div class="telegram-banner">
+                    <h3>🔥 Nonton Bola Gratis!</h3>
+                    <p>Gabung komunitas kami dan dapatkan link live streaming pertandingan bola terupdate setiap harinya tanpa bayar.</p>
+                    <!-- Ganti tanda # dengan link grup telegram Anda -->
+                    <a href="#" class="btn-telegram" rel="nofollow noopener noreferrer">Tonton Sekarang ➔</a>
+                </div>
+
                 <div class="widget-box">
-                    <h3>🏆 PUSAT KLASEMEN LIGA</h3>
-                    
+                    <h3>🏆 KLASEMEN LIGA</h3>
                     <div class="tab">
-                      <button class="tablinks active" onclick="openLeague(event, 'ENG')">Inggris</button>
-                      <button class="tablinks" onclick="openLeague(event, 'ESP')">Spanyol</button>
-                      <button class="tablinks" onclick="openLeague(event, 'ITA')">Italia</button>
-                      <button class="tablinks" onclick="openLeague(event, 'GER')">Jerman</button>
-                      <button class="tablinks" onclick="openLeague(event, 'FRA')">Prancis</button>
-                      <button class="tablinks" onclick="openLeague(event, 'IDN')">Indonesia</button>
+                      <button class="tablinks active" onclick="loadWidget('ENG')">Inggris</button>
+                      <button class="tablinks" onclick="loadWidget('ESP')">Spanyol</button>
+                      <button class="tablinks" onclick="loadWidget('ITA')">Italia</button>
+                      <button class="tablinks" onclick="loadWidget('GER')">Jerman</button>
+                      <button class="tablinks" onclick="loadWidget('FRA')">Prancis</button>
+                      <button class="tablinks" onclick="loadWidget('IDN')">Indonesia</button>
                     </div>
-
-                    <div class="tab-wrapper">
-                        <!-- Inggris -->
-                        <div id="ENG" class="tabcontent active-tab">
-                            <div id="widget-atvlmumh1msi" class="scoreaxis-widget" style="width: auto;height: auto;font-size: 14px;background-color: #ffffff;color: #141416;border: 1px solid;border-color: #ecf1f7;overflow: auto;"><script src="https://widgets.scoreaxis.com/api/football/league-table/6232265abf1fa71a672159ec?widgetId=atvlmumh1msi&lang=id&teamLogo=1&tableLines=0&homeAway=1&header=1&position=1&goals=1&gamesCount=1&diff=1&winCount=1&drawCount=1&loseCount=1&lastGames=1&points=1&teamsLimit=all&links=1&noFollowLinks=0&font=heebo&fontSize=14&rowDensity=100&widgetWidth=auto&widgetHeight=auto&bodyColor=%23ffffff&textColor=%23141416&linkColor=%23141416&borderColor=%23ecf1f7&tabColor=%23f3f8fd" async></script></div>
-                        </div>
-
-                        <!-- Spanyol -->
-                        <div id="ESP" class="tabcontent">
-                            <div id="widget-j7xwmumh3y7m" class="scoreaxis-widget" style="width: auto;height: auto;font-size: 14px;background-color: #ffffff;color: #141416;border: 1px solid;border-color: #ecf1f7;overflow: auto;"><script src="https://widgets.scoreaxis.com/api/football/league-table/62322c053617da0b83221cc6?widgetId=j7xwmumh3y7m&lang=id&teamLogo=1&tableLines=0&homeAway=1&header=1&position=1&goals=1&gamesCount=1&diff=1&winCount=1&drawCount=1&loseCount=1&lastGames=1&points=1&teamsLimit=all&links=1&noFollowLinks=0&font=heebo&fontSize=14&rowDensity=100&widgetWidth=auto&widgetHeight=auto&bodyColor=%23ffffff&textColor=%23141416&linkColor=%23141416&borderColor=%23ecf1f7&tabColor=%23f3f8fd" async></script></div>
-                        </div>
-
-                        <!-- Italia -->
-                        <div id="ITA" class="tabcontent">
-                            <div id="widget-llkdmumh65vu" class="scoreaxis-widget" style="width: auto;height: auto;font-size: 14px;background-color: #ffffff;color: #141416;border: 1px solid;border-color: #ecf1f7;overflow: auto;"><script src="https://widgets.scoreaxis.com/api/football/league-table/62322b827aee66235a2be718?widgetId=llkdmumh65vu&lang=id&teamLogo=1&tableLines=0&homeAway=1&header=1&position=1&goals=1&gamesCount=1&diff=1&winCount=1&drawCount=1&loseCount=1&lastGames=1&points=1&teamsLimit=all&links=1&noFollowLinks=0&font=heebo&fontSize=14&rowDensity=100&widgetWidth=auto&widgetHeight=auto&bodyColor=%23ffffff&textColor=%23141416&linkColor=%23141416&borderColor=%23ecf1f7&tabColor=%23f3f8fd" async></script></div>
-                        </div>
-
-                        <!-- Jerman -->
-                        <div id="GER" class="tabcontent">
-                            <div id="widget-t6xvmumh55i6" class="scoreaxis-widget" style="width: auto;height: auto;font-size: 14px;background-color: #ffffff;color: #141416;border: 1px solid;border-color: #ecf1f7;overflow: auto;"><script src="https://widgets.scoreaxis.com/api/football/league-table/62321f50f7016c22d3650732?widgetId=t6xvmumh55i6&lang=id&teamLogo=1&tableLines=0&homeAway=1&header=1&position=1&goals=1&gamesCount=1&diff=1&winCount=1&drawCount=1&loseCount=1&lastGames=1&points=1&teamsLimit=all&links=1&noFollowLinks=0&font=heebo&fontSize=14&rowDensity=100&widgetWidth=auto&widgetHeight=auto&bodyColor=%23ffffff&textColor=%23141416&linkColor=%23141416&borderColor=%23ecf1f7&tabColor=%23f3f8fd" async></script></div>
-                        </div>
-
-                        <!-- Prancis -->
-                        <div id="FRA" class="tabcontent">
-                            <div id="widget-bjs9mumh5ta6" class="scoreaxis-widget" style="width: auto;height: auto;font-size: 14px;background-color: #ffffff;color: #141416;border: 1px solid;border-color: #ecf1f7;overflow: auto;"><script src="https://widgets.scoreaxis.com/api/football/league-table/62322b4efd209951602c9096?widgetId=bjs9mumh5ta6&lang=id&teamLogo=1&tableLines=0&homeAway=1&header=1&position=1&goals=1&gamesCount=1&diff=1&winCount=1&drawCount=1&loseCount=1&lastGames=1&points=1&teamsLimit=all&links=1&noFollowLinks=0&font=heebo&fontSize=14&rowDensity=100&widgetWidth=auto&widgetHeight=auto&bodyColor=%23ffffff&textColor=%23141416&linkColor=%23141416&borderColor=%23ecf1f7&tabColor=%23f3f8fd" async></script></div>
-                        </div>
-
-                        <!-- Indonesia -->
-                        <div id="IDN" class="tabcontent">
-                            <div id="widget-wrt7mumh7146" class="scoreaxis-widget" style="width: auto;height: auto;font-size: 14px;background-color: #ffffff;color: #141416;border: 1px solid;border-color: #ecf1f7;overflow: auto;"><script src="https://widgets.scoreaxis.com/api/football/league-table/623225c009ac1611ee0dc0f6?widgetId=wrt7mumh7146&lang=id&teamLogo=1&tableLines=0&homeAway=1&header=1&position=1&goals=1&gamesCount=1&diff=1&winCount=1&drawCount=1&loseCount=1&lastGames=1&points=1&teamsLimit=all&links=1&noFollowLinks=0&font=heebo&fontSize=14&rowDensity=100&widgetWidth=auto&widgetHeight=auto&bodyColor=%23ffffff&textColor=%23141416&linkColor=%23141416&borderColor=%23ecf1f7&tabColor=%23f3f8fd" async></script></div>
-                        </div>
+                    
+                    <!-- SCRIPT INJECTION CONTAINER (ANTI BLANK) -->
+                    <div id="dynamic-widget-container" class="dynamic-widget-container">
+                        Mempersiapkan klasemen...
                     </div>
                 </div>
 
                 <div class="ad-slot">Space Iklan Adsterra 300x250</div>
-                
             </div>
         </div>
 
+        <!-- RUANG TRACKER HISTATS (HIDDEN) -->
+        <div style="display:none;">
+            <!-- Paste script Histats Anda di sini -->
+               <!-- Histats.com  START  (aync)-->
+<script type="text/javascript">var _Hasync= _Hasync|| [];
+_Hasync.push(['Histats.start', '1,5055086,4,0,0,0,00010000']);
+_Hasync.push(['Histats.fasi', '1']);
+_Hasync.push(['Histats.track_hits', '']);
+(function() {
+var hs = document.createElement('script'); hs.type = 'text/javascript'; hs.async = true;
+hs.src = ('//s10.histats.com/js15_as.js');
+(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(hs);
+})();</script>
+<noscript><a href="/" target="_blank"><img  src="//sstatic1.histats.com/0.gif?5055086&101" alt="frontpage hit counter" border="0"></a></noscript>
+<!-- Histats.com  END  -->
+        </div>
+
         <script>
-            // PERBAIKAN SCRIPT TAB: Mengganti kelas tanpa mengubah atribut display
-            function openLeague(evt, leagueName) {{
-                var i, tabcontent, tablinks;
-                tabcontent = document.getElementsByClassName("tabcontent");
-                for (i = 0; i < tabcontent.length; i++) {{
-                    tabcontent[i].classList.remove("active-tab");
+            // FITUR PENCARIAN CLIENT-SIDE
+            function searchNews() {{
+                const input = document.getElementById('searchInput').value.toLowerCase();
+                const cards = document.querySelectorAll('.news-card');
+                let hasResults = false;
+                
+                // Jika sedang mencari, matikan paginasi
+                if(input.length > 0) {{
+                    document.querySelector('.pagination').style.display = 'none';
+                    cards.forEach(card => {{
+                        if (card.getAttribute('data-title').includes(input)) {{
+                            card.style.display = 'flex';
+                            hasResults = true;
+                        }} else {{
+                            card.style.display = 'none';
+                        }}
+                    }});
+                }} else {{
+                    document.querySelector('.pagination').style.display = 'flex';
+                    showPage(currentPage); // Kembalikan ke paginasi normal
                 }}
-                tablinks = document.getElementsByClassName("tablinks");
-                for (i = 0; i < tablinks.length; i++) {{
-                    tablinks[i].className = tablinks[i].className.replace(" active", "");
-                }}
-                document.getElementById(leagueName).classList.add("active-tab");
-                evt.currentTarget.className += " active";
             }}
 
+            // FITUR DYNAMIC WIDGET INJECTION (MEMAKSA SCRIPT BERJALAN SAAT TAB DIKLIK)
+            const scoreAxisWidgets = {{
+                'ENG': {{ id: 'widget-atvlmumh1msi', url: 'https://widgets.scoreaxis.com/api/football/league-table/6232265abf1fa71a672159ec?widgetId=atvlmumh1msi&lang=id&teamLogo=1&tableLines=0&homeAway=1&header=1&position=1&goals=1&gamesCount=1&diff=1&winCount=1&drawCount=1&loseCount=1&lastGames=1&points=1&teamsLimit=all&links=1&noFollowLinks=0&font=heebo&fontSize=14&rowDensity=100&widgetWidth=auto&widgetHeight=auto&bodyColor=%23ffffff&textColor=%23141416&linkColor=%23141416&borderColor=%23ecf1f7&tabColor=%23f3f8fd' }},
+                'ESP': {{ id: 'widget-j7xwmumh3y7m', url: 'https://widgets.scoreaxis.com/api/football/league-table/62322c053617da0b83221cc6?widgetId=j7xwmumh3y7m&lang=id&teamLogo=1&tableLines=0&homeAway=1&header=1&position=1&goals=1&gamesCount=1&diff=1&winCount=1&drawCount=1&loseCount=1&lastGames=1&points=1&teamsLimit=all&links=1&noFollowLinks=0&font=heebo&fontSize=14&rowDensity=100&widgetWidth=auto&widgetHeight=auto&bodyColor=%23ffffff&textColor=%23141416&linkColor=%23141416&borderColor=%23ecf1f7&tabColor=%23f3f8fd' }},
+                'ITA': {{ id: 'widget-llkdmumh65vu', url: 'https://widgets.scoreaxis.com/api/football/league-table/62322b827aee66235a2be718?widgetId=llkdmumh65vu&lang=id&teamLogo=1&tableLines=0&homeAway=1&header=1&position=1&goals=1&gamesCount=1&diff=1&winCount=1&drawCount=1&loseCount=1&lastGames=1&points=1&teamsLimit=all&links=1&noFollowLinks=0&font=heebo&fontSize=14&rowDensity=100&widgetWidth=auto&widgetHeight=auto&bodyColor=%23ffffff&textColor=%23141416&linkColor=%23141416&borderColor=%23ecf1f7&tabColor=%23f3f8fd' }},
+                'GER': {{ id: 'widget-t6xvmumh55i6', url: 'https://widgets.scoreaxis.com/api/football/league-table/62321f50f7016c22d3650732?widgetId=t6xvmumh55i6&lang=id&teamLogo=1&tableLines=0&homeAway=1&header=1&position=1&goals=1&gamesCount=1&diff=1&winCount=1&drawCount=1&loseCount=1&lastGames=1&points=1&teamsLimit=all&links=1&noFollowLinks=0&font=heebo&fontSize=14&rowDensity=100&widgetWidth=auto&widgetHeight=auto&bodyColor=%23ffffff&textColor=%23141416&linkColor=%23141416&borderColor=%23ecf1f7&tabColor=%23f3f8fd' }},
+                'FRA': {{ id: 'widget-bjs9mumh5ta6', url: 'https://widgets.scoreaxis.com/api/football/league-table/62322b4efd209951602c9096?widgetId=bjs9mumh5ta6&lang=id&teamLogo=1&tableLines=0&homeAway=1&header=1&position=1&goals=1&gamesCount=1&diff=1&winCount=1&drawCount=1&loseCount=1&lastGames=1&points=1&teamsLimit=all&links=1&noFollowLinks=0&font=heebo&fontSize=14&rowDensity=100&widgetWidth=auto&widgetHeight=auto&bodyColor=%23ffffff&textColor=%23141416&linkColor=%23141416&borderColor=%23ecf1f7&tabColor=%23f3f8fd' }},
+                'IDN': {{ id: 'widget-wrt7mumh7146', url: 'https://widgets.scoreaxis.com/api/football/league-table/623225c009ac1611ee0dc0f6?widgetId=wrt7mumh7146&lang=id&teamLogo=1&tableLines=0&homeAway=1&header=1&position=1&goals=1&gamesCount=1&diff=1&winCount=1&drawCount=1&loseCount=1&lastGames=1&points=1&teamsLimit=all&links=1&noFollowLinks=0&font=heebo&fontSize=14&rowDensity=100&widgetWidth=auto&widgetHeight=auto&bodyColor=%23ffffff&textColor=%23141416&linkColor=%23141416&borderColor=%23ecf1f7&tabColor=%23f3f8fd' }}
+            }};
+
+            function loadWidget(leagueKey) {{
+                // Update styling tombol aktif
+                let tablinks = document.getElementsByClassName("tablinks");
+                for (let i = 0; i < tablinks.length; i++) {{ tablinks[i].classList.remove("active"); }}
+                event.currentTarget.classList.add("active");
+
+                // Eksekusi ulang Script Widget agar render sempurna
+                const container = document.getElementById("dynamic-widget-container");
+                const wData = scoreAxisWidgets[leagueKey];
+                
+                // Buat kerangka div baru
+                container.innerHTML = `<div id="${{wData.id}}" class="scoreaxis-widget" style="width: 100%;"><p style="padding:20px;color:#888;">Memuat Data...</p></div>`;
+                
+                // Suntikkan script
+                const scriptEl = document.createElement('script');
+                scriptEl.src = wData.url;
+                scriptEl.async = true;
+                document.getElementById(wData.id).appendChild(scriptEl);
+            }}
+
+            // FITUR PAGINASI
             const itemsPerPage = 6;
             let currentPage = 1;
             const articles = document.querySelectorAll('.news-card');
             const totalPages = Math.ceil(articles.length / itemsPerPage);
 
             function showPage(page) {{
+                // Pastikan fungsi ini tidak berjalan saat fitur Search aktif
+                if(document.getElementById('searchInput').value.length > 0) return;
+                
                 articles.forEach((card, index) => {{
                     if (index >= (page - 1) * itemsPerPage && index < page * itemsPerPage) {{
                         card.style.display = 'flex';
@@ -383,7 +461,7 @@ def update_homepage():
                         card.style.display = 'none';
                     }}
                 }});
-                document.getElementById('page-info').innerText = `Halaman ${{page}} dari ${{totalPages}}`;
+                if(document.getElementById('page-info')) document.getElementById('page-info').innerText = `Halaman ${{page}} dari ${{totalPages}}`;
                 if(document.getElementById('btn-prev')) document.getElementById('btn-prev').disabled = page === 1;
                 if(document.getElementById('btn-next')) document.getElementById('btn-next').disabled = page === totalPages || totalPages === 0;
             }}
@@ -394,7 +472,10 @@ def update_homepage():
                 window.scrollTo({{ top: 0, behavior: 'smooth' }});
             }}
 
+            // Inisialisasi awal
             if(articles.length > 0) showPage(1);
+            // Panggil widget Inggris pertama kali
+            window.onload = function() {{ loadWidget('ENG'); }};
         </script>
     </body>
     </html>
@@ -421,9 +502,9 @@ def main():
         random.shuffle(all_news_items)
             
         for item in all_news_items[:5]: 
-            content, title, excerpt, thumbnail = generate_article_with_gemini(item)
+            content, title, excerpt, thumb, category = generate_article_with_gemini(item)
             if content:
-                save_as_html(content, title, excerpt, thumbnail)
+                save_as_html(content, title, excerpt, thumb, category)
         
         update_homepage()
                 
