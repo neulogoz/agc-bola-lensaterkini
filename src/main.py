@@ -7,7 +7,7 @@ import json
 import re
 from datetime import datetime
 
-print("=== MEMULAI SCRIPT AGC BOLA (SCOREAXIS ORIGINAL WIDGET FIX) ===")
+print("=== MEMULAI SCRIPT AGC BOLA (CAROUSEL KLASEMEN & FIX LIGA 1) ===")
 
 API_KEYS_STRING = os.environ.get("GEMINI_API_KEYS")
 
@@ -32,14 +32,16 @@ os.makedirs(OUTPUT_DIR, exist_ok=True)
 LOGO_URL = "https://upload.wikimedia.org/wikipedia/commons/d/d3/Soccerball.svg"
 
 # =====================================================================
-# WIDGET SCOREAXIS ASLI MILIK ANDA (TANPA MODIFIKASI)
+# WIDGET SCOREAXIS ASLI + IFRAME SOFASCORE KHUSUS LIGA INDONESIA
 # =====================================================================
-WIDGET_ENG = """<div id="widget-atvlmumh1msi" class="scoreaxis-widget" style="width: auto;height: auto;font-size: 14px;background-color: #ffffff;color: #141416;border: 1px solid;border-color: #ecf1f7;overflow: auto;"><script src="https://widgets.scoreaxis.com/api/football/league-table/6232265abf1fa71a672159ec?widgetId=atvlmumh1msi&lang=id&teamLogo=1&tableLines=0&homeAway=1&header=1&position=1&goals=1&gamesCount=1&diff=1&winCount=1&drawCount=1&loseCount=1&lastGames=1&points=1&teamsLimit=all&links=1&noFollowLinks=0&font=heebo&fontSize=14&rowDensity=100&widgetWidth=auto&widgetHeight=auto&bodyColor=%23ffffff&textColor=%23141416&linkColor=%23141416&borderColor=%23ecf1f7&tabColor=%23f3f8fd" async></script><div class="widget-main-link" style="padding: 6px 12px;font-weight: 500;">Live data by <a href="https://www.scoreaxis.com/" style="color: inherit;">Scoreaxis</a></div></div>"""
-WIDGET_ESP = """<div id="widget-j7xwmumh3y7m" class="scoreaxis-widget" style="width: auto;height: auto;font-size: 14px;background-color: #ffffff;color: #141416;border: 1px solid;border-color: #ecf1f7;overflow: auto;"><script src="https://widgets.scoreaxis.com/api/football/league-table/62322c053617da0b83221cc6?widgetId=j7xwmumh3y7m&lang=id&teamLogo=1&tableLines=0&homeAway=1&header=1&position=1&goals=1&gamesCount=1&diff=1&winCount=1&drawCount=1&loseCount=1&lastGames=1&points=1&teamsLimit=all&links=1&noFollowLinks=0&font=heebo&fontSize=14&rowDensity=100&widgetWidth=auto&widgetHeight=auto&bodyColor=%23ffffff&textColor=%23141416&linkColor=%23141416&borderColor=%23ecf1f7&tabColor=%23f3f8fd" async></script><div class="widget-main-link" style="padding: 6px 12px;font-weight: 500;">Live data by <a href="https://www.scoreaxis.com/" style="color: inherit;">Scoreaxis</a></div></div>"""
-WIDGET_ITA = """<div id="widget-llkdmumh65vu" class="scoreaxis-widget" style="width: auto;height: auto;font-size: 14px;background-color: #ffffff;color: #141416;border: 1px solid;border-color: #ecf1f7;overflow: auto;"><script src="https://widgets.scoreaxis.com/api/football/league-table/62322b827aee66235a2be718?widgetId=llkdmumh65vu&lang=id&teamLogo=1&tableLines=0&homeAway=1&header=1&position=1&goals=1&gamesCount=1&diff=1&winCount=1&drawCount=1&loseCount=1&lastGames=1&points=1&teamsLimit=all&links=1&noFollowLinks=0&font=heebo&fontSize=14&rowDensity=100&widgetWidth=auto&widgetHeight=auto&bodyColor=%23ffffff&textColor=%23141416&linkColor=%23141416&borderColor=%23ecf1f7&tabColor=%23f3f8fd" async></script><div class="widget-main-link" style="padding: 6px 12px;font-weight: 500;">Live data by <a href="https://www.scoreaxis.com/" style="color: inherit;">Scoreaxis</a></div></div>"""
-WIDGET_GER = """<div id="widget-t6xvmumh55i6" class="scoreaxis-widget" style="width: auto;height: auto;font-size: 14px;background-color: #ffffff;color: #141416;border: 1px solid;border-color: #ecf1f7;overflow: auto;"><script src="https://widgets.scoreaxis.com/api/football/league-table/62321f50f7016c22d3650732?widgetId=t6xvmumh55i6&lang=id&teamLogo=1&tableLines=0&homeAway=1&header=1&position=1&goals=1&gamesCount=1&diff=1&winCount=1&drawCount=1&loseCount=1&lastGames=1&points=1&teamsLimit=all&links=1&noFollowLinks=0&font=heebo&fontSize=14&rowDensity=100&widgetWidth=auto&widgetHeight=auto&bodyColor=%23ffffff&textColor=%23141416&linkColor=%23141416&borderColor=%23ecf1f7&tabColor=%23f3f8fd" async></script><div class="widget-main-link" style="padding: 6px 12px;font-weight: 500;">Live data by <a href="https://www.scoreaxis.com/" style="color: inherit;">Scoreaxis</a></div></div>"""
-WIDGET_FRA = """<div id="widget-bjs9mumh5ta6" class="scoreaxis-widget" style="width: auto;height: auto;font-size: 14px;background-color: #ffffff;color: #141416;border: 1px solid;border-color: #ecf1f7;overflow: auto;"><script src="https://widgets.scoreaxis.com/api/football/league-table/62322b4efd209951602c9096?widgetId=bjs9mumh5ta6&lang=id&teamLogo=1&tableLines=0&homeAway=1&header=1&position=1&goals=1&gamesCount=1&diff=1&winCount=1&drawCount=1&loseCount=1&lastGames=1&points=1&teamsLimit=all&links=1&noFollowLinks=0&font=heebo&fontSize=14&rowDensity=100&widgetWidth=auto&widgetHeight=auto&bodyColor=%23ffffff&textColor=%23141416&linkColor=%23141416&borderColor=%23ecf1f7&tabColor=%23f3f8fd" async></script><div class="widget-main-link" style="padding: 6px 12px;font-weight: 500;">Live data by <a href="https://www.scoreaxis.com/" style="color: inherit;">Scoreaxis</a></div></div>"""
-WIDGET_IDN = """<div id="widget-wrt7mumh7146" class="scoreaxis-widget" style="width: auto;height: auto;font-size: 14px;background-color: #ffffff;color: #141416;border: 1px solid;border-color: #ecf1f7;overflow: auto;"><script src="https://widgets.scoreaxis.com/api/football/league-table/623225c009ac1611ee0dc0f6?widgetId=wrt7mumh7146&lang=id&teamLogo=1&tableLines=0&homeAway=1&header=1&position=1&goals=1&gamesCount=1&diff=1&winCount=1&drawCount=1&loseCount=1&lastGames=1&points=1&teamsLimit=all&links=1&noFollowLinks=0&font=heebo&fontSize=14&rowDensity=100&widgetWidth=auto&widgetHeight=auto&bodyColor=%23ffffff&textColor=%23141416&linkColor=%23141416&borderColor=%23ecf1f7&tabColor=%23f3f8fd" async></script><div class="widget-main-link" style="padding: 6px 12px;font-weight: 500;">Live data by <a href="https://www.scoreaxis.com/" style="color: inherit;">Scoreaxis</a></div></div>"""
+WIDGET_ENG = """<div id="widget-atvlmumh1msi" class="scoreaxis-widget" style="width: auto;height: auto;font-size: 14px;background-color: #ffffff;color: #141416;border: 1px solid;border-color: #ecf1f7;overflow: auto;"><script src="https://widgets.scoreaxis.com/api/football/league-table/6232265abf1fa71a672159ec?widgetId=atvlmumh1msi&lang=id&teamLogo=1&tableLines=0&homeAway=1&header=1&position=1&goals=1&gamesCount=1&diff=1&winCount=1&drawCount=1&loseCount=1&lastGames=1&points=1&teamsLimit=all&links=1&noFollowLinks=0&font=heebo&fontSize=14&rowDensity=100&widgetWidth=auto&widgetHeight=auto&bodyColor=%23ffffff&textColor=%23141416&linkColor=%23141416&borderColor=%23ecf1f7&tabColor=%23f3f8fd" async></script></div>"""
+WIDGET_ESP = """<div id="widget-j7xwmumh3y7m" class="scoreaxis-widget" style="width: auto;height: auto;font-size: 14px;background-color: #ffffff;color: #141416;border: 1px solid;border-color: #ecf1f7;overflow: auto;"><script src="https://widgets.scoreaxis.com/api/football/league-table/62322c053617da0b83221cc6?widgetId=j7xwmumh3y7m&lang=id&teamLogo=1&tableLines=0&homeAway=1&header=1&position=1&goals=1&gamesCount=1&diff=1&winCount=1&drawCount=1&loseCount=1&lastGames=1&points=1&teamsLimit=all&links=1&noFollowLinks=0&font=heebo&fontSize=14&rowDensity=100&widgetWidth=auto&widgetHeight=auto&bodyColor=%23ffffff&textColor=%23141416&linkColor=%23141416&borderColor=%23ecf1f7&tabColor=%23f3f8fd" async></script></div>"""
+WIDGET_ITA = """<div id="widget-llkdmumh65vu" class="scoreaxis-widget" style="width: auto;height: auto;font-size: 14px;background-color: #ffffff;color: #141416;border: 1px solid;border-color: #ecf1f7;overflow: auto;"><script src="https://widgets.scoreaxis.com/api/football/league-table/62322b827aee66235a2be718?widgetId=llkdmumh65vu&lang=id&teamLogo=1&tableLines=0&homeAway=1&header=1&position=1&goals=1&gamesCount=1&diff=1&winCount=1&drawCount=1&loseCount=1&lastGames=1&points=1&teamsLimit=all&links=1&noFollowLinks=0&font=heebo&fontSize=14&rowDensity=100&widgetWidth=auto&widgetHeight=auto&bodyColor=%23ffffff&textColor=%23141416&linkColor=%23141416&borderColor=%23ecf1f7&tabColor=%23f3f8fd" async></script></div>"""
+WIDGET_GER = """<div id="widget-t6xvmumh55i6" class="scoreaxis-widget" style="width: auto;height: auto;font-size: 14px;background-color: #ffffff;color: #141416;border: 1px solid;border-color: #ecf1f7;overflow: auto;"><script src="https://widgets.scoreaxis.com/api/football/league-table/62321f50f7016c22d3650732?widgetId=t6xvmumh55i6&lang=id&teamLogo=1&tableLines=0&homeAway=1&header=1&position=1&goals=1&gamesCount=1&diff=1&winCount=1&drawCount=1&loseCount=1&lastGames=1&points=1&teamsLimit=all&links=1&noFollowLinks=0&font=heebo&fontSize=14&rowDensity=100&widgetWidth=auto&widgetHeight=auto&bodyColor=%23ffffff&textColor=%23141416&linkColor=%23141416&borderColor=%23ecf1f7&tabColor=%23f3f8fd" async></script></div>"""
+WIDGET_FRA = """<div id="widget-bjs9mumh5ta6" class="scoreaxis-widget" style="width: auto;height: auto;font-size: 14px;background-color: #ffffff;color: #141416;border: 1px solid;border-color: #ecf1f7;overflow: auto;"><script src="https://widgets.scoreaxis.com/api/football/league-table/62322b4efd209951602c9096?widgetId=bjs9mumh5ta6&lang=id&teamLogo=1&tableLines=0&homeAway=1&header=1&position=1&goals=1&gamesCount=1&diff=1&winCount=1&drawCount=1&loseCount=1&lastGames=1&points=1&teamsLimit=all&links=1&noFollowLinks=0&font=heebo&fontSize=14&rowDensity=100&widgetWidth=auto&widgetHeight=auto&bodyColor=%23ffffff&textColor=%23141416&linkColor=%23141416&borderColor=%23ecf1f7&tabColor=%23f3f8fd" async></script></div>"""
+
+# MENGGUNAKAN SOFASCORE UNTUK LIGA INDONESIA KARENA LEBIH AKURAT
+WIDGET_IDN = """<iframe src="https://www.sofascore.com/id/turnamen/10634/sepak-bola/indonesia/liga-1/klasemen/embed" width="100%" height="100%" frameborder="0" scrolling="auto" style="border:none; min-height: 350px; background: #fff;"></iframe>"""
 
 SCRIPT_ADSTERRA_728 = """
 <script>
@@ -369,7 +371,7 @@ def update_homepage():
             @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
             
             * {{ box-sizing: border-box; }}
-            body {{ font-family: 'Poppins', sans-serif; background-color: #f0f2f5; margin: 0; padding: 0; color: #2c3e50; }}
+            body {{ font-family: 'Poppins', sans-serif; background-color: #f0f2f5; margin: 0; padding: 0; color: #2c3e50; overflow-x: hidden; }}
             
             header {{ background: linear-gradient(135deg, #0f2027, #203a43, #2c5364); color: white; padding: 40px 20px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.2); border-bottom: 4px solid #e74c3c; }}
             .logo-container {{ display: flex; align-items: center; justify-content: center; gap: 15px; margin-bottom: 12px; }}
@@ -380,22 +382,43 @@ def update_homepage():
             .ad-slot {{ background: #fff; border: 1px dashed #ced4da; padding: 15px; text-align: center; margin: 20px auto; max-width: 1100px; border-radius: 8px; overflow: hidden; }}
             
             /* ====================================================
-               MEGA KLASEMEN LAYOUT (MEMBEBASKAN SCOREAXIS)
+               MEGA KLASEMEN (CAROUSEL / SCROLL HORIZONTAL)
                ==================================================== */
             .mega-standings-wrapper {{ max-width: 1250px; margin: 30px auto; padding: 0 20px; }}
             .section-heading {{ font-size: 1.8em; color: #0f2027; border-left: 5px solid #e74c3c; padding-left: 15px; margin-bottom: 20px; font-weight: 700; display: flex; align-items: center; gap: 10px; }}
             
-            .standings-grid {{ display: grid; grid-template-columns: repeat(3, 1fr); gap: 25px; align-items: start; }}
+            .standings-grid {{ 
+                display: flex; 
+                flex-wrap: nowrap; 
+                overflow-x: auto; 
+                gap: 20px; 
+                padding-bottom: 20px; 
+                scroll-behavior: smooth;
+                -webkit-overflow-scrolling: touch;
+            }}
             
-            /* HILANGKAN OVERFLOW HIDDEN! Biarkan script ScoreAxis leluasa merender dirinya */
-            .standings-box {{ background: #fff; border-radius: 12px; padding: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border: 1px solid #f0f0f0; min-height: 400px; display: flex; flex-direction: column; }}
-            .standings-box h3 {{ text-align: center; margin: 0 0 15px 0; padding-bottom: 10px; border-bottom: 2px solid #f0f0f0; color: #00416A; font-size: 1.2em; display: flex; align-items: center; justify-content: center; gap: 8px; }}
+            .standings-box {{ 
+                flex: 0 0 320px; /* Ukuran Kotak Tetap */
+                height: 420px; 
+                background: #fff; 
+                border-radius: 12px; 
+                padding: 15px; 
+                box-shadow: 0 4px 15px rgba(0,0,0,0.05); 
+                border: 1px solid #f0f0f0; 
+                overflow-y: auto; 
+            }}
             
-            /* Perbaiki iframe/widget agar menyesuaikan tempatnya */
-            .scoreaxis-widget {{ flex: 1; }}
+            .standings-box h3 {{ text-align: center; margin: 0 0 15px 0; padding-bottom: 10px; border-bottom: 2px solid #f0f0f0; color: #00416A; font-size: 1.2em; }}
             
-            @media (max-width: 1024px) {{ .standings-grid {{ grid-template-columns: repeat(2, 1fr); }} }}
-            @media (max-width: 650px) {{ .standings-grid {{ grid-template-columns: 1fr; }} }}
+            /* Desain Scrollbar untuk Grid Carousel (Desktop) */
+            .standings-grid::-webkit-scrollbar {{ height: 10px; }}
+            .standings-grid::-webkit-scrollbar-track {{ background: #f1f1f1; border-radius: 10px; }}
+            .standings-grid::-webkit-scrollbar-thumb {{ background: #00416A; border-radius: 10px; }}
+            .standings-grid::-webkit-scrollbar-thumb:hover {{ background: #e74c3c; }}
+            
+            /* Desain Scrollbar untuk di dalam kotak tabel */
+            .standings-box::-webkit-scrollbar {{ width: 5px; }}
+            .standings-box::-webkit-scrollbar-thumb {{ background: #ccc; border-radius: 5px; }}
             
             /* ====================================================
                BERITA DAN SIDEBAR BAWAH
@@ -451,10 +474,11 @@ def update_homepage():
         </div>
 
         <!-- ========================================== -->
-        <!-- MEGA KLASEMEN SCOREAXIS ASLI MILIK ANDA -->
+        <!-- MEGA KLASEMEN (CAROUSEL GESER SAMPING) -->
         <!-- ========================================== -->
         <div class="mega-standings-wrapper">
             <h2 class="section-heading">🏆 PUSAT KLASEMEN LIGA DUNIA</h2>
+            <p style="font-size: 0.9em; color: #7f8c8d; margin-top: -15px; margin-bottom: 15px; padding-left: 20px;">👉 Geser ke kanan untuk melihat liga lainnya</p>
             <div class="standings-grid">
                 <div class="standings-box">
                     <h3>🏴󠁧󠁢󠁥󠁮󠁧󠁿 Inggris</h3>
