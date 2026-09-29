@@ -119,12 +119,18 @@ def save_as_html(markdown_content, raw_title):
 def main():
     try:
         print("\nMenghubungi ScoreBat API...")
-        response = requests.get(SCOREBAT_API_URL, timeout=10)
+        
+        # Penambahan Header agar terbaca sebagai browser manusia (Bypass Error 403)
+        headers = {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+            'Accept': 'application/json, text/plain, */*'
+        }
+        
+        response = requests.get(SCOREBAT_API_URL, headers=headers, timeout=10)
         print(f"Status koneksi API: HTTP {response.status_code}")
         
         data = response.json()
         
-        # Mengecek format struktur data dari Scorebat
         if isinstance(data, dict):
             matches = data.get('response', [])
         elif isinstance(data, list):
