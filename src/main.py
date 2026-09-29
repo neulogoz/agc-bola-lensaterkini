@@ -1,69 +1,74 @@
 # Ini adalah file utama untuk script scraper Python
+
 import os
-import json
+import random
+import time
 import requests
 import google.generativeai as genai
-from datetime import datetime
+import json
 import re
 
 # ==========================================
-# KONFIGURASI API
+# KONFIGURASI ROTASI API KEY GEMINI
 # ==========================================
-# Pastikan Anda telah mengatur GEMINI_API_KEY di environment variables / secrets GitHub Actions
-GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY")
+API_KEYS_STRING = os.environ.get("GEMINI_API_KEYS")
 
-if not GEMINI_API_KEY:
-    raise ValueError("GEMINI_API_KEY belum di-set di environment variables.")
+if not API_KEYS_STRING:
+    raise ValueError("GEMINI_API_KEYS belum di-set di environment variables GitHub.")
 
-genai.configure(api_key=GEMINI_API_KEY)
-model = genai.GenerativeModel('gemini-1.5-flash')
+# Memecah string menjadi list API key
+API_KEYS_LIST = [key.strip() for key in API_KEYS_STRING.split(",")]
 
 # URL endpoint utama ScoreBat Video API
 SCOREBAT_API_URL = "https://www.scorebat.com/video-api/v3/feed"
-
-# Direktori output untuk file HTML/Markdown
 OUTPUT_DIR = "public/berita"
-
-# Buat direktori jika belum ada
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 
-# ==========================================
-# FUNGSI UTAMA
-# ==========================================
 
-def fetch_scorebat_data():
-    """Mengambil data highlight bola terbaru dari ScoreBat API."""
-    try:
-        print("Mengambil data dari ScoreBat Video API...")
-        response = requests.get(SCOREBAT_API_URL)
-        response.raise_for_status()
-        data = response.json()
-        
-        # API v3 ScoreBat mengembalikan list of objects di dalam key 'response'
-        if 'response' in data and isinstance(data['response'], list):
-             return data['response']
-        else:
-             print("Format response ScoreBat API tidak terduga.")
-             return []
-    except Exception as e:
-        print(f"Error saat mengambil data dari ScoreBat: {e}")
-        return []
+def get_gemini_response(prompt):
+    """Mencoba generate konten dengan merotasi API Key jika terkena limit."""
+    
+    # Acak urutan key setiap kali fungsi dipanggil agar beban merata
+    random.shuffle(API_KEYS_LIST)
+    
+    for current_key in API_KEYS_LIST:
+        try:
+            # Konfigurasi ulang Gemini dengan key yang sedang dicoba
+            genai.configure(api_key=current_key)
+            model = genai.GenerativeModel('gemini-1.5-flash')
+            
+            # Eksekusi prompt
+            response = model.generate_content(prompt)
+            return response.text
+            
+        except Exception as e:
+            error_msg = str(e)
+            print(f"Key {current_key[:10]}... gagal. Error: {error_msg}")
+            
+            # Jika error berhubungan dengan kuota/limit, coba key berikutnya
+            if "429" in error_msg or "ResourceExhausted" in error_msg or "quota" in error_msg.lower():
+                print("Terkena limit! Beralih ke API Key selanjutnya dalam 2 detik...")
+                time.sleep(2)
+                continue
+            else:
+                # Jika error karena masalah lain (misal safety block), tetap lanjutkan ke key lain
+                continue
+                
+    print("FATAL: Semua API Key telah dicoba dan gagal/limit.")
+    return None
 
 def generate_article_with_gemini(match_data):
     """Menggunakan Gemini untuk menulis ulasan pertandingan singkat."""
-    
-    # Ekstrak data dari ScoreBat
     title = match_data.get('title', 'Pertandingan Bola')
     competition = match_data.get('competition', 'Kompetisi Tidak Diketahui')
     date_str = match_data.get('date', '')
     
-    # Ambil embed iframe video (biasanya di array 'videos', ambil yang pertama)
     videos = match_data.get('videos', [])
     embed_iframe = ""
     if videos and len(videos) > 0:
         embed_iframe = videos[0].get('embed', '')
     
-    print(f"Membuat artikel dengan Gemini untuk: {title}")
+    print(f"\nMembuat artikel untuk: {title}")
     
     prompt = f"""
     Bertindaklah sebagai jurnalis olahraga profesional dari Indonesia. 
@@ -91,95 +96,14 @@ def generate_article_with_gemini(match_data):
     ## Statistik & Performa Tim
     [Tulis analisis singkat mengenai performa kedua tim di liga saat ini]
     
-    PENTING: 
-    1. Jangan tambahkan kata pengantar atau penutup dari AI (seperti "Berikut adalah artikelnya").
-    2. Wajib pertahankan kata "[EMBED_VIDEO_DISINI]" sama persis, karena akan saya replace dengan kode asli nanti.
+    PENTING: Jangan tambahkan kata pengantar atau penutup dari AI. Wajib biarkan teks [EMBED_VIDEO_DISINI] apa adanya.
     """
     
-    try:
-        response = model.generate_content(prompt)
-        article_content = response.text
-        
-        # Replace placeholder dengan kode iFrame asli dari ScoreBat
+    # Gunakan fungsi rotasi yang baru dibuat
+    article_content = get_gemini_response(prompt)
+    
+    if article_content:
         article_content = article_content.replace("[EMBED_VIDEO_DISINI]", embed_iframe)
         return article_content, title
-        
-    except Exception as e:
-        print(f"Error dari Gemini API: {e}")
+    else:
         return None, None
-
-def save_as_html(markdown_content, raw_title):
-    """Menyimpan hasil markdown (yang sudah mengandung iFrame HTML) menjadi file."""
-    
-    # Buat slug URL dari judul pertandingan (contoh: "Arsenal - Chelsea" -> "arsenal-chelsea")
-    slug = re.sub(r'[^a-zA-Z0-9]', '-', raw_title.lower())
-    slug = re.sub(r'-+', '-', slug).strip('-')
-    
-    filename = f"{OUTPUT_DIR}/{slug}.html"
-    
-    # Template HTML Sederhana dengan Slot Iklan
-    html_template = f"""
-    <!DOCTYPE html>
-    <html lang="id">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>{raw_title} - Lensa Terkini Bola</title>
-        <style>
-            body {{ font-family: 'Arial', sans-serif; line-height: 1.6; max-width: 800px; margin: 0 auto; padding: 20px; color: #333; }}
-            h1, h2 {{ color: #1a5276; }}
-            .ad-slot {{ background: #f4f4f4; border: 1px dashed #ccc; padding: 20px; text-align: center; margin: 20px 0; color: #888; font-weight: bold; }}
-            .video-container {{ position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; margin: 20px 0; }}
-            .video-container iframe {{ position: absolute; top: 0; left: 0; width: 100%; height: 100%; }}
-        </style>
-    </head>
-    <body>
-        <div class="ad-slot">
-            <!-- SLOT IKLAN ADSTERRA BANNER ATAS -->
-            Space Iklan Adsterra / Banner 728x90
-        </div>
-        
-        <!-- Artikel dari Gemini -->
-        <article>
-            {markdown_content}
-        </article>
-        
-        <div class="ad-slot">
-            <!-- SLOT IKLAN ADSTERRA BANNER BAWAH -->
-            Space Iklan Adsterra / Banner 300x250
-        </div>
-        
-        <p><a href="/">Kembali ke Beranda</a></p>
-    </body>
-    </html>
-    """
-    
-    # Karena Gemini mereturn format Markdown text, browser tidak membacanya dengan baik jika disimpan sebagai .html langsung.
-    # Untuk versi paling sederhana tanpa library Markdown tambahan di Python, kita simpan string hasil replace langsung. 
-    # (Catatan: browser modern membaca tag HTML iframe di dalam teks biasa jika tidak di-escape).
-    
-    with open(filename, 'w', encoding='utf-8') as f:
-        f.write(html_template)
-    
-    print(f"Berhasil menyimpan: {filename}")
-
-def main():
-    matches = fetch_scorebat_data()
-    
-    if not matches:
-        print("Tidak ada pertandingan yang ditemukan atau API bermasalah.")
-        return
-        
-    print(f"Ditemukan {len(matches)} pertandingan terbaru.")
-    
-    # Agar tidak menghabiskan kuota Gemini, kita proses 5 pertandingan terbaru saja setiap kali script berjalan
-    for match in matches[:5]:
-        article_content, raw_title = generate_article_with_gemini(match)
-        
-        if article_content and raw_title:
-            save_as_html(article_content, raw_title)
-            
-    print("Selesai memproses AGC Bola.")
-
-if __name__ == "__main__":
-    main()
