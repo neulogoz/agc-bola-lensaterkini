@@ -7,7 +7,7 @@ import json
 import re
 from datetime import datetime
 
-print("=== MEMULAI SCRIPT AGC BOLA (URUTAN FIX & WIDGET ANTI BLOKIR) ===")
+print("=== MEMULAI SCRIPT AGC BOLA (WIDGET CUSTOM SCOREAXIS) ===")
 
 API_KEYS_STRING = os.environ.get("GEMINI_API_KEYS")
 
@@ -127,7 +127,6 @@ def save_as_html(content, title, excerpt, thumbnail):
     slug = re.sub(r'-+', '-', slug).strip('-')
     filename = f"{OUTPUT_DIR}/{slug}.html"
     
-    # PERBAIKAN: Menyuntikkan stempel waktu permanen untuk sorting
     timestamp = int(time.time())
     
     html_template = f"""
@@ -160,7 +159,6 @@ def save_as_html(content, title, excerpt, thumbnail):
             </header>
             
             <h1>{title}</h1>
-            <!-- PERBAIKAN: Atribut onerror akan mengganti gambar otomatis jika URL asli mati -->
             <img src="{thumbnail}" alt="{title}" class="hero-img" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1518605368461-1e1c071d3326?q=80&w=800&auto=format&fit=crop';">
             
             <div class="ad-slot">Space Iklan Adsterra 728x90</div>
@@ -180,7 +178,6 @@ def save_as_html(content, title, excerpt, thumbnail):
 def update_homepage():
     print("\nMemperbarui Halaman Utama (Homepage)...")
     
-    # PERBAIKAN: Fungsi membaca stempel waktu dari HTML untuk urutan yang akurat
     def get_file_timestamp(filepath):
         try:
             with open(filepath, 'r', encoding='utf-8') as f:
@@ -190,7 +187,7 @@ def update_homepage():
                     return int(match.group(1))
         except:
             pass
-        return 0 # Fallback jika artikel lama tidak punya stempel
+        return 0 
         
     berita_files = [f for f in os.listdir(OUTPUT_DIR) if f.endswith('.html')]
     berita_files.sort(key=lambda x: get_file_timestamp(os.path.join(OUTPUT_DIR, x)), reverse=True)
@@ -211,7 +208,6 @@ def update_homepage():
                 img_match = re.search(r'<img src="(.*?)" alt=".*?" class="hero-img"', html_content)
                 thumbnail = img_match.group(1) if img_match else "https://images.unsplash.com/photo-1518605368461-1e1c071d3326?q=80&w=800&auto=format&fit=crop"
                 
-                # PERBAIKAN: Atribut onerror di thumbnail Halaman Utama
                 daftar_artikel_html += f'''
                 <div class="news-card">
                     <img src="{thumbnail}" alt="Thumbnail Berita" class="news-thumb" loading="lazy" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1579952363873-27f3bade9f55?q=80&w=800&auto=format&fit=crop';">
@@ -259,7 +255,8 @@ def update_homepage():
 
             .sidebar-right {{ width: 350px; flex-shrink: 0; }}
             .widget-box {{ background: #fff; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); margin-bottom: 30px; overflow: hidden; padding-bottom: 5px; }}
-            .widget-box h3 {{ margin: 0 0 10px 0; color: #fff; background: #1a5276; padding: 15px; text-align: center; font-size: 1.2em; }}
+            .widget-box h3 {{ margin: 0; color: #fff; background: #1a5276; padding: 12px; text-align: center; font-size: 1.1em; }}
+            .widget-content {{ padding: 10px; }}
             
             @media (max-width: 900px) {{
                 .main-container {{ flex-direction: column; }}
@@ -291,19 +288,35 @@ def update_homepage():
                 </div>
             </div>
 
-            <!-- PERBAIKAN: Widget Klasemen Anti Blokir (ScoreAxis) -->
+            <!-- SIDEBAR KANAN: WIDGET CUSTOM SCOREAXIS -->
             <div class="sidebar-right">
+                
                 <div class="widget-box">
-                    <h3>🏴󠁧󠁢󠁥󠁮󠁧󠁿 Klasemen Liga Inggris</h3>
-                    <iframe src="https://www.scoreaxis.com/widget/standings-widget/8?autoHeight=1&links=0" width="100%" height="550" style="border: none;"></iframe>
+                    <h3>🔴 Live Match Center</h3>
+                    <div class="widget-content">
+                        <!-- Widget 1 -->
+                        <div id="widget-h59smumgglsm" class="scoreaxis-widget" style="width: auto;height: auto;font-size: 14px;background-color: #ffffff;color: #141416;border: 1px solid;border-color: #ecf1f7;overflow: auto;"><script src="https://widgets.scoreaxis.com/api/football/live-match/66717b45759a56977004a930?widgetId=h59smumgglsm&lang=id&lineupsBlock=1&eventsBlock=1&statsBlock=1&links=1&noFollowLinks=0&font=heebo&fontSize=14&rowDensity=100&widgetWidth=auto&widgetHeight=auto&bodyColor=%23ffffff&textColor=%23141416&linkColor=%23141416&borderColor=%23ecf1f7&tabColor=%23f3f8fd" async></script><div class="widget-main-link" style="padding: 6px 12px;font-weight: 500;">Live data by <a href="https://www.scoreaxis.com/" style="color: inherit;">Scoreaxis</a></div></div>
+                    </div>
                 </div>
                 
                 <div class="ad-slot">Space Iklan Adsterra 300x250</div>
                 
                 <div class="widget-box">
-                    <h3>🇪🇸 Klasemen Liga Spanyol</h3>
-                    <iframe src="https://www.scoreaxis.com/widget/standings-widget/3?autoHeight=1&links=0" width="100%" height="550" style="border: none;"></iframe>
+                    <h3>🏆 Klasemen Liga</h3>
+                    <div class="widget-content">
+                        <!-- Widget 2 -->
+                        <div id="widget-un6ymumgizcx" class="scoreaxis-widget" style="width: auto;height: auto;font-size: 14px;background-color: #ffffff;color: #141416;border: 1px solid;border-color: #ecf1f7;overflow: auto;"><script src="https://widgets.scoreaxis.com/api/football/league-table/6232265abf1fa71a672159ec?widgetId=un6ymumgizcx&lang=id&teamLogo=1&tableLines=0&homeAway=1&header=1&position=1&goals=1&gamesCount=1&diff=1&winCount=1&drawCount=1&loseCount=1&lastGames=1&points=1&teamsLimit=all&links=1&noFollowLinks=0&font=heebo&fontSize=14&rowDensity=100&widgetWidth=auto&widgetHeight=auto&bodyColor=%23ffffff&textColor=%23141416&linkColor=%23141416&borderColor=%23ecf1f7&tabColor=%23f3f8fd" async></script><div class="widget-main-link" style="padding: 6px 12px;font-weight: 500;">Live data by <a href="https://www.scoreaxis.com/" style="color: inherit;">Scoreaxis</a></div></div>
+                    </div>
                 </div>
+
+                <div class="widget-box">
+                    <h3>⭐ Top Skor & Pemain</h3>
+                    <div class="widget-content">
+                        <!-- Widget 3 -->
+                        <div id="widget-czj4mumgkubi" class="scoreaxis-widget" style="width: auto;height: auto;font-size: 14px;background-color: #ffffff;color: #141416;border: 1px solid;border-color: #ecf1f7;overflow: auto;"><script src="https://widgets.scoreaxis.com/api/football/league-top-players/6232265abf1fa71a672159ec?widgetId=czj4mumgkubi&lang=id&playersCount=10&goalsBlock=1&assistsBlock=1&cardsBlock=1&links=1&noFollowLinks=0&font=heebo&fontSize=14&rowDensity=100&widgetWidth=auto&widgetHeight=auto&bodyColor=%23ffffff&textColor=%23141416&linkColor=%23141416&borderColor=%23ecf1f7&tabColor=%23f3f8fd" async></script><div class="widget-main-link" style="padding: 6px 12px;font-weight: 500;">Live data by <a href="https://www.scoreaxis.com/" style="color: inherit;">Scoreaxis</a></div></div>
+                    </div>
+                </div>
+
             </div>
         </div>
 
@@ -340,7 +353,7 @@ def update_homepage():
     
     with open('public/index.html', 'w', encoding='utf-8') as f:
         f.write(homepage_template)
-    print("V Homepage (index.html) berhasil diperbarui!")
+    print("V Homepage (index.html) berhasil diperbarui dengan Widget Custom!")
 
 def main():
     try:
