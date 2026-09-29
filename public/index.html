@@ -16,7 +16,6 @@
             
             .main-container { display: flex; flex-wrap: wrap; max-width: 1200px; margin: 0 auto; padding: 20px; gap: 30px; }
             
-            /* Kiri: Berita */
             .content-left { flex: 1; min-width: 60%; }
             .section-title { border-left: 5px solid #1a5276; padding-left: 15px; color: #1a5276; font-size: 1.8em; margin-bottom: 25px; }
             
@@ -28,17 +27,14 @@
             .news-info a:hover { color: #1a5276; }
             .news-info p { margin: 0; color: #666; font-size: 0.95em; line-height: 1.6; }
             
-            /* Paginasi */
             .pagination { display: flex; justify-content: center; align-items: center; margin: 30px 0; gap: 15px; }
             .pagination button { padding: 10px 20px; background: #1a5276; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; }
             .pagination button:disabled { background: #ccc; cursor: not-allowed; }
             .pagination span { font-weight: bold; }
 
-            /* Kanan: Widget Live Score */
             .sidebar-right { width: 350px; flex-shrink: 0; }
-            .widget-box { background: #fff; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); margin-bottom: 30px; overflow: hidden; }
-            .widget-box h3 { margin: 0; color: #fff; background: #2980b9; padding: 15px; text-align: center; font-size: 1.2em; }
-            .widget-content { padding: 0; } /* Padding 0 agar iframe penuh */
+            .widget-box { background: #fff; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); margin-bottom: 30px; overflow: hidden; padding-bottom: 10px; }
+            .widget-box h3 { margin: 0 0 10px 0; color: #fff; background: #1a5276; padding: 15px; text-align: center; font-size: 1.2em; }
             
             @media (max-width: 900px) {
                 .main-container { flex-direction: column; }
@@ -51,7 +47,7 @@
     <body>
         <header>
             <h1>Lensa Terkini Bola</h1>
-            <p>Update Berita Sepak Bola Lokal & Internasional</p>
+            <p>Berita & Klasemen Sepak Bola Dalam & Luar Negeri</p>
         </header>
 
         <div class="ad-slot">Space Iklan Adsterra 728x90</div>
@@ -62,15 +58,7 @@
                 <div id="news-list">
                     
                 <div class="news-card">
-                    <img src="https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/ef71/live/e2976ac0-bb83-11f1-a7f1-45ae25eeed0b.jpg" alt="Thumbnail Berita" class="news-thumb">
-                    <div class="news-info">
-                        <h3><a href="/berita/bagi-bagi-uang-kaget-gianni-infantino-janjikan-guyuran-dana-segar-fantastis-untuk-anggota-fifa.html">Bagi-Bagi Uang Kaget! Gianni Infantino Janjikan Guyuran Dana Segar Fantastis untuk Anggota FIFA</a></h3>
-                        <p>Kabar gembira berhembus kencang dari markas besar federasi sepak bola dunia. Presiden FIFA, Gianni Infantino, secara terbuka memberikan sinyal kuat ba...</p>
-                    </div>
-                </div>
-
-                <div class="news-card">
-                    <img src="https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/5ead/live/7c391d60-bb7d-11f1-aa8c-25a48ac48e8f.png" alt="Thumbnail Berita" class="news-thumb">
+                    <img src="https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/5ead/live/7c391d60-bb7d-11f1-aa8c-25a48ac48e8f.png" alt="Thumbnail Berita" class="news-thumb" loading="lazy">
                     <div class="news-info">
                         <h3><a href="/berita/bursa-transfer-memanas-arsenal-dan-man-united-saling-sikut-demi-bintang-porto-man-city-pasang-banderol-gila-haaland.html">Bursa Transfer Memanas: Arsenal dan Man United Saling Sikut Demi Bintang Porto, Man City Pasang Banderol Gila Haaland!</a></h3>
                         <p>Panggung bursa transfer Eropa kembali menyajikan drama panas menjelang dibukanya jendela transfer musim dingin dan musim panas mendatang. Dua raksasa ...</p>
@@ -78,10 +66,18 @@
                 </div>
 
                 <div class="news-card">
-                    <img src="https://images.unsplash.com/photo-1518605368461-1e1c071d3326?q=80&w=800&auto=format&fit=crop" alt="Thumbnail Berita" class="news-thumb">
+                    <img src="https://images.unsplash.com/photo-1518605368461-1e1c071d3326?q=80&w=800&auto=format&fit=crop" alt="Thumbnail Berita" class="news-thumb" loading="lazy">
                     <div class="news-info">
                         <h3><a href="/berita/bikin-merinding-bisikan-rahasia-lamine-yamal-ke-lionel-messi-di-final-piala-dunia-2026-akhirnya-terbongkar.html">Bikin Merinding! Bisikan Rahasia Lamine Yamal ke Lionel Messi di Final Piala Dunia 2026 Akhirnya Terbongkar</a></h3>
                         <p>Dunia sepak bola sempat menahan napas ketika peluit panjang tanda berakhirnya laga final Piala Dunia 2026 dibunyikan. Di tengah gemuruh stadion dan so...</p>
+                    </div>
+                </div>
+
+                <div class="news-card">
+                    <img src="https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/ef71/live/e2976ac0-bb83-11f1-a7f1-45ae25eeed0b.jpg" alt="Thumbnail Berita" class="news-thumb" loading="lazy">
+                    <div class="news-info">
+                        <h3><a href="/berita/bagi-bagi-uang-kaget-gianni-infantino-janjikan-guyuran-dana-segar-fantastis-untuk-anggota-fifa.html">Bagi-Bagi Uang Kaget! Gianni Infantino Janjikan Guyuran Dana Segar Fantastis untuk Anggota FIFA</a></h3>
+                        <p>Kabar gembira berhembus kencang dari markas besar federasi sepak bola dunia. Presiden FIFA, Gianni Infantino, secara terbuka memberikan sinyal kuat ba...</p>
                     </div>
                 </div>
 
@@ -94,16 +90,19 @@
                 </div>
             </div>
 
-            <!-- PERBAIKAN 4: Widget Live Score dari ScoreBat (Pasti Muncul) -->
+            <!-- KLASEMEN DARI SOFASCORE -->
             <div class="sidebar-right">
                 <div class="widget-box">
-                    <h3>🔴 Live Score Pertandingan</h3>
-                    <div class="widget-content">
-                        <iframe src="https://www.scorebat.com/embed/livescore/" frameborder="0" width="100%" height="760" allowfullscreen allow="autoplay; fullscreen" style="width:100%;height:760px;overflow:hidden;display:block;"></iframe>
-                    </div>
+                    <h3>🏴󠁧󠁢󠁥󠁮󠁧󠁿 Klasemen Liga Inggris</h3>
+                    <iframe width="100%" height="450" src="https://www.sofascore.com/id/turnamen/17/sepak-bola/inggris/premier-league/klasemen/embed" frameborder="0" scrolling="yes"></iframe>
                 </div>
                 
                 <div class="ad-slot">Space Iklan Adsterra 300x250</div>
+                
+                <div class="widget-box">
+                    <h3>🇮🇩 Klasemen Liga 1 Indonesia</h3>
+                    <iframe width="100%" height="450" src="https://www.sofascore.com/id/turnamen/10634/sepak-bola/indonesia/liga-1/klasemen/embed" frameborder="0" scrolling="yes"></iframe>
+                </div>
             </div>
         </div>
 
