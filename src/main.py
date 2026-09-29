@@ -7,7 +7,7 @@ import json
 import re
 from datetime import datetime
 
-print("=== MEMULAI SCRIPT AGC BOLA (SEARCH, KATEGORI, TELEGRAM, ADS & HISTATS) ===")
+print("=== MEMULAI SCRIPT AGC BOLA (SEARCH, KATEGORI, TELEGRAM, ADS & HISTATS FIX) ===")
 
 API_KEYS_STRING = os.environ.get("GEMINI_API_KEYS")
 
@@ -27,6 +27,54 @@ RSS_SOURCES = [
 OUTPUT_DIR = "public/berita"
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 LOGO_URL = "https://upload.wikimedia.org/wikipedia/commons/d/d3/Soccerball.svg"
+
+
+# === DEFINISI SCRIPT IKLAN & HISTATS (Aman dari f-string) ===
+SCRIPT_ADSTERRA_728 = """
+<script>
+  atOptions = {
+    'key' : '70f7df03b8ac15936657a97b9d6d37f7',
+    'format' : 'iframe',
+    'height' : 90,
+    'width' : 728,
+    'params' : {}
+  };
+</script>
+<script src="https://www.highrevenueformat.com/70f7df03b8ac15936657a97b9d6d37f7/invoke.js"></script>
+"""
+
+SCRIPT_ADSTERRA_300 = """
+<script>
+  atOptions = {
+    'key' : '29f673e95ea974afd5b3ecb133ef6a9e',
+    'format' : 'iframe',
+    'height' : 250,
+    'width' : 300,
+    'params' : {}
+  };
+</script>
+<script src="https://www.highrevenueformat.com/29f673e95ea974afd5b3ecb133ef6a9e/invoke.js"></script>
+"""
+
+SCRIPT_POPUNDER = """
+<script src="https://pl31570858.profitableratecpmnetwork.com/bf/7c/c8/bf7cc8b38eeb859ad03672bf296c81ba.js"></script>
+"""
+
+SCRIPT_HISTATS = """
+<!-- Histats.com  START  (aync)-->
+<script type="text/javascript">var _Hasync= _Hasync|| [];
+_Hasync.push(['Histats.start', '1,5055086,4,0,0,0,00010000']);
+_Hasync.push(['Histats.fasi', '1']);
+_Hasync.push(['Histats.track_hits', '']);
+(function() {
+var hs = document.createElement('script'); hs.type = 'text/javascript'; hs.async = true;
+hs.src = ('//s10.histats.com/js15_as.js');
+(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(hs);
+})();</script>
+<noscript><a href="/" target="_blank"><img  src="//sstatic1.histats.com/0.gif?5055086&101" alt="frontpage hit counter" border="0"></a></noscript>
+<!-- Histats.com  END  -->
+"""
+# ==========================================================
 
 def get_gemini_response(prompt):
     random.shuffle(API_KEYS_LIST)
@@ -94,11 +142,9 @@ def generate_article_with_gemini(news_item):
         article_content = article_content.replace('**', '') 
         article_content = re.sub(r'^#+\s*', '', article_content, flags=re.MULTILINE) 
         
-        # Ekstrak Kategori
         category = "INTERNASIONAL"
         if "KATEGORI: LOKAL" in article_content.upper():
             category = "LOKAL"
-        # Hapus teks kategori agar tidak tampil jelek di artikel
         article_content = re.sub(r'KATEGORI:\s*(LOKAL|INTERNASIONAL)', '', article_content, flags=re.IGNORECASE).strip()
         
         indo_title = title 
@@ -141,9 +187,8 @@ def save_as_html(content, title, excerpt, thumbnail, category):
         <meta name="publish-date" content="{timestamp}">
         <meta name="article-category" content="{category}">
         
-        <!-- RUANG IKLAN POP-UNDER ADSTERRA (HEADER) -->
-        <!-- Paste script pop-under Anda di bawah ini -->
-    
+        <!-- RUANG IKLAN POP-UNDER ADSTERRA -->
+        {SCRIPT_POPUNDER}
         
         <style>
             * {{ box-sizing: border-box; }}
@@ -156,7 +201,7 @@ def save_as_html(content, title, excerpt, thumbnail, category):
             .badge-kategori {{ background: {'#e74c3c' if category == 'LOKAL' else '#2980b9'}; color: white; padding: 5px 12px; border-radius: 15px; font-size: 0.85em; font-weight: bold; }}
             h1 {{ color: #1a5276; font-size: 2.2em; line-height: 1.3; margin-top: 10px; }}
             .hero-img {{ width: 100%; max-height: 450px; object-fit: cover; border-radius: 8px; margin-bottom: 20px; background-color: #eaeaea; }}
-            .ad-slot {{ background: #eaeaea; border: 1px dashed #bbb; padding: 15px; text-align: center; margin: 20px 0; color: #777; font-weight: bold; }}
+            .ad-slot {{ background: #eaeaea; border: 1px dashed #bbb; padding: 15px; text-align: center; margin: 20px 0; color: #777; font-weight: bold; overflow: hidden; }}
             p {{ line-height: 1.8; font-size: 1.1em; margin-bottom: 15px; text-align: justify; }}
             .back-btn {{ display: inline-block; padding: 12px 20px; background: #1a5276; color: white; text-decoration: none; border-radius: 5px; font-weight: bold; }}
         </style>
@@ -174,36 +219,21 @@ def save_as_html(content, title, excerpt, thumbnail, category):
             <h1>{title}</h1>
             <img src="{thumbnail}" alt="{title}" class="hero-img" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1518605368461-1e1c071d3326?q=80&w=800&auto=format&fit=crop';">
             
-            <div class="ad-slot">Space Iklan Adsterra 728x90</div>
-            <script>
-  atOptions = {
-    'key' : '70f7df03b8ac15936657a97b9d6d37f7',
-    'format' : 'iframe',
-    'height' : 90,
-    'width' : 728,
-    'params' : {}
-  };
-</script>
-<script src="https://www.highrevenueformat.com/70f7df03b8ac15936657a97b9d6d37f7/invoke.js"></script>
+            <div class="ad-slot">
+                {SCRIPT_ADSTERRA_728}
+            </div>
+            
             <article>{content}</article>
-            <div class="ad-slot">Space Iklan Adsterra 300x250</div>
-            <script>
-  atOptions = {
-    'key' : '29f673e95ea974afd5b3ecb133ef6a9e',
-    'format' : 'iframe',
-    'height' : 250,
-    'width' : 300,
-    'params' : {}
-  };
-</script>
-<script src="https://www.highrevenueformat.com/29f673e95ea974afd5b3ecb133ef6a9e/invoke.js"></script>
+            
+            <div class="ad-slot">
+                {SCRIPT_ADSTERRA_300}
+            </div>
             
             <a href="/" class="back-btn">Kembali ke Beranda</a>
         </div>
 
-        <!-- RUANG TRACKER HISTATS (HIDDEN) -->
         <div style="display:none;">
-            <!-- Paste script Histats Anda di sini -->
+            {SCRIPT_HISTATS}
         </div>
     </body>
     </html>
@@ -257,9 +287,7 @@ def update_homepage():
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Lensa Terkini Bola - Portal Berita Sepak Bola</title>
         
-        <!-- RUANG IKLAN POP-UNDER ADSTERRA (HEADER) -->
-        <!-- Paste script pop-under Anda di sini -->
-        <script src="https://pl31570858.profitableratecpmnetwork.com/bf/7c/c8/bf7cc8b38eeb859ad03672bf296c81ba.js"></script>
+        {SCRIPT_POPUNDER}
         
         <style>
             * {{ box-sizing: border-box; }}
@@ -270,11 +298,10 @@ def update_homepage():
             .header-logo {{ width: 55px; height: 55px; filter: drop-shadow(0px 2px 4px rgba(0,0,0,0.3)); }}
             header h1 {{ margin: 0; font-size: 2.5em; text-shadow: 1px 1px 2px rgba(0,0,0,0.2); }}
             
-            .ad-slot {{ background: #fff; border: 1px dashed #ccc; padding: 15px; text-align: center; margin: 20px auto; max-width: 1100px; color: #888; font-weight: bold; }}
+            .ad-slot {{ background: #fff; border: 1px dashed #ccc; padding: 15px; text-align: center; margin: 20px auto; max-width: 1100px; color: #888; font-weight: bold; overflow: hidden; }}
             .main-container {{ display: flex; flex-wrap: wrap; max-width: 1200px; margin: 0 auto; padding: 20px; gap: 30px; }}
             .content-left {{ flex: 1; min-width: 60%; }}
             
-            /* CSS PENCARIAN */
             .search-box {{ width: 100%; padding: 12px 20px; margin-bottom: 20px; border: 2px solid #bdc3c7; border-radius: 25px; font-size: 1.1em; outline: none; transition: 0.3s; }}
             .search-box:focus {{ border-color: #1a5276; box-shadow: 0 0 8px rgba(26,82,118,0.2); }}
             
@@ -292,7 +319,6 @@ def update_homepage():
             
             .sidebar-right {{ width: 350px; flex-shrink: 0; }}
             
-            /* CSS BANNER TELEGRAM STREAMING */
             .telegram-banner {{ background: linear-gradient(135deg, #0088cc, #00aaff); border-radius: 8px; padding: 20px; text-align: center; color: white; margin-bottom: 30px; box-shadow: 0 4px 10px rgba(0,136,204,0.3); }}
             .telegram-banner h3 {{ margin: 0 0 10px 0; font-size: 1.4em; }}
             .telegram-banner p {{ font-size: 0.95em; margin-bottom: 15px; opacity: 0.9; }}
@@ -324,11 +350,12 @@ def update_homepage():
             <p>Portal Berita & Update Skor Bola Dunia</p>
         </header>
 
-        <div class="ad-slot">Space Iklan Adsterra 728x90</div>
+        <div class="ad-slot">
+            {SCRIPT_ADSTERRA_728}
+        </div>
 
         <div class="main-container">
             <div class="content-left">
-                <!-- FITUR PENCARIAN -->
                 <input type="text" id="searchInput" class="search-box" placeholder="🔍 Cari berita bola di sini..." onkeyup="searchNews()">
                 
                 <div id="news-list">
@@ -344,11 +371,9 @@ def update_homepage():
 
             <div class="sidebar-right">
                 
-                <!-- BANNER TELEGRAM STREAMING BOLA -->
                 <div class="telegram-banner">
                     <h3>🔥 Nonton Bola Gratis!</h3>
                     <p>Gabung komunitas kami dan dapatkan link live streaming pertandingan bola terupdate setiap harinya tanpa bayar.</p>
-                    <!-- Ganti tanda # dengan link grup telegram Anda -->
                     <a href="#" class="btn-telegram" rel="nofollow noopener noreferrer">Tonton Sekarang ➔</a>
                 </div>
 
@@ -363,41 +388,27 @@ def update_homepage():
                       <button class="tablinks" onclick="loadWidget('IDN')">Indonesia</button>
                     </div>
                     
-                    <!-- SCRIPT INJECTION CONTAINER (ANTI BLANK) -->
                     <div id="dynamic-widget-container" class="dynamic-widget-container">
                         Mempersiapkan klasemen...
                     </div>
                 </div>
 
-                <div class="ad-slot">Space Iklan Adsterra 300x250</div>
+                <div class="ad-slot">
+                    {SCRIPT_ADSTERRA_300}
+                </div>
             </div>
         </div>
 
-        <!-- RUANG TRACKER HISTATS (HIDDEN) -->
         <div style="display:none;">
-            <!-- Paste script Histats Anda di sini -->
-               <!-- Histats.com  START  (aync)-->
-<script type="text/javascript">var _Hasync= _Hasync|| [];
-_Hasync.push(['Histats.start', '1,5055086,4,0,0,0,00010000']);
-_Hasync.push(['Histats.fasi', '1']);
-_Hasync.push(['Histats.track_hits', '']);
-(function() {
-var hs = document.createElement('script'); hs.type = 'text/javascript'; hs.async = true;
-hs.src = ('//s10.histats.com/js15_as.js');
-(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(hs);
-})();</script>
-<noscript><a href="/" target="_blank"><img  src="//sstatic1.histats.com/0.gif?5055086&101" alt="frontpage hit counter" border="0"></a></noscript>
-<!-- Histats.com  END  -->
+            {SCRIPT_HISTATS}
         </div>
 
         <script>
-            // FITUR PENCARIAN CLIENT-SIDE
             function searchNews() {{
                 const input = document.getElementById('searchInput').value.toLowerCase();
                 const cards = document.querySelectorAll('.news-card');
                 let hasResults = false;
                 
-                // Jika sedang mencari, matikan paginasi
                 if(input.length > 0) {{
                     document.querySelector('.pagination').style.display = 'none';
                     cards.forEach(card => {{
@@ -410,11 +421,10 @@ hs.src = ('//s10.histats.com/js15_as.js');
                     }});
                 }} else {{
                     document.querySelector('.pagination').style.display = 'flex';
-                    showPage(currentPage); // Kembalikan ke paginasi normal
+                    showPage(currentPage);
                 }}
             }}
 
-            // FITUR DYNAMIC WIDGET INJECTION (MEMAKSA SCRIPT BERJALAN SAAT TAB DIKLIK)
             const scoreAxisWidgets = {{
                 'ENG': {{ id: 'widget-atvlmumh1msi', url: 'https://widgets.scoreaxis.com/api/football/league-table/6232265abf1fa71a672159ec?widgetId=atvlmumh1msi&lang=id&teamLogo=1&tableLines=0&homeAway=1&header=1&position=1&goals=1&gamesCount=1&diff=1&winCount=1&drawCount=1&loseCount=1&lastGames=1&points=1&teamsLimit=all&links=1&noFollowLinks=0&font=heebo&fontSize=14&rowDensity=100&widgetWidth=auto&widgetHeight=auto&bodyColor=%23ffffff&textColor=%23141416&linkColor=%23141416&borderColor=%23ecf1f7&tabColor=%23f3f8fd' }},
                 'ESP': {{ id: 'widget-j7xwmumh3y7m', url: 'https://widgets.scoreaxis.com/api/football/league-table/62322c053617da0b83221cc6?widgetId=j7xwmumh3y7m&lang=id&teamLogo=1&tableLines=0&homeAway=1&header=1&position=1&goals=1&gamesCount=1&diff=1&winCount=1&drawCount=1&loseCount=1&lastGames=1&points=1&teamsLimit=all&links=1&noFollowLinks=0&font=heebo&fontSize=14&rowDensity=100&widgetWidth=auto&widgetHeight=auto&bodyColor=%23ffffff&textColor=%23141416&linkColor=%23141416&borderColor=%23ecf1f7&tabColor=%23f3f8fd' }},
@@ -425,33 +435,27 @@ hs.src = ('//s10.histats.com/js15_as.js');
             }};
 
             function loadWidget(leagueKey) {{
-                // Update styling tombol aktif
                 let tablinks = document.getElementsByClassName("tablinks");
                 for (let i = 0; i < tablinks.length; i++) {{ tablinks[i].classList.remove("active"); }}
-                event.currentTarget.classList.add("active");
+                if(event) event.currentTarget.classList.add("active");
 
-                // Eksekusi ulang Script Widget agar render sempurna
                 const container = document.getElementById("dynamic-widget-container");
                 const wData = scoreAxisWidgets[leagueKey];
                 
-                // Buat kerangka div baru
                 container.innerHTML = `<div id="${{wData.id}}" class="scoreaxis-widget" style="width: 100%;"><p style="padding:20px;color:#888;">Memuat Data...</p></div>`;
                 
-                // Suntikkan script
                 const scriptEl = document.createElement('script');
                 scriptEl.src = wData.url;
                 scriptEl.async = true;
                 document.getElementById(wData.id).appendChild(scriptEl);
             }}
 
-            // FITUR PAGINASI
             const itemsPerPage = 6;
             let currentPage = 1;
             const articles = document.querySelectorAll('.news-card');
             const totalPages = Math.ceil(articles.length / itemsPerPage);
 
             function showPage(page) {{
-                // Pastikan fungsi ini tidak berjalan saat fitur Search aktif
                 if(document.getElementById('searchInput').value.length > 0) return;
                 
                 articles.forEach((card, index) => {{
@@ -472,9 +476,7 @@ hs.src = ('//s10.histats.com/js15_as.js');
                 window.scrollTo({{ top: 0, behavior: 'smooth' }});
             }}
 
-            // Inisialisasi awal
             if(articles.length > 0) showPage(1);
-            // Panggil widget Inggris pertama kali
             window.onload = function() {{ loadWidget('ENG'); }};
         </script>
     </body>
