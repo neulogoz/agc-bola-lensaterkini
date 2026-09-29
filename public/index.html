@@ -4,90 +4,226 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Lensa Terkini Bola - Portal Berita Sepak Bola</title>
+        <title>Lensa Terkini Bola - Klasemen & Berita Terupdate</title>
         <style>
-            body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 900px; margin: 0 auto; padding: 20px; line-height: 1.6; color: #333; background-color: #f9f9f9; }
-            header { text-align: center; padding: 30px 0; border-bottom: 3px solid #1a5276; margin-bottom: 30px; }
-            h1 { color: #1a5276; margin: 0; font-size: 2.5em; }
-            .ad-slot { background: #fff; border: 1px dashed #ccc; padding: 20px; text-align: center; margin: 20px 0; color: #888; font-weight: bold; }
-            .news-container { display: flex; flex-direction: column; gap: 15px; }
-            .news-card { background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); border-left: 5px solid #1a5276; transition: transform 0.2s; }
+            * { box-sizing: border-box; }
+            body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f7f6; margin: 0; padding: 0; color: #333; }
+            header { background: #1a5276; color: white; padding: 30px 20px; text-align: center; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+            header h1 { margin: 0; font-size: 2.5em; }
+            header p { margin: 10px 0 0 0; opacity: 0.8; font-size: 1.1em; }
+            
+            .ad-slot { background: #fff; border: 1px dashed #ccc; padding: 15px; text-align: center; margin: 20px auto; max-width: 1100px; color: #888; font-weight: bold; }
+            
+            .main-container { display: flex; flex-wrap: wrap; max-width: 1200px; margin: 0 auto; padding: 20px; gap: 30px; }
+            
+            /* Bagian Kiri (Berita) */
+            .content-left { flex: 1; min-width: 60%; }
+            .section-title { border-left: 5px solid #1a5276; padding-left: 15px; color: #1a5276; font-size: 1.8em; margin-bottom: 25px; }
+            
+            .news-card { display: flex; background: #fff; border-radius: 8px; margin-bottom: 20px; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.05); transition: transform 0.2s; }
             .news-card:hover { transform: translateY(-3px); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
-            .news-card a { text-decoration: none; color: #333; font-size: 1.2em; font-weight: bold; }
-            .news-card a:hover { color: #1a5276; }
-            footer { text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid #ddd; color: #666; }
+            .news-thumb { width: 250px; height: 180px; object-fit: cover; flex-shrink: 0; }
+            .news-info { padding: 20px; }
+            .news-info h3 { margin: 0 0 10px 0; font-size: 1.3em; line-height: 1.4; }
+            .news-info a { text-decoration: none; color: #333; }
+            .news-info a:hover { color: #1a5276; }
+            .news-info p { margin: 0; color: #666; font-size: 0.95em; line-height: 1.6; }
+            
+            /* Paginasi */
+            .pagination { display: flex; justify-content: center; align-items: center; margin: 30px 0; gap: 15px; }
+            .pagination button { padding: 10px 20px; background: #1a5276; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; }
+            .pagination button:disabled { background: #ccc; cursor: not-allowed; }
+            .pagination span { font-weight: bold; }
+
+            /* Bagian Kanan (Klasemen Sidebar) */
+            .sidebar-right { width: 320px; flex-shrink: 0; }
+            .widget-box { background: #fff; padding: 15px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); margin-bottom: 30px; }
+            .widget-box h3 { margin-top: 0; color: #2980b9; border-bottom: 2px solid #ecf0f1; padding-bottom: 10px; text-align: center; }
+            
+            @media (max-width: 900px) {
+                .main-container { flex-direction: column; }
+                .sidebar-right { width: 100%; }
+                .news-card { flex-direction: column; }
+                .news-thumb { width: 100%; height: 200px; }
+            }
         </style>
     </head>
     <body>
         <header>
             <h1>Lensa Terkini Bola</h1>
-            <p>Update Berita Sepak Bola Lokal & Internasional</p>
+            <p>Berita & Klasemen Sepak Bola Dalam & Luar Negeri</p>
         </header>
 
         <div class="ad-slot">Space Iklan Adsterra 728x90</div>
 
-        <h2>Berita Terbaru</h2>
-        <div class="news-container">
-            
+        <div class="main-container">
+            <!-- KOLOM KIRI: BERITA TERBARU -->
+            <div class="content-left">
+                <h2 class="section-title">Berita Utama</h2>
+                <div id="news-list">
+                    
                 <div class="news-card">
-                    <a href="/berita/man-city-terancam-sanksi-berat-joe-hart-pasang-badan-bela-khaldoon-al-mubarak.html">Man City Terancam Sanksi Berat, Joe Hart Pasang Badan Bela Khaldoon Al Mubarak!</a>
+                    <img src="https://via.placeholder.com/150" alt="Manchester City Terancam Hukuman Berat? Joe Hart Pasang Badan Bela Sang Pemilik!" class="news-thumb">
+                    <div class="news-info">
+                        <h3><a href="/berita/manchester-city-terancam-hukuman-berat-joe-hart-pasang-badan-bela-sang-pemilik.html">Manchester City Terancam Hukuman Berat? Joe Hart Pasang Badan Bela Sang Pemilik!</a></h3>
+                        <p>Baca berita selengkapnya...</p>
+                    </div>
                 </div>
 
                 <div class="news-card">
-                    <a href="/berita/tak-tergoyahkan-gianni-infantino-siap-cengkeram-takhta-fifa-lagi-meski-dihantam-uefa.html">Tak Tergoyahkan! Gianni Infantino Siap Cengkeram Takhta FIFA Lagi Meski Dihantam UEFA</a>
+                    <img src="https://via.placeholder.com/150" alt="Tak Tergoyahkan! Meski Dihantam Kritik UEFA, Gianni Infantino Selangkah Lagi Kuasai FIFA Kembali" class="news-thumb">
+                    <div class="news-info">
+                        <h3><a href="/berita/tak-tergoyahkan-meski-dihantam-kritik-uefa-gianni-infantino-selangkah-lagi-kuasai-fifa-kembali.html">Tak Tergoyahkan! Meski Dihantam Kritik UEFA, Gianni Infantino Selangkah Lagi Kuasai FIFA Kembali</a></h3>
+                        <p>Baca berita selengkapnya...</p>
+                    </div>
                 </div>
 
                 <div class="news-card">
-                    <a href="/berita/bursa-transfer-memanas-man-united-arsenal-rebutan-bintang-porto-man-city-pasang-kuda-kuda-soal-haaland.html">Bursa Transfer Memanas: Man United & Arsenal Rebutan Bintang Porto, Man City Pasang Kuda-kuda Soal Haaland</a>
+                    <img src="https://via.placeholder.com/150" alt="Perang Terbuka Raksasa Inggris: MU dan Arsenal Saling Sikut Demi Bintang Porto, Haaland 'Dikunci' Man City!" class="news-thumb">
+                    <div class="news-info">
+                        <h3><a href="/berita/perang-terbuka-raksasa-inggris-mu-dan-arsenal-saling-sikut-demi-bintang-porto-haaland-dikunci-man-city.html">Perang Terbuka Raksasa Inggris: MU dan Arsenal Saling Sikut Demi Bintang Porto, Haaland 'Dikunci' Man City!</a></h3>
+                        <p>Baca berita selengkapnya...</p>
+                    </div>
                 </div>
 
                 <div class="news-card">
-                    <a href="/berita/kabar-gembira-untuk-pssi-fifa-sepakat-bagi-bagi-durian-runtuh-hasil-rekor-pendapatan-piala-dunia.html">Kabar Gembira untuk PSSI! FIFA Sepakat Bagi-Bagi 'Durian Runtuh' Hasil Rekor Pendapatan Piala Dunia</a>
+                    <img src="https://via.placeholder.com/150" alt="Pochettino Buka Suara Soal Kasus FFP Man City: Tak Ada Hukuman yang Bisa Pulihkan Kerusakan Premier League!" class="news-thumb">
+                    <div class="news-info">
+                        <h3><a href="/berita/pochettino-buka-suara-soal-kasus-ffp-man-city-tak-ada-hukuman-yang-bisa-pulihkan-kerusakan-premier-league.html">Pochettino Buka Suara Soal Kasus FFP Man City: Tak Ada Hukuman yang Bisa Pulihkan Kerusakan Premier League!</a></h3>
+                        <p>Baca berita selengkapnya...</p>
+                    </div>
                 </div>
 
                 <div class="news-card">
-                    <a href="/berita/manchester-city-terancam-hukuman-berat-joe-hart-pasang-badan-bela-sang-pemilik.html">Manchester City Terancam Hukuman Berat? Joe Hart Pasang Badan Bela Sang Pemilik!</a>
+                    <img src="https://via.placeholder.com/150" alt="Guyuran Dolar Siap Mengalir! Gianni Infantino Janjikan Kucuran Dana Raksasa untuk Anggota FIFA" class="news-thumb">
+                    <div class="news-info">
+                        <h3><a href="/berita/guyuran-dolar-siap-mengalir-gianni-infantino-janjikan-kucuran-dana-raksasa-untuk-anggota-fifa.html">Guyuran Dolar Siap Mengalir! Gianni Infantino Janjikan Kucuran Dana Raksasa untuk Anggota FIFA</a></h3>
+                        <p>Baca berita selengkapnya...</p>
+                    </div>
                 </div>
 
                 <div class="news-card">
-                    <a href="/berita/tak-tergoyahkan-meski-dihantam-kritik-uefa-gianni-infantino-selangkah-lagi-kuasai-fifa-kembali.html">Tak Tergoyahkan! Meski Dihantam Kritik UEFA, Gianni Infantino Selangkah Lagi Kuasai FIFA Kembali</a>
+                    <img src="https://via.placeholder.com/150" alt="Kabar Gembira untuk PSSI! FIFA Sepakat Bagi-Bagi 'Durian Runtuh' Hasil Rekor Pendapatan Piala Dunia" class="news-thumb">
+                    <div class="news-info">
+                        <h3><a href="/berita/kabar-gembira-untuk-pssi-fifa-sepakat-bagi-bagi-durian-runtuh-hasil-rekor-pendapatan-piala-dunia.html">Kabar Gembira untuk PSSI! FIFA Sepakat Bagi-Bagi 'Durian Runtuh' Hasil Rekor Pendapatan Piala Dunia</a></h3>
+                        <p>Baca berita selengkapnya...</p>
+                    </div>
                 </div>
 
                 <div class="news-card">
-                    <a href="/berita/perang-terbuka-raksasa-inggris-mu-dan-arsenal-saling-sikut-demi-bintang-porto-haaland-dikunci-man-city.html">Perang Terbuka Raksasa Inggris: MU dan Arsenal Saling Sikut Demi Bintang Porto, Haaland 'Dikunci' Man City!</a>
+                    <img src="https://via.placeholder.com/150" alt="Tak Tergoyahkan! Gianni Infantino Siap Cengkeram Takhta FIFA Lagi Meski Dihantam UEFA" class="news-thumb">
+                    <div class="news-info">
+                        <h3><a href="/berita/tak-tergoyahkan-gianni-infantino-siap-cengkeram-takhta-fifa-lagi-meski-dihantam-uefa.html">Tak Tergoyahkan! Gianni Infantino Siap Cengkeram Takhta FIFA Lagi Meski Dihantam UEFA</a></h3>
+                        <p>Baca berita selengkapnya...</p>
+                    </div>
                 </div>
 
                 <div class="news-card">
-                    <a href="/berita/pochettino-buka-suara-soal-kasus-ffp-man-city-tak-ada-hukuman-yang-bisa-pulihkan-kerusakan-premier-league.html">Pochettino Buka Suara Soal Kasus FFP Man City: Tak Ada Hukuman yang Bisa Pulihkan Kerusakan Premier League!</a>
+                    <img src="https://via.placeholder.com/150" alt="Man City Terancam Sanksi Berat, Joe Hart Pasang Badan Bela Khaldoon Al Mubarak!" class="news-thumb">
+                    <div class="news-info">
+                        <h3><a href="/berita/man-city-terancam-sanksi-berat-joe-hart-pasang-badan-bela-khaldoon-al-mubarak.html">Man City Terancam Sanksi Berat, Joe Hart Pasang Badan Bela Khaldoon Al Mubarak!</a></h3>
+                        <p>Baca berita selengkapnya...</p>
+                    </div>
                 </div>
 
                 <div class="news-card">
-                    <a href="/berita/guyuran-dolar-siap-mengalir-gianni-infantino-janjikan-kucuran-dana-raksasa-untuk-anggota-fifa.html">Guyuran Dolar Siap Mengalir! Gianni Infantino Janjikan Kucuran Dana Raksasa untuk Anggota FIFA</a>
+                    <img src="https://via.placeholder.com/150" alt="Bursa Transfer Memanas: Man United & Arsenal Rebutan Bintang Porto, Man City Pasang Kuda-kuda Soal Haaland" class="news-thumb">
+                    <div class="news-info">
+                        <h3><a href="/berita/bursa-transfer-memanas-man-united-arsenal-rebutan-bintang-porto-man-city-pasang-kuda-kuda-soal-haaland.html">Bursa Transfer Memanas: Man United & Arsenal Rebutan Bintang Porto, Man City Pasang Kuda-kuda Soal Haaland</a></h3>
+                        <p>Baca berita selengkapnya...</p>
+                    </div>
                 </div>
 
                 <div class="news-card">
-                    <a href="/berita/littler-in-shock-first-round-exit-at-world-grand-prix-as-van-gerwen-also-beaten.html">Littler in shock first-round exit at World Grand Prix as Van Gerwen also beaten</a>
+                    <img src="https://via.placeholder.com/150" alt="Littler in shock first-round exit at World Grand Prix as Van Gerwen also beaten" class="news-thumb">
+                    <div class="news-info">
+                        <h3><a href="/berita/littler-in-shock-first-round-exit-at-world-grand-prix-as-van-gerwen-also-beaten.html">Littler in shock first-round exit at World Grand Prix as Van Gerwen also beaten</a></h3>
+                        <p>Baca berita selengkapnya...</p>
+                    </div>
                 </div>
 
                 <div class="news-card">
-                    <a href="/berita/tolak-empat-klub-demi-valencia-javier-aguirre-resmi-turun-gunung-ke-laliga.html">Tolak Empat Klub Demi Valencia, Javier Aguirre Resmi Turun Gunung ke LaLiga!</a>
+                    <img src="https://via.placeholder.com/150" alt="Tolak Empat Klub Demi Valencia, Javier Aguirre Resmi Turun Gunung ke LaLiga!" class="news-thumb">
+                    <div class="news-info">
+                        <h3><a href="/berita/tolak-empat-klub-demi-valencia-javier-aguirre-resmi-turun-gunung-ke-laliga.html">Tolak Empat Klub Demi Valencia, Javier Aguirre Resmi Turun Gunung ke LaLiga!</a></h3>
+                        <p>Baca berita selengkapnya...</p>
+                    </div>
                 </div>
 
                 <div class="news-card">
-                    <a href="/berita/guyuran-dana-segar-gianni-infantino-janjikan-tambahan-uang-kaget-triliunan-rupiah-untuk-anggota-fifa.html">Guyuran Dana Segar! Gianni Infantino Janjikan Tambahan 'Uang Kaget' Triliunan Rupiah untuk Anggota FIFA</a>
+                    <img src="https://via.placeholder.com/150" alt="Guyuran Dana Segar! Gianni Infantino Janjikan Tambahan 'Uang Kaget' Triliunan Rupiah untuk Anggota FIFA" class="news-thumb">
+                    <div class="news-info">
+                        <h3><a href="/berita/guyuran-dana-segar-gianni-infantino-janjikan-tambahan-uang-kaget-triliunan-rupiah-untuk-anggota-fifa.html">Guyuran Dana Segar! Gianni Infantino Janjikan Tambahan 'Uang Kaget' Triliunan Rupiah untuk Anggota FIFA</a></h3>
+                        <p>Baca berita selengkapnya...</p>
+                    </div>
                 </div>
 
                 <div class="news-card">
-                    <a href="/berita/badai-cedera-terpa-the-three-lions-konsa-dan-o-reilly-terancam-absen-kontra-republik-ceko.html">Badai Cedera Terpa The Three Lions! Konsa dan O'Reilly Terancam Absen Kontra Republik Ceko</a>
+                    <img src="https://via.placeholder.com/150" alt="Badai Cedera Terpa The Three Lions! Konsa dan O'Reilly Terancam Absen Kontra Republik Ceko" class="news-thumb">
+                    <div class="news-info">
+                        <h3><a href="/berita/badai-cedera-terpa-the-three-lions-konsa-dan-o-reilly-terancam-absen-kontra-republik-ceko.html">Badai Cedera Terpa The Three Lions! Konsa dan O'Reilly Terancam Absen Kontra Republik Ceko</a></h3>
+                        <p>Baca berita selengkapnya...</p>
+                    </div>
                 </div>
 
+                </div>
+                
+                <!-- KONTROL PAGINASI -->
+                <div class="pagination">
+                    <button id="btn-prev" onclick="changePage(-1)">&#8592; Sebelumnya</button>
+                    <span id="page-info">Halaman 1</span>
+                    <button id="btn-next" onclick="changePage(1)">Selanjutnya &#8594;</button>
+                </div>
+            </div>
+
+            <!-- KOLOM KANAN: KLASEMEN (IFRAME WIDGET) -->
+            <div class="sidebar-right">
+                <div class="widget-box">
+                    <h3>Klasemen Liga Inggris</h3>
+                    <!-- Widget Gratis dari FCTables -->
+                    <iframe frameborder="0" scrolling="yes" width="100%" height="450" src="https://www.fctables.com/england/premier-league/iframe/?type=table&lang=id&country=67&template=10&team=&timezone=Asia/Jakarta&time=24&width=100%&height=450&font=Arial&fs=12&lh=22&bg=FFFFFF&fc=333333&logo=1&tlink=1&ths=1&thb=1&thba=FFFFFF&thc=000000&bc=dddddd&tc=333333&hp=1&bch=1&ff=1&wm=1"></iframe>
+                </div>
+                
+                <div class="ad-slot">Iklan 300x250</div>
+                
+                <div class="widget-box">
+                    <h3>Klasemen Liga 1 Indonesia</h3>
+                    <!-- Widget Gratis dari FCTables -->
+                    <iframe frameborder="0" scrolling="yes" width="100%" height="450" src="https://www.fctables.com/indonesia/super-liga/iframe/?type=table&lang=id&country=105&template=10&team=&timezone=Asia/Jakarta&time=24&width=100%&height=450&font=Arial&fs=12&lh=22&bg=FFFFFF&fc=333333&logo=1&tlink=1&ths=1&thb=1&thba=FFFFFF&thc=000000&bc=dddddd&tc=333333&hp=1&bch=1&ff=1&wm=1"></iframe>
+                </div>
+            </div>
         </div>
 
-        <div class="ad-slot">Space Iklan Adsterra 300x250</div>
+        <!-- SCRIPT UNTUK FUNGSI PAGINASI -->
+        <script>
+            const itemsPerPage = 6;
+            let currentPage = 1;
+            const articles = document.querySelectorAll('.news-card');
+            const totalPages = Math.ceil(articles.length / itemsPerPage);
 
-        <footer>
-            &copy; 2026 Lensa Terkini Bola. Ter-update otomatis.
-        </footer>
+            function showPage(page) {
+                articles.forEach((card, index) => {
+                    if (index >= (page - 1) * itemsPerPage && index < page * itemsPerPage) {
+                        card.style.display = 'flex';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+                document.getElementById('page-info').innerText = `Halaman ${page} dari ${totalPages}`;
+                document.getElementById('btn-prev').disabled = page === 1;
+                document.getElementById('btn-next').disabled = page === totalPages || totalPages === 0;
+            }
+
+            function changePage(delta) {
+                currentPage += delta;
+                showPage(currentPage);
+                // Auto scroll ke atas saat ganti halaman
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+
+            // Inisialisasi Paginasi saat halaman dimuat
+            if(articles.length > 0) showPage(1);
+        </script>
     </body>
     </html>
     
