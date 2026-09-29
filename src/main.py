@@ -7,7 +7,7 @@ import json
 import re
 from datetime import datetime
 
-print("=== MEMULAI SCRIPT AGC BOLA (KARANTINA WIDGET SCOREAXIS 100% MUNCUL) ===")
+print("=== MEMULAI SCRIPT AGC BOLA (SCOREAXIS PURE IFRAME - ANTI DISCLAIMER) ===")
 
 API_KEYS_STRING = os.environ.get("GEMINI_API_KEYS")
 
@@ -28,21 +28,22 @@ RSS_LOKAL = [
 ]
 
 OUTPUT_DIR = "public/berita"
-WIDGETS_DIR = "public/widgets"
 os.makedirs(OUTPUT_DIR, exist_ok=True)
-os.makedirs(WIDGETS_DIR, exist_ok=True) # Folder khusus Karantina Widget
 LOGO_URL = "https://upload.wikimedia.org/wikipedia/commons/d/d3/Soccerball.svg"
 
 # =====================================================================
-# WIDGET SCOREAXIS ASLI MILIK ANDA
+# WIDGET SCOREAXIS ASLI (DIEKSTRAK MENJADI PURE IFRAME ANTI-BLOKIR)
 # =====================================================================
-WIDGET_ENG = """<div id="widget-atvlmumh1msi" class="scoreaxis-widget" style="width: auto;height: auto;font-size: 14px;background-color: #ffffff;color: #141416;border: 1px solid;border-color: #ecf1f7;overflow: auto;"><script src="https://widgets.scoreaxis.com/api/football/league-table/6232265abf1fa71a672159ec?widgetId=atvlmumh1msi&lang=id&teamLogo=1&tableLines=0&homeAway=1&header=1&position=1&goals=1&gamesCount=1&diff=1&winCount=1&drawCount=1&loseCount=1&lastGames=1&points=1&teamsLimit=all&links=1&noFollowLinks=0&font=heebo&fontSize=14&rowDensity=100&widgetWidth=auto&widgetHeight=auto&bodyColor=%23ffffff&textColor=%23141416&linkColor=%23141416&borderColor=%23ecf1f7&tabColor=%23f3f8fd" async></script><div class="widget-main-link" style="padding: 6px 12px;font-weight: 500;">Live data by <a href="https://www.scoreaxis.com/" style="color: inherit;">Scoreaxis</a></div></div>"""
-WIDGET_ESP = """<div id="widget-j7xwmumh3y7m" class="scoreaxis-widget" style="width: auto;height: auto;font-size: 14px;background-color: #ffffff;color: #141416;border: 1px solid;border-color: #ecf1f7;overflow: auto;"><script src="https://widgets.scoreaxis.com/api/football/league-table/62322c053617da0b83221cc6?widgetId=j7xwmumh3y7m&lang=id&teamLogo=1&tableLines=0&homeAway=1&header=1&position=1&goals=1&gamesCount=1&diff=1&winCount=1&drawCount=1&loseCount=1&lastGames=1&points=1&teamsLimit=all&links=1&noFollowLinks=0&font=heebo&fontSize=14&rowDensity=100&widgetWidth=auto&widgetHeight=auto&bodyColor=%23ffffff&textColor=%23141416&linkColor=%23141416&borderColor=%23ecf1f7&tabColor=%23f3f8fd" async></script><div class="widget-main-link" style="padding: 6px 12px;font-weight: 500;">Live data by <a href="https://www.scoreaxis.com/" style="color: inherit;">Scoreaxis</a></div></div>"""
-WIDGET_ITA = """<div id="widget-llkdmumh65vu" class="scoreaxis-widget" style="width: auto;height: auto;font-size: 14px;background-color: #ffffff;color: #141416;border: 1px solid;border-color: #ecf1f7;overflow: auto;"><script src="https://widgets.scoreaxis.com/api/football/league-table/62322b827aee66235a2be718?widgetId=llkdmumh65vu&lang=id&teamLogo=1&tableLines=0&homeAway=1&header=1&position=1&goals=1&gamesCount=1&diff=1&winCount=1&drawCount=1&loseCount=1&lastGames=1&points=1&teamsLimit=all&links=1&noFollowLinks=0&font=heebo&fontSize=14&rowDensity=100&widgetWidth=auto&widgetHeight=auto&bodyColor=%23ffffff&textColor=%23141416&linkColor=%23141416&borderColor=%23ecf1f7&tabColor=%23f3f8fd" async></script><div class="widget-main-link" style="padding: 6px 12px;font-weight: 500;">Live data by <a href="https://www.scoreaxis.com/" style="color: inherit;">Scoreaxis</a></div></div>"""
-WIDGET_GER = """<div id="widget-t6xvmumh55i6" class="scoreaxis-widget" style="width: auto;height: auto;font-size: 14px;background-color: #ffffff;color: #141416;border: 1px solid;border-color: #ecf1f7;overflow: auto;"><script src="https://widgets.scoreaxis.com/api/football/league-table/62321f50f7016c22d3650732?widgetId=t6xvmumh55i6&lang=id&teamLogo=1&tableLines=0&homeAway=1&header=1&position=1&goals=1&gamesCount=1&diff=1&winCount=1&drawCount=1&loseCount=1&lastGames=1&points=1&teamsLimit=all&links=1&noFollowLinks=0&font=heebo&fontSize=14&rowDensity=100&widgetWidth=auto&widgetHeight=auto&bodyColor=%23ffffff&textColor=%23141416&linkColor=%23141416&borderColor=%23ecf1f7&tabColor=%23f3f8fd" async></script><div class="widget-main-link" style="padding: 6px 12px;font-weight: 500;">Live data by <a href="https://www.scoreaxis.com/" style="color: inherit;">Scoreaxis</a></div></div>"""
-WIDGET_FRA = """<div id="widget-bjs9mumh5ta6" class="scoreaxis-widget" style="width: auto;height: auto;font-size: 14px;background-color: #ffffff;color: #141416;border: 1px solid;border-color: #ecf1f7;overflow: auto;"><script src="https://widgets.scoreaxis.com/api/football/league-table/62322b4efd209951602c9096?widgetId=bjs9mumh5ta6&lang=id&teamLogo=1&tableLines=0&homeAway=1&header=1&position=1&goals=1&gamesCount=1&diff=1&winCount=1&drawCount=1&loseCount=1&lastGames=1&points=1&teamsLimit=all&links=1&noFollowLinks=0&font=heebo&fontSize=14&rowDensity=100&widgetWidth=auto&widgetHeight=auto&bodyColor=%23ffffff&textColor=%23141416&linkColor=%23141416&borderColor=%23ecf1f7&tabColor=%23f3f8fd" async></script><div class="widget-main-link" style="padding: 6px 12px;font-weight: 500;">Live data by <a href="https://www.scoreaxis.com/" style="color: inherit;">Scoreaxis</a></div></div>"""
-WIDGET_IDN = """<div id="widget-wrt7mumh7146" class="scoreaxis-widget" style="width: auto;height: auto;font-size: 14px;background-color: #ffffff;color: #141416;border: 1px solid;border-color: #ecf1f7;overflow: auto;"><script src="https://widgets.scoreaxis.com/api/football/league-table/623225c009ac1611ee0dc0f6?widgetId=wrt7mumh7146&lang=id&teamLogo=1&tableLines=0&homeAway=1&header=1&position=1&goals=1&gamesCount=1&diff=1&winCount=1&drawCount=1&loseCount=1&lastGames=1&points=1&teamsLimit=all&links=1&noFollowLinks=0&font=heebo&fontSize=14&rowDensity=100&widgetWidth=auto&widgetHeight=auto&bodyColor=%23ffffff&textColor=%23141416&linkColor=%23141416&borderColor=%23ecf1f7&tabColor=%23f3f8fd" async></script><div class="widget-main-link" style="padding: 6px 12px;font-weight: 500;">Live data by <a href="https://www.scoreaxis.com/" style="color: inherit;">Scoreaxis</a></div></div>"""
+WIDGET_ENG = """<iframe src="https://widgets.scoreaxis.com/widget/football/league-table/6232265abf1fa71a672159ec?lang=id&teamLogo=1&tableLines=0&homeAway=1&header=1&position=1&goals=1&gamesCount=1&diff=1&winCount=1&drawCount=1&loseCount=1&lastGames=1&points=1&teamsLimit=all&links=1&noFollowLinks=0&font=heebo&fontSize=14&rowDensity=100&bodyColor=%23ffffff&textColor=%23141416&linkColor=%23141416&borderColor=%23ecf1f7&tabColor=%23f3f8fd" width="100%" height="400" frameborder="0" style="border:none;"></iframe>"""
+WIDGET_ESP = """<iframe src="https://widgets.scoreaxis.com/widget/football/league-table/62322c053617da0b83221cc6?lang=id&teamLogo=1&tableLines=0&homeAway=1&header=1&position=1&goals=1&gamesCount=1&diff=1&winCount=1&drawCount=1&loseCount=1&lastGames=1&points=1&teamsLimit=all&links=1&noFollowLinks=0&font=heebo&fontSize=14&rowDensity=100&bodyColor=%23ffffff&textColor=%23141416&linkColor=%23141416&borderColor=%23ecf1f7&tabColor=%23f3f8fd" width="100%" height="400" frameborder="0" style="border:none;"></iframe>"""
+WIDGET_ITA = """<iframe src="https://widgets.scoreaxis.com/widget/football/league-table/62322b827aee66235a2be718?lang=id&teamLogo=1&tableLines=0&homeAway=1&header=1&position=1&goals=1&gamesCount=1&diff=1&winCount=1&drawCount=1&loseCount=1&lastGames=1&points=1&teamsLimit=all&links=1&noFollowLinks=0&font=heebo&fontSize=14&rowDensity=100&bodyColor=%23ffffff&textColor=%23141416&linkColor=%23141416&borderColor=%23ecf1f7&tabColor=%23f3f8fd" width="100%" height="400" frameborder="0" style="border:none;"></iframe>"""
+WIDGET_GER = """<iframe src="https://widgets.scoreaxis.com/widget/football/league-table/62321f50f7016c22d3650732?lang=id&teamLogo=1&tableLines=0&homeAway=1&header=1&position=1&goals=1&gamesCount=1&diff=1&winCount=1&drawCount=1&loseCount=1&lastGames=1&points=1&teamsLimit=all&links=1&noFollowLinks=0&font=heebo&fontSize=14&rowDensity=100&bodyColor=%23ffffff&textColor=%23141416&linkColor=%23141416&borderColor=%23ecf1f7&tabColor=%23f3f8fd" width="100%" height="400" frameborder="0" style="border:none;"></iframe>"""
+WIDGET_FRA = """<iframe src="https://widgets.scoreaxis.com/widget/football/league-table/62322b4efd209951602c9096?lang=id&teamLogo=1&tableLines=0&homeAway=1&header=1&position=1&goals=1&gamesCount=1&diff=1&winCount=1&drawCount=1&loseCount=1&lastGames=1&points=1&teamsLimit=all&links=1&noFollowLinks=0&font=heebo&fontSize=14&rowDensity=100&bodyColor=%23ffffff&textColor=%23141416&linkColor=%23141416&borderColor=%23ecf1f7&tabColor=%23f3f8fd" width="100%" height="400" frameborder="0" style="border:none;"></iframe>"""
+WIDGET_IDN = """<iframe src="https://widgets.scoreaxis.com/widget/football/league-table/623225c009ac1611ee0dc0f6?lang=id&teamLogo=1&tableLines=0&homeAway=1&header=1&position=1&goals=1&gamesCount=1&diff=1&winCount=1&drawCount=1&loseCount=1&lastGames=1&points=1&teamsLimit=all&links=1&noFollowLinks=0&font=heebo&fontSize=14&rowDensity=100&bodyColor=%23ffffff&textColor=%23141416&linkColor=%23141416&borderColor=%23ecf1f7&tabColor=%23f3f8fd" width="100%" height="400" frameborder="0" style="border:none;"></iframe>"""
 
+# =====================================================================
+# SCRIPT IKLAN & HISTATS
+# =====================================================================
 SCRIPT_ADSTERRA_728 = """
 <script>
   atOptions = {
@@ -88,32 +89,61 @@ hs.src = ('//s10.histats.com/js15_as.js');
 <!-- Histats.com  END  -->
 """
 
-# FUNGSI PEMBUAT HALAMAN KARANTINA WIDGET
-def generate_widget_files():
-    print("\nMembuat Halaman Karantina Widget ScoreAxis...")
-    widgets = {
-        "eng": WIDGET_ENG,
-        "esp": WIDGET_ESP,
-        "ita": WIDGET_ITA,
-        "ger": WIDGET_GER,
-        "fra": WIDGET_FRA,
-        "idn": WIDGET_IDN
+SCRIPT_PAGINATION_SEARCH = """
+<script>
+    function searchNews() {
+        const input = document.getElementById('searchInput').value.toLowerCase();
+        const cards = document.querySelectorAll('.news-card');
+        
+        if(input.length > 0) {
+            document.querySelector('.pagination').style.display = 'none';
+            cards.forEach(card => {
+                if (card.getAttribute('data-title').includes(input)) {
+                    card.style.display = 'grid';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        } else {
+            document.querySelector('.pagination').style.display = 'flex';
+            showPage(currentPage);
+        }
     }
-    # Template HTML super bersih khusus untuk merender ScoreAxis
-    template = """<!DOCTYPE html>
-    <html lang="id">
-    <head>
-        <meta charset="utf-8">
-        <style>body { margin: 0; padding: 0; background: #fff; }</style>
-    </head>
-    <body>
-        {code}
-    </body>
-    </html>"""
-    
-    for name, code in widgets.items():
-        with open(f"{WIDGETS_DIR}/{name}.html", "w", encoding="utf-8") as f:
-            f.write(template.replace("{code}", code))
+
+    const itemsPerPage = 5;
+    let currentPage = 1;
+    const articles = document.querySelectorAll('.news-card');
+    const totalPages = Math.ceil(articles.length / itemsPerPage);
+
+    function showPage(page) {
+        if(document.getElementById('searchInput') && document.getElementById('searchInput').value.length > 0) return;
+        
+        articles.forEach((card, index) => {
+            if (index >= (page - 1) * itemsPerPage && index < page * itemsPerPage) {
+                card.style.display = 'grid';
+            } else {
+                card.style.display = 'none';
+            }
+        });
+        if(document.getElementById('page-info')) document.getElementById('page-info').innerText = 'Halaman ' + page + ' dari ' + totalPages;
+        if(document.getElementById('btn-prev')) document.getElementById('btn-prev').disabled = page === 1;
+        if(document.getElementById('btn-next')) document.getElementById('btn-next').disabled = page === totalPages || totalPages === 0;
+    }
+
+    function changePage(delta) {
+        currentPage += delta;
+        showPage(currentPage);
+        const newsSection = document.getElementById('berita-terbaru');
+        if(newsSection) {
+            newsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        } else {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    }
+
+    if(articles.length > 0) showPage(1);
+</script>
+"""
 
 def get_gemini_response(prompt):
     random.shuffle(API_KEYS_LIST)
@@ -227,8 +257,6 @@ def save_as_html(content, title, excerpt, thumbnail, category):
         <meta name="publish-date" content="{timestamp}">
         <meta name="article-category" content="{category}">
         
-        {SCRIPT_POPUNDER}
-        
         <style>
             @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
             * {{ box-sizing: border-box; }}
@@ -273,16 +301,13 @@ def save_as_html(content, title, excerpt, thumbnail, category):
             
             <article>{content}</article>
             
-            <div class="ad-slot">
-                {SCRIPT_ADSTERRA_300}
-            </div>
-            
             <a href="/" class="back-btn">⬅ Kembali ke Beranda</a>
         </div>
 
         <div style="display:none;">
             {SCRIPT_HISTATS}
         </div>
+        {SCRIPT_POPUNDER}
     </body>
     </html>
     """
@@ -335,8 +360,6 @@ def update_homepage():
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Lensa Terkini Bola - Portal Berita Sepak Bola</title>
         
-        {SCRIPT_POPUNDER}
-        
         <style>
             @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
             
@@ -351,9 +374,7 @@ def update_homepage():
             
             .ad-slot {{ background: #fff; border: 1px dashed #ced4da; padding: 15px; text-align: center; margin: 20px auto; max-width: 1100px; border-radius: 8px; overflow: hidden; }}
             
-            /* ====================================================
-               MEGA KLASEMEN DENGAN IFRAME KARANTINA
-               ==================================================== */
+            /* MEGA KLASEMEN (CAROUSEL / SCROLL HORIZONTAL) */
             .mega-standings-wrapper {{ max-width: 1250px; margin: 30px auto; padding: 0 20px; }}
             .section-heading {{ font-size: 1.8em; color: #0f2027; border-left: 5px solid #e74c3c; padding-left: 15px; margin-bottom: 20px; font-weight: 700; display: flex; align-items: center; gap: 10px; }}
             
@@ -368,14 +389,14 @@ def update_homepage():
             }}
             
             .standings-box {{ 
-                flex: 0 0 320px;
-                height: 440px; 
+                flex: 0 0 320px; 
+                height: 480px; 
                 background: #fff; 
                 border-radius: 12px; 
                 padding: 15px; 
                 box-shadow: 0 4px 15px rgba(0,0,0,0.05); 
                 border: 1px solid #f0f0f0; 
-                overflow: hidden; /* iframe akan diurus di dalam */
+                overflow: hidden; 
             }}
             
             .standings-box h3 {{ text-align: center; margin: 0 0 15px 0; padding-bottom: 10px; border-bottom: 2px solid #f0f0f0; color: #00416A; font-size: 1.2em; }}
@@ -385,9 +406,7 @@ def update_homepage():
             .standings-grid::-webkit-scrollbar-thumb {{ background: #00416A; border-radius: 10px; }}
             .standings-grid::-webkit-scrollbar-thumb:hover {{ background: #e74c3c; }}
             
-            /* ====================================================
-               BERITA DAN SIDEBAR BAWAH
-               ==================================================== */
+            /* BERITA DAN SIDEBAR BAWAH */
             .main-container {{ display: flex; flex-wrap: wrap; max-width: 1250px; margin: 40px auto; padding: 0 20px; gap: 35px; border-top: 2px dashed #ccc; padding-top: 40px; }}
             .content-left {{ flex: 1; min-width: 60%; }}
             .sidebar-right {{ width: 360px; flex-shrink: 0; }}
@@ -438,37 +457,34 @@ def update_homepage():
             {SCRIPT_ADSTERRA_728}
         </div>
 
-        <!-- ========================================== -->
-        <!-- MEGA KLASEMEN (MEMANGGIL HALAMAN KARANTINA IFRAME) -->
-        <!-- ========================================== -->
+        <!-- MEGA KLASEMEN (PURE IFRAME - ANTI DISCLAIMER) -->
         <div class="mega-standings-wrapper">
             <h2 class="section-heading">🏆 PUSAT KLASEMEN LIGA DUNIA</h2>
             <p style="font-size: 0.9em; color: #7f8c8d; margin-top: -15px; margin-bottom: 15px; padding-left: 20px;">👉 Geser ke kanan untuk melihat liga lainnya</p>
             <div class="standings-grid">
                 <div class="standings-box">
                     <h3>🏴󠁧󠁢󠁥󠁮󠁧󠁿 Inggris</h3>
-                    <!-- Memanggil widget yang sudah dikarantina! -->
-                    <iframe src="/widgets/eng.html" width="100%" height="370px" frameborder="0" scrolling="yes" style="border:none;"></iframe>
+                    {WIDGET_ENG}
                 </div>
                 <div class="standings-box">
                     <h3>🇪🇸 Spanyol</h3>
-                    <iframe src="/widgets/esp.html" width="100%" height="370px" frameborder="0" scrolling="yes" style="border:none;"></iframe>
+                    {WIDGET_ESP}
                 </div>
                 <div class="standings-box">
                     <h3>🇮🇹 Italia</h3>
-                    <iframe src="/widgets/ita.html" width="100%" height="370px" frameborder="0" scrolling="yes" style="border:none;"></iframe>
+                    {WIDGET_ITA}
                 </div>
                 <div class="standings-box">
                     <h3>🇩🇪 Jerman</h3>
-                    <iframe src="/widgets/ger.html" width="100%" height="370px" frameborder="0" scrolling="yes" style="border:none;"></iframe>
+                    {WIDGET_GER}
                 </div>
                 <div class="standings-box">
                     <h3>🇫🇷 Prancis</h3>
-                    <iframe src="/widgets/fra.html" width="100%" height="370px" frameborder="0" scrolling="yes" style="border:none;"></iframe>
+                    {WIDGET_FRA}
                 </div>
                 <div class="standings-box">
                     <h3>🇮🇩 Indonesia</h3>
-                    <iframe src="/widgets/idn.html" width="100%" height="370px" frameborder="0" scrolling="yes" style="border:none;"></iframe>
+                    {WIDGET_IDN}
                 </div>
             </div>
         </div>
@@ -490,7 +506,6 @@ def update_homepage():
             </div>
 
             <div class="sidebar-right">
-                
                 <div class="telegram-banner">
                     <h3>🔥 Nonton Bola Gratis!</h3>
                     <p>Gabung komunitas kami dan dapatkan link live streaming pertandingan bola terupdate setiap harinya tanpa bayar.</p>
@@ -506,62 +521,9 @@ def update_homepage():
         <div style="display:none;">
             {SCRIPT_HISTATS}
         </div>
-
-        <script>
-            // Fitur Pencarian
-            function searchNews() {{
-                const input = document.getElementById('searchInput').value.toLowerCase();
-                const cards = document.querySelectorAll('.news-card');
-                
-                if(input.length > 0) {{
-                    document.querySelector('.pagination').style.display = 'none';
-                    cards.forEach(card => {{
-                        if (card.getAttribute('data-title').includes(input)) {{
-                            card.style.display = 'grid';
-                        }} else {{
-                            card.style.display = 'none';
-                        }}
-                    }});
-                }} else {{
-                    document.querySelector('.pagination').style.display = 'flex';
-                    showPage(currentPage);
-                }}
-            }}
-
-            // Fitur Paginasi
-            const itemsPerPage = 5;
-            let currentPage = 1;
-            const articles = document.querySelectorAll('.news-card');
-            const totalPages = Math.ceil(articles.length / itemsPerPage);
-
-            function showPage(page) {{
-                if(document.getElementById('searchInput') && document.getElementById('searchInput').value.length > 0) return;
-                
-                articles.forEach((card, index) => {{
-                    if (index >= (page - 1) * itemsPerPage && index < page * itemsPerPage) {{
-                        card.style.display = 'grid';
-                    }} else {{
-                        card.style.display = 'none';
-                    }}
-                }});
-                if(document.getElementById('page-info')) document.getElementById('page-info').innerText = 'Halaman ' + page + ' dari ' + totalPages;
-                if(document.getElementById('btn-prev')) document.getElementById('btn-prev').disabled = page === 1;
-                if(document.getElementById('btn-next')) document.getElementById('btn-next').disabled = page === totalPages || totalPages === 0;
-            }}
-
-            function changePage(delta) {{
-                currentPage += delta;
-                showPage(currentPage);
-                const newsSection = document.getElementById('berita-terbaru');
-                if(newsSection) {{
-                    newsSection.scrollIntoView({{ behavior: 'smooth', block: 'start' }});
-                }} else {{
-                    window.scrollTo({{ top: 0, behavior: 'smooth' }});
-                }}
-            }}
-
-            if(articles.length > 0) showPage(1);
-        </script>
+        
+        {SCRIPT_PAGINATION_SEARCH}
+        {SCRIPT_POPUNDER}
     </body>
     </html>
     """
@@ -571,9 +533,6 @@ def update_homepage():
 
 def main():
     try:
-        # Jalankan pembuatan Halaman Karantina ScoreAxis
-        generate_widget_files()
-        
         int_news = []
         lokal_news = []
         
