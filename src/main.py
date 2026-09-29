@@ -7,7 +7,7 @@ import json
 import re
 from datetime import datetime
 
-print("=== MEMULAI SCRIPT AGC BOLA (ADS POSITION FIX & POPUNDER RESTORED) ===")
+print("=== MEMULAI SCRIPT AGC BOLA (POPUNDER FIX & SCOREAXIS ORIGINAL) ===")
 
 API_KEYS_STRING = os.environ.get("GEMINI_API_KEYS")
 
@@ -32,14 +32,15 @@ os.makedirs(OUTPUT_DIR, exist_ok=True)
 LOGO_URL = "https://upload.wikimedia.org/wikipedia/commons/d/d3/Soccerball.svg"
 
 # =====================================================================
-# WIDGET SCOREAXIS ASLI (PURE IFRAME ANTI-BLOKIR)
+# WIDGET SCOREAXIS ASLI MILIK ANDA (TANPA MODIFIKASI)
+# Jika masih 404, silakan ganti kode di bawah ini dengan widget baru dari ScoreAxis
 # =====================================================================
-WIDGET_ENG = """<iframe src="https://widgets.scoreaxis.com/widget/football/league-table/6232265abf1fa71a672159ec?lang=id&teamLogo=1&tableLines=0&homeAway=1&header=1&position=1&goals=1&gamesCount=1&diff=1&winCount=1&drawCount=1&loseCount=1&lastGames=1&points=1&teamsLimit=all&links=1&noFollowLinks=0&font=heebo&fontSize=14&rowDensity=100&bodyColor=%23ffffff&textColor=%23141416&linkColor=%23141416&borderColor=%23ecf1f7&tabColor=%23f3f8fd" width="100%" height="400" frameborder="0" style="border:none;"></iframe>"""
-WIDGET_ESP = """<iframe src="https://widgets.scoreaxis.com/widget/football/league-table/62322c053617da0b83221cc6?lang=id&teamLogo=1&tableLines=0&homeAway=1&header=1&position=1&goals=1&gamesCount=1&diff=1&winCount=1&drawCount=1&loseCount=1&lastGames=1&points=1&teamsLimit=all&links=1&noFollowLinks=0&font=heebo&fontSize=14&rowDensity=100&bodyColor=%23ffffff&textColor=%23141416&linkColor=%23141416&borderColor=%23ecf1f7&tabColor=%23f3f8fd" width="100%" height="400" frameborder="0" style="border:none;"></iframe>"""
-WIDGET_ITA = """<iframe src="https://widgets.scoreaxis.com/widget/football/league-table/62322b827aee66235a2be718?lang=id&teamLogo=1&tableLines=0&homeAway=1&header=1&position=1&goals=1&gamesCount=1&diff=1&winCount=1&drawCount=1&loseCount=1&lastGames=1&points=1&teamsLimit=all&links=1&noFollowLinks=0&font=heebo&fontSize=14&rowDensity=100&bodyColor=%23ffffff&textColor=%23141416&linkColor=%23141416&borderColor=%23ecf1f7&tabColor=%23f3f8fd" width="100%" height="400" frameborder="0" style="border:none;"></iframe>"""
-WIDGET_GER = """<iframe src="https://widgets.scoreaxis.com/widget/football/league-table/62321f50f7016c22d3650732?lang=id&teamLogo=1&tableLines=0&homeAway=1&header=1&position=1&goals=1&gamesCount=1&diff=1&winCount=1&drawCount=1&loseCount=1&lastGames=1&points=1&teamsLimit=all&links=1&noFollowLinks=0&font=heebo&fontSize=14&rowDensity=100&bodyColor=%23ffffff&textColor=%23141416&linkColor=%23141416&borderColor=%23ecf1f7&tabColor=%23f3f8fd" width="100%" height="400" frameborder="0" style="border:none;"></iframe>"""
-WIDGET_FRA = """<iframe src="https://widgets.scoreaxis.com/widget/football/league-table/62322b4efd209951602c9096?lang=id&teamLogo=1&tableLines=0&homeAway=1&header=1&position=1&goals=1&gamesCount=1&diff=1&winCount=1&drawCount=1&loseCount=1&lastGames=1&points=1&teamsLimit=all&links=1&noFollowLinks=0&font=heebo&fontSize=14&rowDensity=100&bodyColor=%23ffffff&textColor=%23141416&linkColor=%23141416&borderColor=%23ecf1f7&tabColor=%23f3f8fd" width="100%" height="400" frameborder="0" style="border:none;"></iframe>"""
-WIDGET_IDN = """<iframe src="https://widgets.scoreaxis.com/widget/football/league-table/623225c009ac1611ee0dc0f6?lang=id&teamLogo=1&tableLines=0&homeAway=1&header=1&position=1&goals=1&gamesCount=1&diff=1&winCount=1&drawCount=1&loseCount=1&lastGames=1&points=1&teamsLimit=all&links=1&noFollowLinks=0&font=heebo&fontSize=14&rowDensity=100&bodyColor=%23ffffff&textColor=%23141416&linkColor=%23141416&borderColor=%23ecf1f7&tabColor=%23f3f8fd" width="100%" height="400" frameborder="0" style="border:none;"></iframe>"""
+WIDGET_ENG = """<div id="widget-atvlmumh1msi" class="scoreaxis-widget" style="width: auto;height: auto;font-size: 14px;background-color: #ffffff;color: #141416;border: 1px solid;border-color: #ecf1f7;overflow: auto;"><script src="https://widgets.scoreaxis.com/api/football/league-table/6232265abf1fa71a672159ec?widgetId=atvlmumh1msi&lang=id&teamLogo=1&tableLines=0&homeAway=1&header=1&position=1&goals=1&gamesCount=1&diff=1&winCount=1&drawCount=1&loseCount=1&lastGames=1&points=1&teamsLimit=all&links=1&noFollowLinks=0&font=heebo&fontSize=14&rowDensity=100&widgetWidth=auto&widgetHeight=auto&bodyColor=%23ffffff&textColor=%23141416&linkColor=%23141416&borderColor=%23ecf1f7&tabColor=%23f3f8fd" async></script><div class="widget-main-link" style="padding: 6px 12px;font-weight: 500;">Live data by <a href="https://www.scoreaxis.com/" style="color: inherit;">Scoreaxis</a></div></div>"""
+WIDGET_ESP = """<div id="widget-j7xwmumh3y7m" class="scoreaxis-widget" style="width: auto;height: auto;font-size: 14px;background-color: #ffffff;color: #141416;border: 1px solid;border-color: #ecf1f7;overflow: auto;"><script src="https://widgets.scoreaxis.com/api/football/league-table/62322c053617da0b83221cc6?widgetId=j7xwmumh3y7m&lang=id&teamLogo=1&tableLines=0&homeAway=1&header=1&position=1&goals=1&gamesCount=1&diff=1&winCount=1&drawCount=1&loseCount=1&lastGames=1&points=1&teamsLimit=all&links=1&noFollowLinks=0&font=heebo&fontSize=14&rowDensity=100&widgetWidth=auto&widgetHeight=auto&bodyColor=%23ffffff&textColor=%23141416&linkColor=%23141416&borderColor=%23ecf1f7&tabColor=%23f3f8fd" async></script><div class="widget-main-link" style="padding: 6px 12px;font-weight: 500;">Live data by <a href="https://www.scoreaxis.com/" style="color: inherit;">Scoreaxis</a></div></div>"""
+WIDGET_ITA = """<div id="widget-llkdmumh65vu" class="scoreaxis-widget" style="width: auto;height: auto;font-size: 14px;background-color: #ffffff;color: #141416;border: 1px solid;border-color: #ecf1f7;overflow: auto;"><script src="https://widgets.scoreaxis.com/api/football/league-table/62322b827aee66235a2be718?widgetId=llkdmumh65vu&lang=id&teamLogo=1&tableLines=0&homeAway=1&header=1&position=1&goals=1&gamesCount=1&diff=1&winCount=1&drawCount=1&loseCount=1&lastGames=1&points=1&teamsLimit=all&links=1&noFollowLinks=0&font=heebo&fontSize=14&rowDensity=100&widgetWidth=auto&widgetHeight=auto&bodyColor=%23ffffff&textColor=%23141416&linkColor=%23141416&borderColor=%23ecf1f7&tabColor=%23f3f8fd" async></script><div class="widget-main-link" style="padding: 6px 12px;font-weight: 500;">Live data by <a href="https://www.scoreaxis.com/" style="color: inherit;">Scoreaxis</a></div></div>"""
+WIDGET_GER = """<div id="widget-t6xvmumh55i6" class="scoreaxis-widget" style="width: auto;height: auto;font-size: 14px;background-color: #ffffff;color: #141416;border: 1px solid;border-color: #ecf1f7;overflow: auto;"><script src="https://widgets.scoreaxis.com/api/football/league-table/62321f50f7016c22d3650732?widgetId=t6xvmumh55i6&lang=id&teamLogo=1&tableLines=0&homeAway=1&header=1&position=1&goals=1&gamesCount=1&diff=1&winCount=1&drawCount=1&loseCount=1&lastGames=1&points=1&teamsLimit=all&links=1&noFollowLinks=0&font=heebo&fontSize=14&rowDensity=100&widgetWidth=auto&widgetHeight=auto&bodyColor=%23ffffff&textColor=%23141416&linkColor=%23141416&borderColor=%23ecf1f7&tabColor=%23f3f8fd" async></script><div class="widget-main-link" style="padding: 6px 12px;font-weight: 500;">Live data by <a href="https://www.scoreaxis.com/" style="color: inherit;">Scoreaxis</a></div></div>"""
+WIDGET_FRA = """<div id="widget-bjs9mumh5ta6" class="scoreaxis-widget" style="width: auto;height: auto;font-size: 14px;background-color: #ffffff;color: #141416;border: 1px solid;border-color: #ecf1f7;overflow: auto;"><script src="https://widgets.scoreaxis.com/api/football/league-table/62322b4efd209951602c9096?widgetId=bjs9mumh5ta6&lang=id&teamLogo=1&tableLines=0&homeAway=1&header=1&position=1&goals=1&gamesCount=1&diff=1&winCount=1&drawCount=1&loseCount=1&lastGames=1&points=1&teamsLimit=all&links=1&noFollowLinks=0&font=heebo&fontSize=14&rowDensity=100&widgetWidth=auto&widgetHeight=auto&bodyColor=%23ffffff&textColor=%23141416&linkColor=%23141416&borderColor=%23ecf1f7&tabColor=%23f3f8fd" async></script><div class="widget-main-link" style="padding: 6px 12px;font-weight: 500;">Live data by <a href="https://www.scoreaxis.com/" style="color: inherit;">Scoreaxis</a></div></div>"""
+WIDGET_IDN = """<div id="widget-wrt7mumh7146" class="scoreaxis-widget" style="width: auto;height: auto;font-size: 14px;background-color: #ffffff;color: #141416;border: 1px solid;border-color: #ecf1f7;overflow: auto;"><script src="https://widgets.scoreaxis.com/api/football/league-table/623225c009ac1611ee0dc0f6?widgetId=wrt7mumh7146&lang=id&teamLogo=1&tableLines=0&homeAway=1&header=1&position=1&goals=1&gamesCount=1&diff=1&winCount=1&drawCount=1&loseCount=1&lastGames=1&points=1&teamsLimit=all&links=1&noFollowLinks=0&font=heebo&fontSize=14&rowDensity=100&widgetWidth=auto&widgetHeight=auto&bodyColor=%23ffffff&textColor=%23141416&linkColor=%23141416&borderColor=%23ecf1f7&tabColor=%23f3f8fd" async></script><div class="widget-main-link" style="padding: 6px 12px;font-weight: 500;">Live data by <a href="https://www.scoreaxis.com/" style="color: inherit;">Scoreaxis</a></div></div>"""
 
 # =====================================================================
 # SCRIPT IKLAN & HISTATS
@@ -70,8 +71,9 @@ SCRIPT_ADSTERRA_300 = """
 <script src="https://www.highrevenueformat.com/29f673e95ea974afd5b3ecb133ef6a9e/invoke.js"></script>
 """
 
+# Pop-Under diberi tipe javascript & data-cfasync agar lolos dari pemblokir Cloudflare
 SCRIPT_POPUNDER = """
-<script src="https://pl31570858.profitableratecpmnetwork.com/bf/7c/c8/bf7cc8b38eeb859ad03672bf296c81ba.js"></script>
+<script type='text/javascript' src='//pl31570858.profitableratecpmnetwork.com/bf/7c/c8/bf7cc8b38eeb859ad03672bf296c81ba.js' data-cfasync='false'></script>
 """
 
 SCRIPT_HISTATS = """
@@ -257,14 +259,14 @@ def save_as_html(content, title, excerpt, thumbnail, category):
         <meta name="publish-date" content="{timestamp}">
         <meta name="article-category" content="{category}">
         
-        <!-- POPUNDER KEMBALI KE HEAD AGAR BEKERJA MAKSIMAL -->
+        <!-- POPUNDER HARUS DI HEAD AGAR AKTIF SEJAK KLIK PERTAMA -->
         {SCRIPT_POPUNDER}
         
         <style>
             @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
             * {{ box-sizing: border-box; }}
             body {{ font-family: 'Poppins', sans-serif; background-color: #f0f2f5; margin: 0; padding: 0; color: #2c3e50; overflow-x: hidden; }}
-            .container {{ max-width: 850px; margin: 0 auto 40px auto; padding: 40px; background: #fff; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }}
+            .container {{ max-width: 850px; margin: 40px auto; padding: 40px; background: #fff; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }}
             
             header {{ background: linear-gradient(135deg, #0f2027, #203a43, #2c5364); color: white; padding: 25px 20px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.2); border-bottom: 4px solid #e74c3c; }}
             .logo-wrap {{ display: inline-flex; align-items: center; justify-content: center; gap: 15px; text-decoration: none; color: white; }}
@@ -277,7 +279,7 @@ def save_as_html(content, title, excerpt, thumbnail, category):
             h1 {{ color: #0f2027; font-size: 2.4em; line-height: 1.3; margin: 10px 0 25px 0; font-weight: 700; text-align: center; }}
             .hero-img {{ width: 100%; max-height: 500px; object-fit: cover; border-radius: 12px; margin-bottom: 25px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }}
             
-            .ad-slot {{ background: #f8f9fa; border: 1px dashed #ced4da; padding: 15px; text-align: center; margin: 20px auto; max-width: 1100px; border-radius: 8px; overflow: hidden; }}
+            .ad-slot {{ background: #f8f9fa; border: 1px dashed #ced4da; padding: 15px; text-align: center; margin: 30px 0; border-radius: 8px; overflow: hidden; }}
             p {{ line-height: 1.8; font-size: 1.15em; margin-bottom: 20px; color: #444; text-align: justify; }}
             
             .back-btn {{ display: block; width: max-content; margin: 30px auto 0; padding: 12px 25px; background: #00416A; color: white; text-decoration: none; border-radius: 8px; font-weight: 600; transition: 0.3s; box-shadow: 0 4px 10px rgba(0,65,106,0.2); }}
@@ -292,7 +294,7 @@ def save_as_html(content, title, excerpt, thumbnail, category):
             </a>
         </header>
         
-        <!-- Iklan Top (Di Bawah Header) -->
+        <!-- Iklan Top -->
         <div class="ad-slot">
             {SCRIPT_ADSTERRA_728}
         </div>
@@ -367,7 +369,7 @@ def update_homepage():
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Lensa Terkini Bola - Portal Berita Sepak Bola</title>
         
-        <!-- POPUNDER KEMBALI KE HEAD AGAR BEKERJA MAKSIMAL -->
+        <!-- POPUNDER HARUS DI HEAD AGAR AKTIF SEJAK KLIK PERTAMA -->
         {SCRIPT_POPUNDER}
         
         <style>
@@ -382,7 +384,7 @@ def update_homepage():
             header h1 {{ margin: 0; font-size: 2.8em; font-weight: 700; letter-spacing: 1px; }}
             header p {{ margin: 5px 0 0 0; opacity: 0.8; font-size: 1.1em; }}
             
-            .ad-slot {{ background: #fff; border: 1px dashed #ced4da; padding: 15px; text-align: center; margin: 20px auto; max-width: 1250px; border-radius: 8px; overflow: hidden; }}
+            .ad-slot {{ background: #fff; border: 1px dashed #ced4da; padding: 15px; text-align: center; margin: 20px auto; max-width: 1100px; border-radius: 8px; overflow: hidden; }}
             
             /* MEGA KLASEMEN (CAROUSEL / SCROLL HORIZONTAL) */
             .mega-standings-wrapper {{ max-width: 1250px; margin: 10px auto 30px auto; padding: 0 20px; }}
@@ -465,7 +467,7 @@ def update_homepage():
             <p>Portal Berita & Update Skor Bola Dunia</p>
         </header>
 
-        <!-- IKLAN BANNER BESAR: Tepat di Bawah Header, di Atas Klasemen -->
+        <!-- IKLAN BANNER BESAR: Tepat di Bawah Header -->
         <div class="ad-slot">
             {SCRIPT_ADSTERRA_728}
         </div>
