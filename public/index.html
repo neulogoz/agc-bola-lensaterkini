@@ -34,7 +34,8 @@
 
             .sidebar-right { width: 350px; flex-shrink: 0; }
             .widget-box { background: #fff; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); margin-bottom: 30px; overflow: hidden; padding-bottom: 5px; }
-            .widget-box h3 { margin: 0 0 10px 0; color: #fff; background: #1a5276; padding: 15px; text-align: center; font-size: 1.2em; }
+            .widget-box h3 { margin: 0; color: #fff; background: #1a5276; padding: 12px; text-align: center; font-size: 1.1em; }
+            .widget-content { padding: 10px; }
             
             @media (max-width: 900px) {
                 .main-container { flex-direction: column; }
@@ -98,19 +99,35 @@
                 </div>
             </div>
 
-            <!-- PERBAIKAN: Widget Klasemen Anti Blokir (ScoreAxis) -->
+            <!-- SIDEBAR KANAN: WIDGET CUSTOM SCOREAXIS -->
             <div class="sidebar-right">
+                
                 <div class="widget-box">
-                    <h3>🏴󠁧󠁢󠁥󠁮󠁧󠁿 Klasemen Liga Inggris</h3>
-                    <iframe src="https://www.scoreaxis.com/widget/standings-widget/8?autoHeight=1&links=0" width="100%" height="550" style="border: none;"></iframe>
+                    <h3>🔴 Live Match Center</h3>
+                    <div class="widget-content">
+                        <!-- Widget 1 -->
+                        <div id="widget-h59smumgglsm" class="scoreaxis-widget" style="width: auto;height: auto;font-size: 14px;background-color: #ffffff;color: #141416;border: 1px solid;border-color: #ecf1f7;overflow: auto;"><script src="https://widgets.scoreaxis.com/api/football/live-match/66717b45759a56977004a930?widgetId=h59smumgglsm&lang=id&lineupsBlock=1&eventsBlock=1&statsBlock=1&links=1&noFollowLinks=0&font=heebo&fontSize=14&rowDensity=100&widgetWidth=auto&widgetHeight=auto&bodyColor=%23ffffff&textColor=%23141416&linkColor=%23141416&borderColor=%23ecf1f7&tabColor=%23f3f8fd" async></script><div class="widget-main-link" style="padding: 6px 12px;font-weight: 500;">Live data by <a href="https://www.scoreaxis.com/" style="color: inherit;">Scoreaxis</a></div></div>
+                    </div>
                 </div>
                 
                 <div class="ad-slot">Space Iklan Adsterra 300x250</div>
                 
                 <div class="widget-box">
-                    <h3>🇪🇸 Klasemen Liga Spanyol</h3>
-                    <iframe src="https://www.scoreaxis.com/widget/standings-widget/3?autoHeight=1&links=0" width="100%" height="550" style="border: none;"></iframe>
+                    <h3>🏆 Klasemen Liga</h3>
+                    <div class="widget-content">
+                        <!-- Widget 2 -->
+                        <div id="widget-un6ymumgizcx" class="scoreaxis-widget" style="width: auto;height: auto;font-size: 14px;background-color: #ffffff;color: #141416;border: 1px solid;border-color: #ecf1f7;overflow: auto;"><script src="https://widgets.scoreaxis.com/api/football/league-table/6232265abf1fa71a672159ec?widgetId=un6ymumgizcx&lang=id&teamLogo=1&tableLines=0&homeAway=1&header=1&position=1&goals=1&gamesCount=1&diff=1&winCount=1&drawCount=1&loseCount=1&lastGames=1&points=1&teamsLimit=all&links=1&noFollowLinks=0&font=heebo&fontSize=14&rowDensity=100&widgetWidth=auto&widgetHeight=auto&bodyColor=%23ffffff&textColor=%23141416&linkColor=%23141416&borderColor=%23ecf1f7&tabColor=%23f3f8fd" async></script><div class="widget-main-link" style="padding: 6px 12px;font-weight: 500;">Live data by <a href="https://www.scoreaxis.com/" style="color: inherit;">Scoreaxis</a></div></div>
+                    </div>
                 </div>
+
+                <div class="widget-box">
+                    <h3>⭐ Top Skor & Pemain</h3>
+                    <div class="widget-content">
+                        <!-- Widget 3 -->
+                        <div id="widget-czj4mumgkubi" class="scoreaxis-widget" style="width: auto;height: auto;font-size: 14px;background-color: #ffffff;color: #141416;border: 1px solid;border-color: #ecf1f7;overflow: auto;"><script src="https://widgets.scoreaxis.com/api/football/league-top-players/6232265abf1fa71a672159ec?widgetId=czj4mumgkubi&lang=id&playersCount=10&goalsBlock=1&assistsBlock=1&cardsBlock=1&links=1&noFollowLinks=0&font=heebo&fontSize=14&rowDensity=100&widgetWidth=auto&widgetHeight=auto&bodyColor=%23ffffff&textColor=%23141416&linkColor=%23141416&borderColor=%23ecf1f7&tabColor=%23f3f8fd" async></script><div class="widget-main-link" style="padding: 6px 12px;font-weight: 500;">Live data by <a href="https://www.scoreaxis.com/" style="color: inherit;">Scoreaxis</a></div></div>
+                    </div>
+                </div>
+
             </div>
         </div>
 
