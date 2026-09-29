@@ -7,7 +7,7 @@ import json
 import re
 from datetime import datetime
 
-print("=== MEMULAI SCRIPT AGC BOLA (PREMIUM UI + CSS GRID KLASEMEN 100% FIX) ===")
+print("=== MEMULAI SCRIPT AGC BOLA (MEGA KLASEMEN HEADER LAYOUT) ===")
 
 API_KEYS_STRING = os.environ.get("GEMINI_API_KEYS")
 
@@ -32,7 +32,7 @@ os.makedirs(OUTPUT_DIR, exist_ok=True)
 LOGO_URL = "https://upload.wikimedia.org/wikipedia/commons/d/d3/Soccerball.svg"
 
 # =====================================================================
-# BLOK VARIABEL AMAN KODE WIDGET ASLI SCOREAXIS (DIMUAT STATIS)
+# WIDGET SCOREAXIS ASLI (DIMUAT TANPA DISEMBUNYIKAN)
 # =====================================================================
 WIDGET_ENG = """<div id="widget-atvlmumh1msi" class="scoreaxis-widget" style="width: 100%;height: auto;font-size: 14px;background-color: #ffffff;color: #141416;border: none;overflow: auto;"><script src="https://widgets.scoreaxis.com/api/football/league-table/6232265abf1fa71a672159ec?widgetId=atvlmumh1msi&lang=id&teamLogo=1&tableLines=0&homeAway=1&header=1&position=1&goals=1&gamesCount=1&diff=1&winCount=1&drawCount=1&loseCount=1&lastGames=1&points=1&teamsLimit=all&links=1&noFollowLinks=0&font=poppins&fontSize=14&rowDensity=100&widgetWidth=auto&widgetHeight=auto&bodyColor=%23ffffff&textColor=%23141416&linkColor=%23141416&borderColor=%23ecf1f7&tabColor=%23f3f8fd" async></script></div>"""
 WIDGET_ESP = """<div id="widget-j7xwmumh3y7m" class="scoreaxis-widget" style="width: 100%;height: auto;font-size: 14px;background-color: #ffffff;color: #141416;border: none;overflow: auto;"><script src="https://widgets.scoreaxis.com/api/football/league-table/62322c053617da0b83221cc6?widgetId=j7xwmumh3y7m&lang=id&teamLogo=1&tableLines=0&homeAway=1&header=1&position=1&goals=1&gamesCount=1&diff=1&winCount=1&drawCount=1&loseCount=1&lastGames=1&points=1&teamsLimit=all&links=1&noFollowLinks=0&font=poppins&fontSize=14&rowDensity=100&widgetWidth=auto&widgetHeight=auto&bodyColor=%23ffffff&textColor=%23141416&linkColor=%23141416&borderColor=%23ecf1f7&tabColor=%23f3f8fd" async></script></div>"""
@@ -88,17 +88,6 @@ hs.src = ('//s10.histats.com/js15_as.js');
 
 SCRIPT_PAGINATION_SEARCH = """
 <script>
-    // Tab Logic dengan CSS Layering
-    function switchTab(evt, leagueName) {
-        let tablinks = document.getElementsByClassName("tablinks");
-        for (let i = 0; i < tablinks.length; i++) { tablinks[i].classList.remove("active"); }
-        if (evt) evt.currentTarget.classList.add("active");
-
-        let tabcontents = document.getElementsByClassName("tabcontent");
-        for (let i = 0; i < tabcontents.length; i++) { tabcontents[i].classList.remove("active-tab"); }
-        document.getElementById(leagueName).classList.add("active-tab");
-    }
-
     // Search Logic
     function searchNews() {
         const input = document.getElementById('searchInput').value.toLowerCase();
@@ -143,7 +132,14 @@ SCRIPT_PAGINATION_SEARCH = """
     function changePage(delta) {
         currentPage += delta;
         showPage(currentPage);
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        
+        // Scroll mulus ke bagian berita saat ganti halaman
+        const newsSection = document.getElementById('berita-terbaru');
+        if(newsSection) {
+            newsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        } else {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
     }
 
     if(articles.length > 0) showPage(1);
@@ -271,31 +267,34 @@ def save_as_html(content, title, excerpt, thumbnail, category):
             body {{ font-family: 'Poppins', sans-serif; background-color: #f0f2f5; margin: 0; padding: 0; color: #2c3e50; }}
             .container {{ max-width: 850px; margin: 40px auto; padding: 40px; background: #fff; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }}
             
-            header {{ border-bottom: 2px solid #ecf0f1; margin-bottom: 30px; padding-bottom: 20px; display: flex; align-items: center; gap: 15px; justify-content: space-between; }}
-            .logo-wrap {{ display: flex; align-items: center; gap: 15px; text-decoration: none; }}
-            .logo-icon {{ width: 45px; height: 45px; }}
-            .site-title {{ color: #0f2027; font-size: 1.6em; font-weight: 700; }}
+            header {{ background: linear-gradient(135deg, #0f2027, #203a43, #2c5364); color: white; padding: 25px 20px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.2); border-bottom: 4px solid #e74c3c; }}
+            .logo-wrap {{ display: inline-flex; align-items: center; justify-content: center; gap: 15px; text-decoration: none; color: white; }}
+            .logo-icon {{ width: 50px; height: 50px; filter: drop-shadow(0px 4px 6px rgba(0,0,0,0.4)); }}
+            .site-title {{ font-size: 2.2em; font-weight: 700; letter-spacing: 1px; margin: 0; }}
             
-            .badge-kategori {{ background: {'#e74c3c' if category == 'LOKAL' else '#00416A'}; color: white; padding: 6px 15px; border-radius: 20px; font-size: 0.85em; font-weight: 600; letter-spacing: 0.5px; }}
-            h1 {{ color: #0f2027; font-size: 2.4em; line-height: 1.3; margin: 10px 0 25px 0; font-weight: 700; }}
+            .badge-wrapper {{ text-align: center; margin: 20px 0; }}
+            .badge-kategori {{ background: {'#e74c3c' if category == 'LOKAL' else '#00416A'}; color: white; padding: 6px 15px; border-radius: 20px; font-size: 0.9em; font-weight: 600; letter-spacing: 0.5px; display: inline-block; }}
+            
+            h1 {{ color: #0f2027; font-size: 2.4em; line-height: 1.3; margin: 10px 0 25px 0; font-weight: 700; text-align: center; }}
             .hero-img {{ width: 100%; max-height: 500px; object-fit: cover; border-radius: 12px; margin-bottom: 25px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }}
             
             .ad-slot {{ background: #f8f9fa; border: 1px dashed #ced4da; padding: 15px; text-align: center; margin: 30px 0; border-radius: 8px; overflow: hidden; }}
             p {{ line-height: 1.8; font-size: 1.15em; margin-bottom: 20px; color: #444; text-align: justify; }}
             
-            .back-btn {{ display: inline-flex; align-items: center; justify-content: center; padding: 12px 25px; background: #00416A; color: white; text-decoration: none; border-radius: 8px; font-weight: 600; transition: 0.3s; margin-top: 20px; box-shadow: 0 4px 10px rgba(0,65,106,0.2); }}
+            .back-btn {{ display: block; width: max-content; margin: 30px auto 0; padding: 12px 25px; background: #00416A; color: white; text-decoration: none; border-radius: 8px; font-weight: 600; transition: 0.3s; box-shadow: 0 4px 10px rgba(0,65,106,0.2); }}
             .back-btn:hover {{ background: #002d4a; transform: translateY(-2px); }}
         </style>
     </head>
     <body>
+        <header>
+            <a href="/" class="logo-wrap">
+                <img src="{LOGO_URL}" alt="Logo Bola" class="logo-icon">
+                <h1 class="site-title">Lensa Terkini Bola</h1>
+            </a>
+        </header>
+        
         <div class="container">
-            <header>
-                <a href="/" class="logo-wrap">
-                    <img src="{LOGO_URL}" alt="Logo Bola" class="logo-icon">
-                    <span class="site-title">Lensa Terkini</span>
-                </a>
-                <span class="badge-kategori">{category}</span>
-            </header>
+            <div class="badge-wrapper"><span class="badge-kategori">{category}</span></div>
             
             <h1>{title}</h1>
             <img src="{thumbnail}" alt="{title}" class="hero-img" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1518605368461-1e1c071d3326?q=80&w=800&auto=format&fit=crop';">
@@ -382,11 +381,28 @@ def update_homepage():
             header h1 {{ margin: 0; font-size: 2.8em; font-weight: 700; letter-spacing: 1px; }}
             header p {{ margin: 5px 0 0 0; opacity: 0.8; font-size: 1.1em; }}
             
-            .main-container {{ display: flex; flex-wrap: wrap; max-width: 1250px; margin: 30px auto; padding: 0 20px; gap: 35px; }}
+            .ad-slot {{ background: #fff; border: 1px dashed #ced4da; padding: 15px; text-align: center; margin: 20px auto; max-width: 1100px; border-radius: 8px; overflow: hidden; }}
+            
+            /* ====================================================
+               MEGA KLASEMEN (DI BAWAH HEADER)
+               ==================================================== */
+            .mega-standings-wrapper {{ max-width: 1250px; margin: 30px auto; padding: 0 20px; }}
+            .section-heading {{ font-size: 1.8em; color: #0f2027; border-left: 5px solid #e74c3c; padding-left: 15px; margin-bottom: 20px; font-weight: 700; }}
+            
+            .standings-grid {{ display: grid; grid-template-columns: repeat(3, 1fr); gap: 25px; }}
+            .standings-box {{ background: #fff; border-radius: 12px; padding: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); height: 450px; overflow-y: auto; border: 1px solid #f0f0f0; }}
+            .standings-box h3 {{ text-align: center; margin: 0 0 15px 0; padding-bottom: 10px; border-bottom: 2px solid #f0f0f0; color: #00416A; font-size: 1.2em; display: flex; align-items: center; justify-content: center; gap: 8px; }}
+            
+            /* Responsive Grid Klasemen */
+            @media (max-width: 1024px) {{ .standings-grid {{ grid-template-columns: repeat(2, 1fr); }} }}
+            @media (max-width: 650px) {{ .standings-grid {{ grid-template-columns: 1fr; }} }}
+            
+            /* ====================================================
+               BERITA DAN SIDEBAR BAWAH
+               ==================================================== */
+            .main-container {{ display: flex; flex-wrap: wrap; max-width: 1250px; margin: 40px auto; padding: 0 20px; gap: 35px; border-top: 2px dashed #ccc; padding-top: 40px; }}
             .content-left {{ flex: 1; min-width: 60%; }}
             .sidebar-right {{ width: 360px; flex-shrink: 0; }}
-            
-            .ad-slot {{ background: #fff; border: 1px dashed #ced4da; padding: 15px; text-align: center; margin: 20px auto; max-width: 1100px; border-radius: 8px; overflow: hidden; }}
             
             .search-box {{ width: 100%; padding: 15px 25px; margin-bottom: 30px; border: 2px solid #e1e8ed; border-radius: 30px; font-size: 1.1em; font-family: inherit; transition: 0.3s; box-shadow: 0 4px 10px rgba(0,0,0,0.03); }}
             .search-box:focus {{ border-color: #00416A; outline: none; box-shadow: 0 4px 15px rgba(0,65,106,0.15); }}
@@ -413,20 +429,6 @@ def update_homepage():
             .btn-telegram {{ display: inline-block; background: #0088cc; color: #fff; padding: 12px 25px; border-radius: 30px; text-decoration: none; font-weight: 600; font-size: 1.1em; transition: 0.3s; box-shadow: 0 4px 10px rgba(0,136,204,0.3); }}
             .btn-telegram:hover {{ transform: scale(1.05); background: #0077b3; }}
             
-            /* TAB KLASEMEN DENGAN CSS GRID (100% WORKS) */
-            .widget-box {{ background: #fff; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 30px; overflow: hidden; border: 1px solid #f0f0f0; }}
-            .widget-box h3 {{ margin: 0; color: #fff; background: #0f2027; padding: 18px; text-align: center; font-size: 1.2em; letter-spacing: 1px; }}
-            
-            .tab {{ display: flex; flex-wrap: wrap; background-color: #f8f9fa; border-bottom: 2px solid #ecf0f1; }}
-            .tab button {{ background-color: inherit; color: #666; border: none; outline: none; cursor: pointer; padding: 12px 0; font-size: 13px; font-weight: 600; flex-grow: 1; font-family: inherit; transition: 0.3s; border-bottom: 3px solid transparent; }}
-            .tab button:hover {{ color: #00416A; background: #f1f3f5; }}
-            .tab button.active {{ color: #00416A; border-bottom: 3px solid #00416A; background: #fff; }}
-            
-            /* Trik Grid Stacking: Menumpuk semua tabel di satu sel agar ScoreAxis tetap merender! */
-            .tab-wrapper {{ display: grid; grid-template-columns: 1fr; grid-template-rows: 1fr; min-height: 500px; background: #fff; }}
-            .tabcontent {{ grid-column: 1 / 2; grid-row: 1 / 2; opacity: 0; pointer-events: none; z-index: 1; transition: opacity 0.3s ease; padding: 10px; }}
-            .tabcontent.active-tab {{ opacity: 1; pointer-events: auto; z-index: 2; }}
-            
             @media (max-width: 900px) {{
                 .main-container {{ flex-direction: column; }}
                 .sidebar-right {{ width: 100%; }}
@@ -448,8 +450,42 @@ def update_homepage():
             {SCRIPT_ADSTERRA_728}
         </div>
 
-        <div class="main-container">
+        <!-- ========================================== -->
+        <!-- MEGA KLASEMEN (SOLUSI MUTLAK ANTI-BLANK) -->
+        <!-- ========================================== -->
+        <div class="mega-standings-wrapper">
+            <h2 class="section-heading">🏆 PUSAT KLASEMEN LIGA DUNIA</h2>
+            <div class="standings-grid">
+                <div class="standings-box">
+                    <h3>🏴󠁧󠁢󠁥󠁮󠁧󠁿 Inggris</h3>
+                    {WIDGET_ENG}
+                </div>
+                <div class="standings-box">
+                    <h3>🇪🇸 Spanyol</h3>
+                    {WIDGET_ESP}
+                </div>
+                <div class="standings-box">
+                    <h3>🇮🇹 Italia</h3>
+                    {WIDGET_ITA}
+                </div>
+                <div class="standings-box">
+                    <h3>🇩🇪 Jerman</h3>
+                    {WIDGET_GER}
+                </div>
+                <div class="standings-box">
+                    <h3>🇫🇷 Prancis</h3>
+                    {WIDGET_FRA}
+                </div>
+                <div class="standings-box">
+                    <h3>🇮🇩 Indonesia</h3>
+                    {WIDGET_IDN}
+                </div>
+            </div>
+        </div>
+
+        <div class="main-container" id="berita-terbaru">
             <div class="content-left">
+                <h2 class="section-heading">📰 Berita Terbaru</h2>
                 <input type="text" id="searchInput" class="search-box" placeholder="🔍 Cari berita klub atau liga di sini..." onkeyup="searchNews()">
                 
                 <div id="news-list">
@@ -468,30 +504,7 @@ def update_homepage():
                 <div class="telegram-banner">
                     <h3>🔥 Nonton Bola Gratis!</h3>
                     <p>Gabung komunitas kami dan dapatkan link live streaming pertandingan bola terupdate setiap harinya tanpa bayar.</p>
-                    <!-- TAUTAN TELEGRAM ANDA MASUKKAN DISINI MENGGANTIKAN TANDA '#' -->
                     <a href="#" class="btn-telegram" rel="nofollow noopener noreferrer">Tonton Sekarang ➔</a>
-                </div>
-
-                <div class="widget-box">
-                    <h3>🏆 PUSAT KLASEMEN</h3>
-                    <div class="tab">
-                      <button class="tablinks active" onclick="switchTab(event, 'ENG')">Inggris</button>
-                      <button class="tablinks" onclick="switchTab(event, 'ESP')">Spanyol</button>
-                      <button class="tablinks" onclick="switchTab(event, 'ITA')">Italia</button>
-                      <button class="tablinks" onclick="switchTab(event, 'GER')">Jerman</button>
-                      <button class="tablinks" onclick="switchTab(event, 'FRA')">Prancis</button>
-                      <button class="tablinks" onclick="switchTab(event, 'IDN')">Indo</button>
-                    </div>
-                    
-                    <!-- SEMUA WIDGET DITANAM SECARA STATIS (100% AMAN DARI BLOKIRAN SCOREAXIS) -->
-                    <div class="tab-wrapper">
-                        <div id="ENG" class="tabcontent active-tab">{WIDGET_ENG}</div>
-                        <div id="ESP" class="tabcontent">{WIDGET_ESP}</div>
-                        <div id="ITA" class="tabcontent">{WIDGET_ITA}</div>
-                        <div id="GER" class="tabcontent">{WIDGET_GER}</div>
-                        <div id="FRA" class="tabcontent">{WIDGET_FRA}</div>
-                        <div id="IDN" class="tabcontent">{WIDGET_IDN}</div>
-                    </div>
                 </div>
 
                 <div class="ad-slot">
@@ -514,7 +527,6 @@ def update_homepage():
 
 def main():
     try:
-        # LOGIKA PEMISAHAN: 3 Internasional, 2 Lokal
         int_news = []
         lokal_news = []
         
