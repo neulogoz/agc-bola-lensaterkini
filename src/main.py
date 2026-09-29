@@ -7,7 +7,7 @@ import json
 import re
 from datetime import datetime
 
-print("=== MEMULAI SCRIPT AGC BOLA (MEGA KLASEMEN FCTABLES - 100% WORKS) ===")
+print("=== MEMULAI SCRIPT AGC BOLA (SOFASCORE WIDGET - ANTI BADAI IKLAN) ===")
 
 API_KEYS_STRING = os.environ.get("GEMINI_API_KEYS")
 
@@ -32,14 +32,14 @@ os.makedirs(OUTPUT_DIR, exist_ok=True)
 LOGO_URL = "https://upload.wikimedia.org/wikipedia/commons/d/d3/Soccerball.svg"
 
 # =====================================================================
-# SOLUSI FINAL: FCTABLES IFRAME (ANTI BLOKIR & ANTI BENTROK IKLAN)
+# WIDGET SOFASCORE (PALING STABIL & KEBAL ADSTERRA)
 # =====================================================================
-WIDGET_ENG = """<iframe src="https://www.fctables.com/england/premier-league/iframe/?type=table&lang_id=2&country=67&template=10&team=&timezone=Asia/Jakarta&time=24&po=1&ma=1&wi=1&dr=1&los=1&gf=1&ga=1&gd=1&pts=1&ng=1&form=0&width=100%&height=400&font=Poppins&fs=13&lh=22&bg=FFFFFF&fc=333333&logo=1&tlink=1&ths=1&thb=1&thba=FFFFFF&thc=000000&bc=dddddd&hob=f5f5f5&hoc=333333&lc=333333&sh=1&hfb=1&hbc=00416A&hfc=FFFFFF" frameborder="0" scrolling="yes" width="100%" height="450" style="border:none; border-radius: 8px;"></iframe>"""
-WIDGET_ESP = """<iframe src="https://www.fctables.com/spain/primera-division/iframe/?type=table&lang_id=2&country=201&template=10&team=&timezone=Asia/Jakarta&time=24&po=1&ma=1&wi=1&dr=1&los=1&gf=1&ga=1&gd=1&pts=1&ng=1&form=0&width=100%&height=400&font=Poppins&fs=13&lh=22&bg=FFFFFF&fc=333333&logo=1&tlink=1&ths=1&thb=1&thba=FFFFFF&thc=000000&bc=dddddd&hob=f5f5f5&hoc=333333&lc=333333&sh=1&hfb=1&hbc=00416A&hfc=FFFFFF" frameborder="0" scrolling="yes" width="100%" height="450" style="border:none; border-radius: 8px;"></iframe>"""
-WIDGET_ITA = """<iframe src="https://www.fctables.com/italy/serie-a/iframe/?type=table&lang_id=2&country=108&template=10&team=&timezone=Asia/Jakarta&time=24&po=1&ma=1&wi=1&dr=1&los=1&gf=1&ga=1&gd=1&pts=1&ng=1&form=0&width=100%&height=400&font=Poppins&fs=13&lh=22&bg=FFFFFF&fc=333333&logo=1&tlink=1&ths=1&thb=1&thba=FFFFFF&thc=000000&bc=dddddd&hob=f5f5f5&hoc=333333&lc=333333&sh=1&hfb=1&hbc=00416A&hfc=FFFFFF" frameborder="0" scrolling="yes" width="100%" height="450" style="border:none; border-radius: 8px;"></iframe>"""
-WIDGET_GER = """<iframe src="https://www.fctables.com/germany/1-bundesliga/iframe/?type=table&lang_id=2&country=83&template=10&team=&timezone=Asia/Jakarta&time=24&po=1&ma=1&wi=1&dr=1&los=1&gf=1&ga=1&gd=1&pts=1&ng=1&form=0&width=100%&height=400&font=Poppins&fs=13&lh=22&bg=FFFFFF&fc=333333&logo=1&tlink=1&ths=1&thb=1&thba=FFFFFF&thc=000000&bc=dddddd&hob=f5f5f5&hoc=333333&lc=333333&sh=1&hfb=1&hbc=00416A&hfc=FFFFFF" frameborder="0" scrolling="yes" width="100%" height="450" style="border:none; border-radius: 8px;"></iframe>"""
-WIDGET_FRA = """<iframe src="https://www.fctables.com/france/ligue-1/iframe/?type=table&lang_id=2&country=77&template=10&team=&timezone=Asia/Jakarta&time=24&po=1&ma=1&wi=1&dr=1&los=1&gf=1&ga=1&gd=1&pts=1&ng=1&form=0&width=100%&height=400&font=Poppins&fs=13&lh=22&bg=FFFFFF&fc=333333&logo=1&tlink=1&ths=1&thb=1&thba=FFFFFF&thc=000000&bc=dddddd&hob=f5f5f5&hoc=333333&lc=333333&sh=1&hfb=1&hbc=00416A&hfc=FFFFFF" frameborder="0" scrolling="yes" width="100%" height="450" style="border:none; border-radius: 8px;"></iframe>"""
-WIDGET_IDN = """<iframe src="https://www.fctables.com/indonesia/super-liga/iframe/?type=table&lang_id=2&country=101&template=10&team=&timezone=Asia/Jakarta&time=24&po=1&ma=1&wi=1&dr=1&los=1&gf=1&ga=1&gd=1&pts=1&ng=1&form=0&width=100%&height=400&font=Poppins&fs=13&lh=22&bg=FFFFFF&fc=333333&logo=1&tlink=1&ths=1&thb=1&thba=FFFFFF&thc=000000&bc=dddddd&hob=f5f5f5&hoc=333333&lc=333333&sh=1&hfb=1&hbc=00416A&hfc=FFFFFF" frameborder="0" scrolling="yes" width="100%" height="450" style="border:none; border-radius: 8px;"></iframe>"""
+WIDGET_ENG = """<iframe src="https://www.sofascore.com/id/turnamen/17/sepak-bola/inggris/premier-league/klasemen/embed" width="100%" height="400" frameborder="0" scrolling="yes" style="border:none; border-radius: 8px; background: #fff;"></iframe>"""
+WIDGET_ESP = """<iframe src="https://www.sofascore.com/id/turnamen/8/sepak-bola/spanyol/laliga/klasemen/embed" width="100%" height="400" frameborder="0" scrolling="yes" style="border:none; border-radius: 8px; background: #fff;"></iframe>"""
+WIDGET_ITA = """<iframe src="https://www.sofascore.com/id/turnamen/23/sepak-bola/italia/serie-a/klasemen/embed" width="100%" height="400" frameborder="0" scrolling="yes" style="border:none; border-radius: 8px; background: #fff;"></iframe>"""
+WIDGET_GER = """<iframe src="https://www.sofascore.com/id/turnamen/35/sepak-bola/jerman/bundesliga/klasemen/embed" width="100%" height="400" frameborder="0" scrolling="yes" style="border:none; border-radius: 8px; background: #fff;"></iframe>"""
+WIDGET_FRA = """<iframe src="https://www.sofascore.com/id/turnamen/34/sepak-bola/prancis/ligue-1/klasemen/embed" width="100%" height="400" frameborder="0" scrolling="yes" style="border:none; border-radius: 8px; background: #fff;"></iframe>"""
+WIDGET_IDN = """<iframe src="https://www.sofascore.com/id/turnamen/10634/sepak-bola/indonesia/liga-1/klasemen/embed" width="100%" height="400" frameborder="0" scrolling="yes" style="border:none; border-radius: 8px; background: #fff;"></iframe>"""
 
 SCRIPT_ADSTERRA_728 = """
 <script>
@@ -130,7 +130,6 @@ SCRIPT_PAGINATION_SEARCH = """
     function changePage(delta) {
         currentPage += delta;
         showPage(currentPage);
-        
         const newsSection = document.getElementById('berita-terbaru');
         if(newsSection) {
             newsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -381,15 +380,19 @@ def update_homepage():
             .ad-slot {{ background: #fff; border: 1px dashed #ced4da; padding: 15px; text-align: center; margin: 20px auto; max-width: 1100px; border-radius: 8px; overflow: hidden; }}
             
             /* ====================================================
-               MEGA KLASEMEN (DI BAWAH HEADER)
+               MEGA KLASEMEN (DI BAWAH HEADER) - FIX SOFASCORE
                ==================================================== */
             .mega-standings-wrapper {{ max-width: 1250px; margin: 30px auto; padding: 0 20px; }}
-            .section-heading {{ font-size: 1.8em; color: #0f2027; border-left: 5px solid #e74c3c; padding-left: 15px; margin-bottom: 20px; font-weight: 700; }}
+            .section-heading {{ font-size: 1.8em; color: #0f2027; border-left: 5px solid #e74c3c; padding-left: 15px; margin-bottom: 20px; font-weight: 700; display: flex; align-items: center; gap: 10px; }}
             
             .standings-grid {{ display: grid; grid-template-columns: repeat(3, 1fr); gap: 25px; }}
-            .standings-box {{ background: #fff; border-radius: 12px; padding: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); height: 500px; overflow: hidden; border: 1px solid #f0f0f0; }}
-            .standings-box h3 {{ text-align: center; margin: 0 0 15px 0; padding-bottom: 10px; border-bottom: 2px solid #f0f0f0; color: #00416A; font-size: 1.2em; display: flex; align-items: center; justify-content: center; gap: 8px; }}
+            .standings-box {{ background: #fff; border-radius: 12px; padding: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); height: 500px; border: 1px solid #f0f0f0; position: relative; overflow: hidden; }}
+            .standings-box h3 {{ text-align: center; margin: 0 0 10px 0; padding-bottom: 10px; border-bottom: 2px solid #f0f0f0; color: #00416A; font-size: 1.2em; display: flex; align-items: center; justify-content: center; gap: 8px; }}
             
+            /* Tombol Fallback jika iframe di block browser */
+            .fallback-btn {{ display: block; text-align: center; background: #e74c3c; color: white; padding: 8px; border-radius: 5px; text-decoration: none; font-size: 0.85em; font-weight: bold; margin-top: 5px; opacity: 0.8; transition: 0.3s; }}
+            .fallback-btn:hover {{ opacity: 1; }}
+
             @media (max-width: 1024px) {{ .standings-grid {{ grid-template-columns: repeat(2, 1fr); }} }}
             @media (max-width: 650px) {{ .standings-grid {{ grid-template-columns: 1fr; }} }}
             
@@ -447,7 +450,7 @@ def update_homepage():
         </div>
 
         <!-- ========================================== -->
-        <!-- MEGA KLASEMEN (IFRAME FCTABLES - PASTI MUNCUL) -->
+        <!-- MEGA KLASEMEN SOFASCORE (DIJAMIN MUNCUL!) -->
         <!-- ========================================== -->
         <div class="mega-standings-wrapper">
             <h2 class="section-heading">🏆 PUSAT KLASEMEN LIGA DUNIA</h2>
@@ -455,26 +458,32 @@ def update_homepage():
                 <div class="standings-box">
                     <h3>🏴󠁧󠁢󠁥󠁮󠁧󠁿 Inggris</h3>
                     {WIDGET_ENG}
+                    <a href="https://www.sofascore.com/id/turnamen/sepak-bola/inggris/premier-league/17" target="_blank" class="fallback-btn">Lihat Full Data</a>
                 </div>
                 <div class="standings-box">
                     <h3>🇪🇸 Spanyol</h3>
                     {WIDGET_ESP}
+                    <a href="https://www.sofascore.com/id/turnamen/sepak-bola/spanyol/laliga/8" target="_blank" class="fallback-btn">Lihat Full Data</a>
                 </div>
                 <div class="standings-box">
                     <h3>🇮🇹 Italia</h3>
                     {WIDGET_ITA}
+                    <a href="https://www.sofascore.com/id/turnamen/sepak-bola/italia/serie-a/23" target="_blank" class="fallback-btn">Lihat Full Data</a>
                 </div>
                 <div class="standings-box">
                     <h3>🇩🇪 Jerman</h3>
                     {WIDGET_GER}
+                    <a href="https://www.sofascore.com/id/turnamen/sepak-bola/jerman/bundesliga/35" target="_blank" class="fallback-btn">Lihat Full Data</a>
                 </div>
                 <div class="standings-box">
                     <h3>🇫🇷 Prancis</h3>
                     {WIDGET_FRA}
+                    <a href="https://www.sofascore.com/id/turnamen/sepak-bola/prancis/ligue-1/34" target="_blank" class="fallback-btn">Lihat Full Data</a>
                 </div>
                 <div class="standings-box">
                     <h3>🇮🇩 Indonesia</h3>
                     {WIDGET_IDN}
+                    <a href="https://www.sofascore.com/id/turnamen/sepak-bola/indonesia/liga-1/10634" target="_blank" class="fallback-btn">Lihat Full Data</a>
                 </div>
             </div>
         </div>
