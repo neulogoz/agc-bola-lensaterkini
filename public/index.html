@@ -25,7 +25,7 @@
             .ad-slot { background: #fff; border: 1px dashed #ced4da; padding: 15px; text-align: center; margin: 20px auto; max-width: 1100px; border-radius: 8px; overflow: hidden; }
             
             /* ====================================================
-               MEGA KLASEMEN (CAROUSEL / SCROLL HORIZONTAL)
+               MEGA KLASEMEN DENGAN IFRAME KARANTINA
                ==================================================== */
             .mega-standings-wrapper { max-width: 1250px; margin: 30px auto; padding: 0 20px; }
             .section-heading { font-size: 1.8em; color: #0f2027; border-left: 5px solid #e74c3c; padding-left: 15px; margin-bottom: 20px; font-weight: 700; display: flex; align-items: center; gap: 10px; }
@@ -41,27 +41,22 @@
             }
             
             .standings-box { 
-                flex: 0 0 320px; /* Ukuran Kotak Tetap */
-                height: 420px; 
+                flex: 0 0 320px;
+                height: 440px; 
                 background: #fff; 
                 border-radius: 12px; 
                 padding: 15px; 
                 box-shadow: 0 4px 15px rgba(0,0,0,0.05); 
                 border: 1px solid #f0f0f0; 
-                overflow-y: auto; 
+                overflow: hidden; /* iframe akan diurus di dalam */
             }
             
             .standings-box h3 { text-align: center; margin: 0 0 15px 0; padding-bottom: 10px; border-bottom: 2px solid #f0f0f0; color: #00416A; font-size: 1.2em; }
             
-            /* Desain Scrollbar untuk Grid Carousel (Desktop) */
             .standings-grid::-webkit-scrollbar { height: 10px; }
             .standings-grid::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 10px; }
             .standings-grid::-webkit-scrollbar-thumb { background: #00416A; border-radius: 10px; }
             .standings-grid::-webkit-scrollbar-thumb:hover { background: #e74c3c; }
-            
-            /* Desain Scrollbar untuk di dalam kotak tabel */
-            .standings-box::-webkit-scrollbar { width: 5px; }
-            .standings-box::-webkit-scrollbar-thumb { background: #ccc; border-radius: 5px; }
             
             /* ====================================================
                BERITA DAN SIDEBAR BAWAH
@@ -128,7 +123,7 @@
         </div>
 
         <!-- ========================================== -->
-        <!-- MEGA KLASEMEN (CAROUSEL GESER SAMPING) -->
+        <!-- MEGA KLASEMEN (MEMANGGIL HALAMAN KARANTINA IFRAME) -->
         <!-- ========================================== -->
         <div class="mega-standings-wrapper">
             <h2 class="section-heading">🏆 PUSAT KLASEMEN LIGA DUNIA</h2>
@@ -136,27 +131,28 @@
             <div class="standings-grid">
                 <div class="standings-box">
                     <h3>🏴󠁧󠁢󠁥󠁮󠁧󠁿 Inggris</h3>
-                    <div id="widget-atvlmumh1msi" class="scoreaxis-widget" style="width: auto;height: auto;font-size: 14px;background-color: #ffffff;color: #141416;border: 1px solid;border-color: #ecf1f7;overflow: auto;"><script src="https://widgets.scoreaxis.com/api/football/league-table/6232265abf1fa71a672159ec?widgetId=atvlmumh1msi&lang=id&teamLogo=1&tableLines=0&homeAway=1&header=1&position=1&goals=1&gamesCount=1&diff=1&winCount=1&drawCount=1&loseCount=1&lastGames=1&points=1&teamsLimit=all&links=1&noFollowLinks=0&font=heebo&fontSize=14&rowDensity=100&widgetWidth=auto&widgetHeight=auto&bodyColor=%23ffffff&textColor=%23141416&linkColor=%23141416&borderColor=%23ecf1f7&tabColor=%23f3f8fd" async></script></div>
+                    <!-- Memanggil widget yang sudah dikarantina! -->
+                    <iframe src="/widgets/eng.html" width="100%" height="370px" frameborder="0" scrolling="yes" style="border:none;"></iframe>
                 </div>
                 <div class="standings-box">
                     <h3>🇪🇸 Spanyol</h3>
-                    <div id="widget-j7xwmumh3y7m" class="scoreaxis-widget" style="width: auto;height: auto;font-size: 14px;background-color: #ffffff;color: #141416;border: 1px solid;border-color: #ecf1f7;overflow: auto;"><script src="https://widgets.scoreaxis.com/api/football/league-table/62322c053617da0b83221cc6?widgetId=j7xwmumh3y7m&lang=id&teamLogo=1&tableLines=0&homeAway=1&header=1&position=1&goals=1&gamesCount=1&diff=1&winCount=1&drawCount=1&loseCount=1&lastGames=1&points=1&teamsLimit=all&links=1&noFollowLinks=0&font=heebo&fontSize=14&rowDensity=100&widgetWidth=auto&widgetHeight=auto&bodyColor=%23ffffff&textColor=%23141416&linkColor=%23141416&borderColor=%23ecf1f7&tabColor=%23f3f8fd" async></script></div>
+                    <iframe src="/widgets/esp.html" width="100%" height="370px" frameborder="0" scrolling="yes" style="border:none;"></iframe>
                 </div>
                 <div class="standings-box">
                     <h3>🇮🇹 Italia</h3>
-                    <div id="widget-llkdmumh65vu" class="scoreaxis-widget" style="width: auto;height: auto;font-size: 14px;background-color: #ffffff;color: #141416;border: 1px solid;border-color: #ecf1f7;overflow: auto;"><script src="https://widgets.scoreaxis.com/api/football/league-table/62322b827aee66235a2be718?widgetId=llkdmumh65vu&lang=id&teamLogo=1&tableLines=0&homeAway=1&header=1&position=1&goals=1&gamesCount=1&diff=1&winCount=1&drawCount=1&loseCount=1&lastGames=1&points=1&teamsLimit=all&links=1&noFollowLinks=0&font=heebo&fontSize=14&rowDensity=100&widgetWidth=auto&widgetHeight=auto&bodyColor=%23ffffff&textColor=%23141416&linkColor=%23141416&borderColor=%23ecf1f7&tabColor=%23f3f8fd" async></script></div>
+                    <iframe src="/widgets/ita.html" width="100%" height="370px" frameborder="0" scrolling="yes" style="border:none;"></iframe>
                 </div>
                 <div class="standings-box">
                     <h3>🇩🇪 Jerman</h3>
-                    <div id="widget-t6xvmumh55i6" class="scoreaxis-widget" style="width: auto;height: auto;font-size: 14px;background-color: #ffffff;color: #141416;border: 1px solid;border-color: #ecf1f7;overflow: auto;"><script src="https://widgets.scoreaxis.com/api/football/league-table/62321f50f7016c22d3650732?widgetId=t6xvmumh55i6&lang=id&teamLogo=1&tableLines=0&homeAway=1&header=1&position=1&goals=1&gamesCount=1&diff=1&winCount=1&drawCount=1&loseCount=1&lastGames=1&points=1&teamsLimit=all&links=1&noFollowLinks=0&font=heebo&fontSize=14&rowDensity=100&widgetWidth=auto&widgetHeight=auto&bodyColor=%23ffffff&textColor=%23141416&linkColor=%23141416&borderColor=%23ecf1f7&tabColor=%23f3f8fd" async></script></div>
+                    <iframe src="/widgets/ger.html" width="100%" height="370px" frameborder="0" scrolling="yes" style="border:none;"></iframe>
                 </div>
                 <div class="standings-box">
                     <h3>🇫🇷 Prancis</h3>
-                    <div id="widget-bjs9mumh5ta6" class="scoreaxis-widget" style="width: auto;height: auto;font-size: 14px;background-color: #ffffff;color: #141416;border: 1px solid;border-color: #ecf1f7;overflow: auto;"><script src="https://widgets.scoreaxis.com/api/football/league-table/62322b4efd209951602c9096?widgetId=bjs9mumh5ta6&lang=id&teamLogo=1&tableLines=0&homeAway=1&header=1&position=1&goals=1&gamesCount=1&diff=1&winCount=1&drawCount=1&loseCount=1&lastGames=1&points=1&teamsLimit=all&links=1&noFollowLinks=0&font=heebo&fontSize=14&rowDensity=100&widgetWidth=auto&widgetHeight=auto&bodyColor=%23ffffff&textColor=%23141416&linkColor=%23141416&borderColor=%23ecf1f7&tabColor=%23f3f8fd" async></script></div>
+                    <iframe src="/widgets/fra.html" width="100%" height="370px" frameborder="0" scrolling="yes" style="border:none;"></iframe>
                 </div>
                 <div class="standings-box">
                     <h3>🇮🇩 Indonesia</h3>
-                    <iframe src="https://www.sofascore.com/id/turnamen/10634/sepak-bola/indonesia/liga-1/klasemen/embed" width="100%" height="100%" frameborder="0" scrolling="auto" style="border:none; min-height: 350px; background: #fff;"></iframe>
+                    <iframe src="/widgets/idn.html" width="100%" height="370px" frameborder="0" scrolling="yes" style="border:none;"></iframe>
                 </div>
             </div>
         </div>
@@ -309,61 +305,61 @@ hs.src = ('//s10.histats.com/js15_as.js');
 
         </div>
 
-        
-<script>
-    function searchNews() {
-        const input = document.getElementById('searchInput').value.toLowerCase();
-        const cards = document.querySelectorAll('.news-card');
-        
-        if(input.length > 0) {
-            document.querySelector('.pagination').style.display = 'none';
-            cards.forEach(card => {
-                if (card.getAttribute('data-title').includes(input)) {
-                    card.style.display = 'grid';
+        <script>
+            // Fitur Pencarian
+            function searchNews() {
+                const input = document.getElementById('searchInput').value.toLowerCase();
+                const cards = document.querySelectorAll('.news-card');
+                
+                if(input.length > 0) {
+                    document.querySelector('.pagination').style.display = 'none';
+                    cards.forEach(card => {
+                        if (card.getAttribute('data-title').includes(input)) {
+                            card.style.display = 'grid';
+                        } else {
+                            card.style.display = 'none';
+                        }
+                    });
                 } else {
-                    card.style.display = 'none';
+                    document.querySelector('.pagination').style.display = 'flex';
+                    showPage(currentPage);
                 }
-            });
-        } else {
-            document.querySelector('.pagination').style.display = 'flex';
-            showPage(currentPage);
-        }
-    }
-
-    const itemsPerPage = 5;
-    let currentPage = 1;
-    const articles = document.querySelectorAll('.news-card');
-    const totalPages = Math.ceil(articles.length / itemsPerPage);
-
-    function showPage(page) {
-        if(document.getElementById('searchInput') && document.getElementById('searchInput').value.length > 0) return;
-        
-        articles.forEach((card, index) => {
-            if (index >= (page - 1) * itemsPerPage && index < page * itemsPerPage) {
-                card.style.display = 'grid';
-            } else {
-                card.style.display = 'none';
             }
-        });
-        if(document.getElementById('page-info')) document.getElementById('page-info').innerText = 'Halaman ' + page + ' dari ' + totalPages;
-        if(document.getElementById('btn-prev')) document.getElementById('btn-prev').disabled = page === 1;
-        if(document.getElementById('btn-next')) document.getElementById('btn-next').disabled = page === totalPages || totalPages === 0;
-    }
 
-    function changePage(delta) {
-        currentPage += delta;
-        showPage(currentPage);
-        const newsSection = document.getElementById('berita-terbaru');
-        if(newsSection) {
-            newsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        } else {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-    }
+            // Fitur Paginasi
+            const itemsPerPage = 5;
+            let currentPage = 1;
+            const articles = document.querySelectorAll('.news-card');
+            const totalPages = Math.ceil(articles.length / itemsPerPage);
 
-    if(articles.length > 0) showPage(1);
-</script>
+            function showPage(page) {
+                if(document.getElementById('searchInput') && document.getElementById('searchInput').value.length > 0) return;
+                
+                articles.forEach((card, index) => {
+                    if (index >= (page - 1) * itemsPerPage && index < page * itemsPerPage) {
+                        card.style.display = 'grid';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+                if(document.getElementById('page-info')) document.getElementById('page-info').innerText = 'Halaman ' + page + ' dari ' + totalPages;
+                if(document.getElementById('btn-prev')) document.getElementById('btn-prev').disabled = page === 1;
+                if(document.getElementById('btn-next')) document.getElementById('btn-next').disabled = page === totalPages || totalPages === 0;
+            }
 
+            function changePage(delta) {
+                currentPage += delta;
+                showPage(currentPage);
+                const newsSection = document.getElementById('berita-terbaru');
+                if(newsSection) {
+                    newsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                } else {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                }
+            }
+
+            if(articles.length > 0) showPage(1);
+        </script>
     </body>
     </html>
     
