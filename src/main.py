@@ -7,7 +7,7 @@ import json
 import re
 from datetime import datetime
 
-print("=== MEMULAI SCRIPT AGC BOLA PRO (FIX LAYOUT & LIVE SCORE) ===")
+print("=== MEMULAI SCRIPT AGC BOLA PRO (PROXY GAMBAR & SOFASCORE) ===")
 
 API_KEYS_STRING = os.environ.get("GEMINI_API_KEYS")
 
@@ -59,16 +59,24 @@ def generate_article_with_gemini(news_item):
     title = news_item.get('title', 'Berita Bola')
     description = news_item.get('description', '')
     
-    # PERBAIKAN 1: Ekstraksi Thumbnail Lebih Kuat & Anti Pecah
+    # EKSTRAKSI GAMBAR
     thumbnail = ""
     if 'enclosure' in news_item and isinstance(news_item['enclosure'], dict):
         thumbnail = news_item['enclosure'].get('link', '')
     if not thumbnail and 'thumbnail' in news_item:
         thumbnail = news_item.get('thumbnail', '')
         
-    # Jika tidak ada gambar, gunakan gambar ilustrasi bola HD dari Unsplash (Dijamin tidak pecah)
+    # SOLUSI 1: Trik Proxy Gambar agar tidak diblokir & Gambar Cadangan Acak
     if not thumbnail or not thumbnail.startswith('http'):
-        thumbnail = "https://images.unsplash.com/photo-1518605368461-1e1c071d3326?q=80&w=800&auto=format&fit=crop"
+        fallbacks = [
+            "https://images.unsplash.com/photo-1518605368461-1e1c071d3326?q=80&w=800&auto=format&fit=crop",
+            "https://images.unsplash.com/photo-1579952363873-27f3bade9f55?q=80&w=800&auto=format&fit=crop",
+            "https://images.unsplash.com/photo-1511886929837-354d827aae26?q=80&w=800&auto=format&fit=crop"
+        ]
+        thumbnail = random.choice(fallbacks)
+    else:
+        # Menggunakan weserv.nl proxy untuk menembus pelindung (Hotlink Protection)
+        thumbnail = f"https://wsrv.nl/?url={thumbnail}&w=800&output=webp"
         
     print(f"\n======================================")
     print(f"Mengolah Info Asli: {title}")
@@ -93,9 +101,9 @@ def generate_article_with_gemini(news_item):
     article_content = get_gemini_response(prompt)
     
     if article_content:
-        # PERBAIKAN 2: Membersihkan Sisa Markdown (Jika AI masih bandel)
-        article_content = article_content.replace('**', '') # Hapus sisa bintang bold
-        article_content = re.sub(r'^#+\s*', '', article_content, flags=re.MULTILINE) # Hapus sisa pagar
+        # Membersihkan Sisa Markdown 
+        article_content = article_content.replace('**', '') 
+        article_content = re.sub(r'^#+\s*', '', article_content, flags=re.MULTILINE) 
         
         indo_title = title 
         title_match = re.search(r'<h1>(.*?)</h1>', article_content, re.IGNORECASE)
@@ -103,14 +111,13 @@ def generate_article_with_gemini(news_item):
             indo_title = title_match.group(1).strip()
             article_content = re.sub(r'<h1>.*?</h1>', '', article_content, count=1, flags=re.IGNORECASE)
             
-        # PERBAIKAN 3: Memastikan semua teks terbungkus tag <p> agar rapi dan ada jarak antar paragraf
+        # Memastikan semua teks terbungkus <p>
         lines = article_content.split('\n')
         clean_html = []
         for line in lines:
             line = line.strip()
             if not line:
                 continue
-            # Jika bukan tag HTML (seperti <h2> atau <ul>), jadikan paragraf <p>
             if not line.startswith('<'):
                 line = f"<p>{line}</p>"
             clean_html.append(line)
@@ -199,7 +206,7 @@ def update_homepage():
                 
                 daftar_artikel_html += f'''
                 <div class="news-card">
-                    <img src="{thumbnail}" alt="Thumbnail Berita" class="news-thumb">
+                    <img src="{thumbnail}" alt="Thumbnail Berita" class="news-thumb" loading="lazy">
                     <div class="news-info">
                         <h3><a href="/berita/{filename}">{title}</a></h3>
                         <p>{excerpt}</p>
@@ -208,7 +215,7 @@ def update_homepage():
         except Exception:
             continue
 
-    # Template Homepage dengan Widget Live Score dari ScoreBat
+    # SOLUSI 2: Menggunakan SofaScore untuk Widget Klasemen (Anti Blokir)
     homepage_template = f"""
     <!DOCTYPE html>
     <html lang="id">
@@ -227,7 +234,6 @@ def update_homepage():
             
             .main-container {{ display: flex; flex-wrap: wrap; max-width: 1200px; margin: 0 auto; padding: 20px; gap: 30px; }}
             
-            /* Kiri: Berita */
             .content-left {{ flex: 1; min-width: 60%; }}
             .section-title {{ border-left: 5px solid #1a5276; padding-left: 15px; color: #1a5276; font-size: 1.8em; margin-bottom: 25px; }}
             
@@ -239,17 +245,14 @@ def update_homepage():
             .news-info a:hover {{ color: #1a5276; }}
             .news-info p {{ margin: 0; color: #666; font-size: 0.95em; line-height: 1.6; }}
             
-            /* Paginasi */
             .pagination {{ display: flex; justify-content: center; align-items: center; margin: 30px 0; gap: 15px; }}
             .pagination button {{ padding: 10px 20px; background: #1a5276; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; }}
             .pagination button:disabled {{ background: #ccc; cursor: not-allowed; }}
             .pagination span {{ font-weight: bold; }}
 
-            /* Kanan: Widget Live Score */
             .sidebar-right {{ width: 350px; flex-shrink: 0; }}
-            .widget-box {{ background: #fff; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); margin-bottom: 30px; overflow: hidden; }}
-            .widget-box h3 {{ margin: 0; color: #fff; background: #2980b9; padding: 15px; text-align: center; font-size: 1.2em; }}
-            .widget-content {{ padding: 0; }} /* Padding 0 agar iframe penuh */
+            .widget-box {{ background: #fff; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); margin-bottom: 30px; overflow: hidden; padding-bottom: 10px; }}
+            .widget-box h3 {{ margin: 0 0 10px 0; color: #fff; background: #1a5276; padding: 15px; text-align: center; font-size: 1.2em; }}
             
             @media (max-width: 900px) {{
                 .main-container {{ flex-direction: column; }}
@@ -262,7 +265,7 @@ def update_homepage():
     <body>
         <header>
             <h1>Lensa Terkini Bola</h1>
-            <p>Update Berita Sepak Bola Lokal & Internasional</p>
+            <p>Berita & Klasemen Sepak Bola Dalam & Luar Negeri</p>
         </header>
 
         <div class="ad-slot">Space Iklan Adsterra 728x90</div>
@@ -281,16 +284,19 @@ def update_homepage():
                 </div>
             </div>
 
-            <!-- PERBAIKAN 4: Widget Live Score dari ScoreBat (Pasti Muncul) -->
+            <!-- KLASEMEN DARI SOFASCORE -->
             <div class="sidebar-right">
                 <div class="widget-box">
-                    <h3>🔴 Live Score Pertandingan</h3>
-                    <div class="widget-content">
-                        <iframe src="https://www.scorebat.com/embed/livescore/" frameborder="0" width="100%" height="760" allowfullscreen allow="autoplay; fullscreen" style="width:100%;height:760px;overflow:hidden;display:block;"></iframe>
-                    </div>
+                    <h3>🏴󠁧󠁢󠁥󠁮󠁧󠁿 Klasemen Liga Inggris</h3>
+                    <iframe width="100%" height="450" src="https://www.sofascore.com/id/turnamen/17/sepak-bola/inggris/premier-league/klasemen/embed" frameborder="0" scrolling="yes"></iframe>
                 </div>
                 
                 <div class="ad-slot">Space Iklan Adsterra 300x250</div>
+                
+                <div class="widget-box">
+                    <h3>🇮🇩 Klasemen Liga 1 Indonesia</h3>
+                    <iframe width="100%" height="450" src="https://www.sofascore.com/id/turnamen/10634/sepak-bola/indonesia/liga-1/klasemen/embed" frameborder="0" scrolling="yes"></iframe>
+                </div>
             </div>
         </div>
 
