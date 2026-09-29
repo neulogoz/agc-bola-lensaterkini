@@ -1,5 +1,3 @@
-# Ini adalah file utama untuk script scraper Python
-
 import os
 import random
 import time
@@ -9,7 +7,7 @@ import json
 import re
 from datetime import datetime
 
-print("=== MEMULAI SCRIPT AGC BOLA PRO (SEO + KLASEMEN) ===")
+print("=== MEMULAI SCRIPT AGC BOLA PRO (FIX LAYOUT & LIVE SCORE) ===")
 
 API_KEYS_STRING = os.environ.get("GEMINI_API_KEYS")
 
@@ -43,7 +41,6 @@ def get_gemini_response(prompt):
                         model=model_name,
                         contents=prompt,
                     )
-                    # Membersihkan backticks jika Gemini memaksa mereturn blok kode
                     text = response.text
                     text = re.sub(r'```html', '', text, flags=re.IGNORECASE)
                     text = re.sub(r'```', '', text)
@@ -62,45 +59,64 @@ def generate_article_with_gemini(news_item):
     title = news_item.get('title', 'Berita Bola')
     description = news_item.get('description', '')
     
-    # Mengekstrak Gambar Thumbnail dari RSS
-    thumbnail = news_item.get('thumbnail', '')
-    if not thumbnail and 'enclosure' in news_item and isinstance(news_item['enclosure'], dict):
+    # PERBAIKAN 1: Ekstraksi Thumbnail Lebih Kuat & Anti Pecah
+    thumbnail = ""
+    if 'enclosure' in news_item and isinstance(news_item['enclosure'], dict):
         thumbnail = news_item['enclosure'].get('link', '')
-    if not thumbnail:
-        # Gambar cadangan jika sumber RSS pelit gambar
-        thumbnail = "https://images.unsplash.com/photo-1579952363873-27f3bade9f55?q=80&w=800&auto=format&fit=crop"
+    if not thumbnail and 'thumbnail' in news_item:
+        thumbnail = news_item.get('thumbnail', '')
+        
+    # Jika tidak ada gambar, gunakan gambar ilustrasi bola HD dari Unsplash (Dijamin tidak pecah)
+    if not thumbnail or not thumbnail.startswith('http'):
+        thumbnail = "https://images.unsplash.com/photo-1518605368461-1e1c071d3326?q=80&w=800&auto=format&fit=crop"
         
     print(f"\n======================================")
     print(f"Mengolah Info Asli: {title}")
     
     prompt = f"""
     Bertindaklah sebagai jurnalis sepak bola profesional dari Indonesia. 
-    Sumber berita:
-    - Judul Asli: {title}
+    Tulis ulang berita berikut menjadi artikel berita sepak bola berbahasa Indonesia (minimal 300 kata).
+    
+    Data Asli:
+    - Judul: {title}
     - Ringkasan: {description}
     
-    Tulis ulang berita ini menjadi artikel berita sepak bola berbahasa Indonesia yang SEO-friendly (minimal 300 kata). 
-    
-    ATURAN FORMATTING (SANGAT PENTING):
-    1. WAJIB gunakan HTML murni. JANGAN gunakan markdown (seperti tanda # atau **).
-    2. Baris paling pertama WAJIB berupa tag <h1> berisi Judul Baru yang clickbait.
-    3. Paragraf pembuka wajib menggunakan tag <p>.
-    4. Gunakan tag <h2> untuk sub-judul di tengah artikel.
-    5. Jangan tambahkan tulisan pengantar/penutup apapun. Langsung hasilkan HTML.
+    ATURAN FORMATTING (SANGAT PENTING - DILARANG MELANGGAR):
+    1. WAJIB keluarkan dalam format HTML MURNI.
+    2. DILARANG KERAS menggunakan format Markdown (JANGAN ADA tanda # atau ** sama sekali).
+    3. Baris pertama wajib: <h1>[Judul Clickbait Bahasa Indonesia]</h1>
+    4. Sub-judul gunakan: <h2>[Sub-judul]</h2>
+    5. Setiap paragraf biasa WAJIB dibungkus tag <p> dan </p>.
+    6. Jangan buat kata pengantar. Langsung mulai dari tag <h1>.
     """
     
     article_content = get_gemini_response(prompt)
     
     if article_content:
-        # Ekstrak Judul dari <h1>
+        # PERBAIKAN 2: Membersihkan Sisa Markdown (Jika AI masih bandel)
+        article_content = article_content.replace('**', '') # Hapus sisa bintang bold
+        article_content = re.sub(r'^#+\s*', '', article_content, flags=re.MULTILINE) # Hapus sisa pagar
+        
         indo_title = title 
         title_match = re.search(r'<h1>(.*?)</h1>', article_content, re.IGNORECASE)
         if title_match:
             indo_title = title_match.group(1).strip()
-            # Hapus <h1> dari body karena kita akan meletakkannya manual di template
             article_content = re.sub(r'<h1>.*?</h1>', '', article_content, count=1, flags=re.IGNORECASE)
             
-        # Ekstrak ringkasan (150 huruf paragraf pertama) untuk Meta SEO
+        # PERBAIKAN 3: Memastikan semua teks terbungkus tag <p> agar rapi dan ada jarak antar paragraf
+        lines = article_content.split('\n')
+        clean_html = []
+        for line in lines:
+            line = line.strip()
+            if not line:
+                continue
+            # Jika bukan tag HTML (seperti <h2> atau <ul>), jadikan paragraf <p>
+            if not line.startswith('<'):
+                line = f"<p>{line}</p>"
+            clean_html.append(line)
+            
+        article_content = '\n'.join(clean_html)
+        
         excerpt = "Berita sepak bola terbaru dan terhangat dari dalam dan luar negeri."
         p_match = re.search(r'<p>(.*?)</p>', article_content, re.IGNORECASE)
         if p_match:
@@ -121,25 +137,19 @@ def save_as_html(content, title, excerpt, thumbnail):
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <!-- SEO META TAGS -->
         <title>{title} - Lensa Terkini Bola</title>
         <meta name="description" content="{excerpt}">
-        <meta property="og:title" content="{title}">
-        <meta property="og:description" content="{excerpt}">
-        <meta property="og:image" content="{thumbnail}">
-        <meta property="og:type" content="article">
-        
         <style>
             * {{ box-sizing: border-box; }}
             body {{ font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f7f6; margin: 0; padding: 0; color: #333; }}
             .container {{ max-width: 900px; margin: 0 auto; padding: 20px; background: #fff; box-shadow: 0 0 10px rgba(0,0,0,0.1); }}
             header {{ border-bottom: 2px solid #1a5276; margin-bottom: 20px; padding-bottom: 10px; }}
             h1 {{ color: #1a5276; font-size: 2.2em; line-height: 1.3; margin-top: 0; }}
-            h2 {{ color: #2980b9; margin-top: 30px; }}
+            h2 {{ color: #2980b9; margin-top: 30px; font-size: 1.5em; }}
             .hero-img {{ width: 100%; max-height: 450px; object-fit: cover; border-radius: 8px; margin-bottom: 20px; }}
             .ad-slot {{ background: #eaeaea; border: 1px dashed #bbb; padding: 15px; text-align: center; margin: 20px 0; color: #777; font-weight: bold; font-size: 0.9em; }}
-            p {{ line-height: 1.7; font-size: 1.05em; }}
-            .back-btn {{ display: inline-block; padding: 12px 20px; background: #1a5276; color: white; text-decoration: none; border-radius: 5px; margin-top: 20px; font-weight: bold; transition: background 0.3s; }}
+            p {{ line-height: 1.8; font-size: 1.1em; margin-bottom: 15px; text-align: justify; }}
+            .back-btn {{ display: inline-block; padding: 12px 20px; background: #1a5276; color: white; text-decoration: none; border-radius: 5px; margin-top: 20px; font-weight: bold; }}
             .back-btn:hover {{ background: #154360; }}
         </style>
     </head>
@@ -178,19 +188,18 @@ def update_homepage():
             with open(filepath, 'r', encoding='utf-8') as f:
                 html_content = f.read()
                 
-                # Ekstrak Meta Data untuk Kartu Homepage
-                title = re.search(r'<title>(.*?)</title>', html_content).group(1).replace(' - Lensa Terkini Bola', '')
+                title_match = re.search(r'<title>(.*?)</title>', html_content)
+                title = title_match.group(1).replace(' - Lensa Terkini Bola', '') if title_match else filename
                 
                 excerpt_match = re.search(r'<meta name="description" content="(.*?)">', html_content)
-                excerpt = excerpt_match.group(1) if excerpt_match else "Baca berita selengkapnya..."
+                excerpt = excerpt_match.group(1) if excerpt_match else "Baca selengkapnya..."
                 
-                img_match = re.search(r'<meta property="og:image" content="(.*?)">', html_content)
-                thumbnail = img_match.group(1) if img_match else "https://via.placeholder.com/150"
+                img_match = re.search(r'<img src="(.*?)" alt=".*?" class="hero-img">', html_content)
+                thumbnail = img_match.group(1) if img_match else "https://images.unsplash.com/photo-1518605368461-1e1c071d3326?q=80&w=800&auto=format&fit=crop"
                 
-                # Desain Kartu Artikel (Kiri Gambar, Kanan Teks)
                 daftar_artikel_html += f'''
                 <div class="news-card">
-                    <img src="{thumbnail}" alt="{title}" class="news-thumb">
+                    <img src="{thumbnail}" alt="Thumbnail Berita" class="news-thumb">
                     <div class="news-info">
                         <h3><a href="/berita/{filename}">{title}</a></h3>
                         <p>{excerpt}</p>
@@ -199,14 +208,14 @@ def update_homepage():
         except Exception:
             continue
 
-    # Template Halaman Utama (Homepage) dengan Grid & Paginasi
+    # Template Homepage dengan Widget Live Score dari ScoreBat
     homepage_template = f"""
     <!DOCTYPE html>
     <html lang="id">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Lensa Terkini Bola - Klasemen & Berita Terupdate</title>
+        <title>Lensa Terkini Bola - Portal Berita Sepak Bola</title>
         <style>
             * {{ box-sizing: border-box; }}
             body {{ font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f7f6; margin: 0; padding: 0; color: #333; }}
@@ -218,16 +227,15 @@ def update_homepage():
             
             .main-container {{ display: flex; flex-wrap: wrap; max-width: 1200px; margin: 0 auto; padding: 20px; gap: 30px; }}
             
-            /* Bagian Kiri (Berita) */
+            /* Kiri: Berita */
             .content-left {{ flex: 1; min-width: 60%; }}
             .section-title {{ border-left: 5px solid #1a5276; padding-left: 15px; color: #1a5276; font-size: 1.8em; margin-bottom: 25px; }}
             
-            .news-card {{ display: flex; background: #fff; border-radius: 8px; margin-bottom: 20px; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.05); transition: transform 0.2s; }}
-            .news-card:hover {{ transform: translateY(-3px); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }}
+            .news-card {{ display: flex; background: #fff; border-radius: 8px; margin-bottom: 20px; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }}
             .news-thumb {{ width: 250px; height: 180px; object-fit: cover; flex-shrink: 0; }}
-            .news-info {{ padding: 20px; }}
+            .news-info {{ padding: 20px; display: flex; flex-direction: column; justify-content: center; }}
             .news-info h3 {{ margin: 0 0 10px 0; font-size: 1.3em; line-height: 1.4; }}
-            .news-info a {{ text-decoration: none; color: #333; }}
+            .news-info a {{ text-decoration: none; color: #333; transition: color 0.2s; }}
             .news-info a:hover {{ color: #1a5276; }}
             .news-info p {{ margin: 0; color: #666; font-size: 0.95em; line-height: 1.6; }}
             
@@ -237,10 +245,11 @@ def update_homepage():
             .pagination button:disabled {{ background: #ccc; cursor: not-allowed; }}
             .pagination span {{ font-weight: bold; }}
 
-            /* Bagian Kanan (Klasemen Sidebar) */
-            .sidebar-right {{ width: 320px; flex-shrink: 0; }}
-            .widget-box {{ background: #fff; padding: 15px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); margin-bottom: 30px; }}
-            .widget-box h3 {{ margin-top: 0; color: #2980b9; border-bottom: 2px solid #ecf0f1; padding-bottom: 10px; text-align: center; }}
+            /* Kanan: Widget Live Score */
+            .sidebar-right {{ width: 350px; flex-shrink: 0; }}
+            .widget-box {{ background: #fff; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); margin-bottom: 30px; overflow: hidden; }}
+            .widget-box h3 {{ margin: 0; color: #fff; background: #2980b9; padding: 15px; text-align: center; font-size: 1.2em; }}
+            .widget-content {{ padding: 0; }} /* Padding 0 agar iframe penuh */
             
             @media (max-width: 900px) {{
                 .main-container {{ flex-direction: column; }}
@@ -253,20 +262,18 @@ def update_homepage():
     <body>
         <header>
             <h1>Lensa Terkini Bola</h1>
-            <p>Berita & Klasemen Sepak Bola Dalam & Luar Negeri</p>
+            <p>Update Berita Sepak Bola Lokal & Internasional</p>
         </header>
 
         <div class="ad-slot">Space Iklan Adsterra 728x90</div>
 
         <div class="main-container">
-            <!-- KOLOM KIRI: BERITA TERBARU -->
             <div class="content-left">
-                <h2 class="section-title">Berita Utama</h2>
+                <h2 class="section-title">Berita Terbaru</h2>
                 <div id="news-list">
                     {daftar_artikel_html}
                 </div>
                 
-                <!-- KONTROL PAGINASI -->
                 <div class="pagination">
                     <button id="btn-prev" onclick="changePage(-1)">&#8592; Sebelumnya</button>
                     <span id="page-info">Halaman 1</span>
@@ -274,25 +281,19 @@ def update_homepage():
                 </div>
             </div>
 
-            <!-- KOLOM KANAN: KLASEMEN (IFRAME WIDGET) -->
+            <!-- PERBAIKAN 4: Widget Live Score dari ScoreBat (Pasti Muncul) -->
             <div class="sidebar-right">
                 <div class="widget-box">
-                    <h3>Klasemen Liga Inggris</h3>
-                    <!-- Widget Gratis dari FCTables -->
-                    <iframe frameborder="0" scrolling="yes" width="100%" height="450" src="https://www.fctables.com/england/premier-league/iframe/?type=table&lang=id&country=67&template=10&team=&timezone=Asia/Jakarta&time=24&width=100%&height=450&font=Arial&fs=12&lh=22&bg=FFFFFF&fc=333333&logo=1&tlink=1&ths=1&thb=1&thba=FFFFFF&thc=000000&bc=dddddd&tc=333333&hp=1&bch=1&ff=1&wm=1"></iframe>
+                    <h3>🔴 Live Score Pertandingan</h3>
+                    <div class="widget-content">
+                        <iframe src="https://www.scorebat.com/embed/livescore/" frameborder="0" width="100%" height="760" allowfullscreen allow="autoplay; fullscreen" style="width:100%;height:760px;overflow:hidden;display:block;"></iframe>
+                    </div>
                 </div>
                 
-                <div class="ad-slot">Iklan 300x250</div>
-                
-                <div class="widget-box">
-                    <h3>Klasemen Liga 1 Indonesia</h3>
-                    <!-- Widget Gratis dari FCTables -->
-                    <iframe frameborder="0" scrolling="yes" width="100%" height="450" src="https://www.fctables.com/indonesia/super-liga/iframe/?type=table&lang=id&country=105&template=10&team=&timezone=Asia/Jakarta&time=24&width=100%&height=450&font=Arial&fs=12&lh=22&bg=FFFFFF&fc=333333&logo=1&tlink=1&ths=1&thb=1&thba=FFFFFF&thc=000000&bc=dddddd&tc=333333&hp=1&bch=1&ff=1&wm=1"></iframe>
-                </div>
+                <div class="ad-slot">Space Iklan Adsterra 300x250</div>
             </div>
         </div>
 
-        <!-- SCRIPT UNTUK FUNGSI PAGINASI -->
         <script>
             const itemsPerPage = 6;
             let currentPage = 1;
@@ -315,11 +316,9 @@ def update_homepage():
             function changePage(delta) {{
                 currentPage += delta;
                 showPage(currentPage);
-                // Auto scroll ke atas saat ganti halaman
                 window.scrollTo({{ top: 0, behavior: 'smooth' }});
             }}
 
-            // Inisialisasi Paginasi saat halaman dimuat
             if(articles.length > 0) showPage(1);
         </script>
     </body>
