@@ -7,7 +7,7 @@ import json
 import re
 from datetime import datetime
 
-print("=== MEMULAI SCRIPT AGC BOLA (SITEMAP XML AUTO-GENERATOR) ===")
+print("=== MEMULAI SCRIPT AGC BOLA (TELEGRAM BANNER INSIDE ARTICLES) ===")
 
 # 🔥 GANTI DENGAN ALAMAT WEB ASLI ANDA (CONTOH: https://lensaterkini.pages.dev) 🔥
 SITE_URL = "https://domainanda.pages.dev" 
@@ -91,62 +91,6 @@ hs.src = ('//s10.histats.com/js15_as.js');
 })();</script>
 <noscript><a href="/" target="_blank"><img  src="//sstatic1.histats.com/0.gif?5055086&101" alt="frontpage hit counter" border="0"></a></noscript>
 <!-- Histats.com  END  -->
-"""
-
-SCRIPT_PAGINATION_SEARCH = """
-<script>
-    function searchNews() {
-        const input = document.getElementById('searchInput').value.toLowerCase();
-        const cards = document.querySelectorAll('.news-card');
-        
-        if(input.length > 0) {
-            document.querySelector('.pagination').style.display = 'none';
-            cards.forEach(card => {
-                if (card.getAttribute('data-title').includes(input)) {
-                    card.style.display = 'grid';
-                } else {
-                    card.style.display = 'none';
-                }
-            });
-        } else {
-            document.querySelector('.pagination').style.display = 'flex';
-            showPage(currentPage);
-        }
-    }
-
-    const itemsPerPage = 5;
-    let currentPage = 1;
-    const articles = document.querySelectorAll('.news-card');
-    const totalPages = Math.ceil(articles.length / itemsPerPage);
-
-    function showPage(page) {
-        if(document.getElementById('searchInput') && document.getElementById('searchInput').value.length > 0) return;
-        
-        articles.forEach((card, index) => {
-            if (index >= (page - 1) * itemsPerPage && index < page * itemsPerPage) {
-                card.style.display = 'grid';
-            } else {
-                card.style.display = 'none';
-            }
-        });
-        if(document.getElementById('page-info')) document.getElementById('page-info').innerText = 'Halaman ' + page + ' dari ' + totalPages;
-        if(document.getElementById('btn-prev')) document.getElementById('btn-prev').disabled = page === 1;
-        if(document.getElementById('btn-next')) document.getElementById('btn-next').disabled = page === totalPages || totalPages === 0;
-    }
-
-    function changePage(delta) {
-        currentPage += delta;
-        showPage(currentPage);
-        const newsSection = document.getElementById('berita-terbaru');
-        if(newsSection) {
-            newsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        } else {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-    }
-
-    if(articles.length > 0) showPage(1);
-</script>
 """
 
 def get_gemini_response(prompt):
@@ -288,6 +232,13 @@ def save_as_html(content, title, excerpt, thumbnail, category):
             
             .back-btn {{ display: block; width: max-content; margin: 30px auto 0; padding: 12px 25px; background: #00416A; color: white; text-decoration: none; border-radius: 8px; font-weight: 600; transition: 0.3s; box-shadow: 0 4px 10px rgba(0,65,106,0.2); }}
             .back-btn:hover {{ background: #002d4a; transform: translateY(-2px); }}
+            
+            /* STYLE BANNER TELEGRAM DALAM ARTIKEL */
+            .telegram-banner {{ background: linear-gradient(135deg, #1c92d2, #f2fcfe); border-radius: 12px; padding: 25px 20px; text-align: center; color: #0f2027; margin: 30px 0; box-shadow: 0 8px 20px rgba(28,146,210,0.15); position: relative; overflow: hidden; border: 1px solid rgba(255,255,255,0.5); }}
+            .telegram-banner h3 {{ margin: 0 0 10px 0; font-size: 1.5em; font-weight: 700; }}
+            .telegram-banner p {{ font-size: 0.95em; margin-bottom: 20px; color: #333; }}
+            .btn-telegram {{ display: inline-block; background: #0088cc; color: #fff; padding: 12px 25px; border-radius: 30px; text-decoration: none; font-weight: 600; font-size: 1.1em; transition: 0.3s; box-shadow: 0 4px 10px rgba(0,136,204,0.3); }}
+            .btn-telegram:hover {{ transform: scale(1.05); background: #0077b3; }}
         </style>
     </head>
     <body>
@@ -309,6 +260,13 @@ def save_as_html(content, title, excerpt, thumbnail, category):
             <img src="{thumbnail}" alt="{title}" class="hero-img" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1518605368461-1e1c071d3326?q=80&w=800&auto=format&fit=crop';">
             
             <article>{content}</article>
+            
+            <!-- BANNER TELEGRAM DI DALAM ARTIKEL -->
+            <div class="telegram-banner">
+                <h3>🔥 Nonton Bola Gratis!</h3>
+                <p>Gabung komunitas kami di Telegram dan dapatkan link live streaming pertandingan bola terupdate setiap harinya tanpa bayar.</p>
+                <a href="https://t.me/GANTI_DENGAN_LINK_GRUP_ANDA" target="_blank" class="btn-telegram" rel="nofollow noopener noreferrer">Join Grup Telegram ➔</a>
+            </div>
             
             <div class="ad-slot">
                 {SCRIPT_ADSTERRA_300}
@@ -529,10 +487,11 @@ def update_homepage():
 
             <div class="sidebar-right">
                 
+                <!-- BANNER TELEGRAM HOMEPAGE -->
                 <div class="telegram-banner">
                     <h3>🔥 Nonton Bola Gratis!</h3>
                     <p>Gabung komunitas kami dan dapatkan link live streaming pertandingan bola terupdate setiap harinya tanpa bayar.</p>
-                    <a href="#" class="btn-telegram" rel="nofollow noopener noreferrer">Tonton Sekarang ➔</a>
+                    <a href="https://t.me/GANTI_DENGAN_LINK_GRUP_ANDA" target="_blank" class="btn-telegram" rel="nofollow noopener noreferrer">Tonton Sekarang ➔</a>
                 </div>
 
                 <div class="ad-slot">
@@ -545,8 +504,60 @@ def update_homepage():
             {SCRIPT_HISTATS}
         </div>
         
-        {SCRIPT_PAGINATION_SEARCH}
+        <script>
+            // SCRIPT PENCARIAN & PAGINASI
+            function searchNews() {{
+                const input = document.getElementById('searchInput').value.toLowerCase();
+                const cards = document.querySelectorAll('.news-card');
+                
+                if(input.length > 0) {{
+                    document.querySelector('.pagination').style.display = 'none';
+                    cards.forEach(card => {{
+                        if (card.getAttribute('data-title').includes(input)) {{
+                            card.style.display = 'grid';
+                        }} else {{
+                            card.style.display = 'none';
+                        }}
+                    }});
+                }} else {{
+                    document.querySelector('.pagination').style.display = 'flex';
+                    showPage(currentPage);
+                }}
+            }}
 
+            const itemsPerPage = 5;
+            let currentPage = 1;
+            const articles = document.querySelectorAll('.news-card');
+            const totalPages = Math.ceil(articles.length / itemsPerPage);
+
+            function showPage(page) {{
+                if(document.getElementById('searchInput') && document.getElementById('searchInput').value.length > 0) return;
+                
+                articles.forEach((card, index) => {{
+                    if (index >= (page - 1) * itemsPerPage && index < page * itemsPerPage) {{
+                        card.style.display = 'grid';
+                    }} else {{
+                        card.style.display = 'none';
+                    }}
+                }});
+                if(document.getElementById('page-info')) document.getElementById('page-info').innerText = 'Halaman ' + page + ' dari ' + totalPages;
+                if(document.getElementById('btn-prev')) document.getElementById('btn-prev').disabled = page === 1;
+                if(document.getElementById('btn-next')) document.getElementById('btn-next').disabled = page === totalPages || totalPages === 0;
+            }}
+
+            function changePage(delta) {{
+                currentPage += delta;
+                showPage(currentPage);
+                const newsSection = document.getElementById('berita-terbaru');
+                if(newsSection) {{
+                    newsSection.scrollIntoView({{ behavior: 'smooth', block: 'start' }});
+                }} else {{
+                    window.scrollTo({{ top: 0, behavior: 'smooth' }});
+                }}
+            }}
+
+            if(articles.length > 0) showPage(1);
+        </script>
     </body>
     </html>
     """
@@ -555,9 +566,6 @@ def update_homepage():
         f.write(homepage_template)
 
 
-# =====================================================================
-# FUNGSI AUTO-GENERATE SITEMAP XML UNTUK GOOGLE SEARCH CONSOLE
-# =====================================================================
 def generate_sitemap():
     print("Membuat Sitemap XML...")
     now = datetime.now().strftime("%Y-%m-%dT%H:%M:%S+00:00")
@@ -617,7 +625,6 @@ def main():
         random.shuffle(int_news)
         random.shuffle(lokal_news)
         
-        # JAMINAN KESEIMBANGAN: 3 Internasional, 2 Lokal
         final_news_batch = int_news[:3] + lokal_news[:2]
         random.shuffle(final_news_batch)
         
@@ -631,7 +638,7 @@ def main():
                 save_as_html(content, title, excerpt, thumb, category)
         
         update_homepage()
-        generate_sitemap() # Memanggil fungsi sitemap pemikat Google
+        generate_sitemap()
                 
     except Exception as e:
         print(f"ERROR UTAMA: {e}")
