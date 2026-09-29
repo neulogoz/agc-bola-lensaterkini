@@ -7,7 +7,7 @@ import json
 import re
 from datetime import datetime
 
-print("=== MEMULAI SCRIPT AGC BOLA (FIX TAB KLASEMEN & LOGO) ===")
+print("=== MEMULAI SCRIPT AGC BOLA (FIX TAB SCOREAXIS & LOGO HD) ===")
 
 API_KEYS_STRING = os.environ.get("GEMINI_API_KEYS")
 
@@ -26,6 +26,9 @@ RSS_SOURCES = [
 
 OUTPUT_DIR = "public/berita"
 os.makedirs(OUTPUT_DIR, exist_ok=True)
+
+# LOGO BARU: Vektor jernih dan profesional
+LOGO_URL = "https://upload.wikimedia.org/wikipedia/commons/d/d3/Soccerball.svg"
 
 def get_gemini_response(prompt):
     random.shuffle(API_KEYS_LIST)
@@ -139,10 +142,10 @@ def save_as_html(content, title, excerpt, thumbnail):
             body {{ font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f7f6; margin: 0; padding: 0; color: #333; }}
             .container {{ max-width: 900px; margin: 0 auto; padding: 20px; background: #fff; box-shadow: 0 0 10px rgba(0,0,0,0.1); }}
             
-            /* CSS Logo Artikel */
+            /* CSS Logo Artikel - Tanpa Filter Putih */
             header {{ border-bottom: 2px solid #1a5276; margin-bottom: 20px; padding-bottom: 10px; display: flex; align-items: center; gap: 15px; }}
-            .logo-icon {{ width: 40px; height: 40px; }}
-            .site-title {{ color: #1a5276; font-size: 1.5em; font-weight: bold; text-decoration: none; }}
+            .logo-icon {{ width: 45px; height: 45px; }}
+            .site-title {{ color: #1a5276; font-size: 1.6em; font-weight: bold; text-decoration: none; }}
             
             h1 {{ color: #1a5276; font-size: 2.2em; line-height: 1.3; margin-top: 10px; }}
             h2 {{ color: #2980b9; margin-top: 30px; font-size: 1.5em; }}
@@ -156,7 +159,7 @@ def save_as_html(content, title, excerpt, thumbnail):
     <body>
         <div class="container">
             <header>
-                <img src="https://cdn-icons-png.flaticon.com/512/861/861512.png" alt="Logo Bola" class="logo-icon">
+                <img src="{LOGO_URL}" alt="Logo Bola" class="logo-icon">
                 <a href="/" class="site-title">Lensa Terkini Bola</a>
             </header>
             
@@ -226,12 +229,12 @@ def update_homepage():
             * {{ box-sizing: border-box; }}
             body {{ font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f7f6; margin: 0; padding: 0; color: #333; }}
             
-            /* CSS HEADER & LOGO */
+            /* CSS HEADER & LOGO (FIX LOGO BERSIH) */
             header {{ background: #1a5276; color: white; padding: 30px 20px; text-align: center; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }}
             .logo-container {{ display: flex; align-items: center; justify-content: center; gap: 15px; margin-bottom: 10px; }}
-            .header-logo {{ width: 60px; height: 60px; filter: brightness(0) invert(1); }}
-            header h1 {{ margin: 0; font-size: 2.5em; }}
-            header p {{ margin: 5px 0 0 0; opacity: 0.8; font-size: 1.1em; }}
+            .header-logo {{ width: 55px; height: 55px; filter: drop-shadow(0px 2px 4px rgba(0,0,0,0.3)); }}
+            header h1 {{ margin: 0; font-size: 2.5em; text-shadow: 1px 1px 2px rgba(0,0,0,0.2); }}
+            header p {{ margin: 5px 0 0 0; opacity: 0.9; font-size: 1.1em; }}
             
             .ad-slot {{ background: #fff; border: 1px dashed #ccc; padding: 15px; text-align: center; margin: 20px auto; max-width: 1100px; color: #888; font-weight: bold; }}
             .main-container {{ display: flex; flex-wrap: wrap; max-width: 1200px; margin: 0 auto; padding: 20px; gap: 30px; }}
@@ -261,10 +264,11 @@ def update_homepage():
             .tab button:hover {{ background-color: #ddd; }}
             .tab button.active {{ background-color: #1a5276; color: white; border-bottom: none; }}
             
-            /* PERBAIKAN CSS TAB SCOREAXIS */
-            .tab-wrapper {{ position: relative; overflow: hidden; min-height: 600px; }}
-            .tabcontent {{ position: absolute; visibility: hidden; opacity: 0; height: 0; overflow: hidden; width: 100%; transition: opacity 0.3s ease; padding: 10px; }}
-            .tabcontent.active-tab {{ position: relative; visibility: visible; opacity: 1; height: auto; overflow: visible; z-index: 2; }}
+            /* PERBAIKAN CSS TAB SCOREAXIS AGAR TIDAK BLANK */
+            /* Kita menggunakan trik lempar layar (left: -9999px) agar Script widget tetap jalan */
+            .tab-wrapper {{ position: relative; overflow: hidden; }}
+            .tabcontent {{ position: absolute; visibility: hidden; left: -9999px; top: 0; width: 100%; transition: opacity 0.3s; opacity: 0; }}
+            .tabcontent.active-tab {{ position: relative; visibility: visible; left: 0; opacity: 1; }}
             
             @media (max-width: 900px) {{
                 .main-container {{ flex-direction: column; }}
@@ -277,7 +281,7 @@ def update_homepage():
     <body>
         <header>
             <div class="logo-container">
-                <img src="https://cdn-icons-png.flaticon.com/512/861/861512.png" alt="Logo Lensa Terkini" class="header-logo">
+                <img src="{LOGO_URL}" alt="Logo Lensa Terkini" class="header-logo">
                 <h1>Lensa Terkini Bola</h1>
             </div>
             <p>Berita & Klasemen Sepak Bola Dalam & Luar Negeri</p>
@@ -313,26 +317,32 @@ def update_homepage():
                     </div>
 
                     <div class="tab-wrapper">
+                        <!-- Inggris -->
                         <div id="ENG" class="tabcontent active-tab">
                             <div id="widget-atvlmumh1msi" class="scoreaxis-widget" style="width: auto;height: auto;font-size: 14px;background-color: #ffffff;color: #141416;border: 1px solid;border-color: #ecf1f7;overflow: auto;"><script src="https://widgets.scoreaxis.com/api/football/league-table/6232265abf1fa71a672159ec?widgetId=atvlmumh1msi&lang=id&teamLogo=1&tableLines=0&homeAway=1&header=1&position=1&goals=1&gamesCount=1&diff=1&winCount=1&drawCount=1&loseCount=1&lastGames=1&points=1&teamsLimit=all&links=1&noFollowLinks=0&font=heebo&fontSize=14&rowDensity=100&widgetWidth=auto&widgetHeight=auto&bodyColor=%23ffffff&textColor=%23141416&linkColor=%23141416&borderColor=%23ecf1f7&tabColor=%23f3f8fd" async></script></div>
                         </div>
 
+                        <!-- Spanyol -->
                         <div id="ESP" class="tabcontent">
                             <div id="widget-j7xwmumh3y7m" class="scoreaxis-widget" style="width: auto;height: auto;font-size: 14px;background-color: #ffffff;color: #141416;border: 1px solid;border-color: #ecf1f7;overflow: auto;"><script src="https://widgets.scoreaxis.com/api/football/league-table/62322c053617da0b83221cc6?widgetId=j7xwmumh3y7m&lang=id&teamLogo=1&tableLines=0&homeAway=1&header=1&position=1&goals=1&gamesCount=1&diff=1&winCount=1&drawCount=1&loseCount=1&lastGames=1&points=1&teamsLimit=all&links=1&noFollowLinks=0&font=heebo&fontSize=14&rowDensity=100&widgetWidth=auto&widgetHeight=auto&bodyColor=%23ffffff&textColor=%23141416&linkColor=%23141416&borderColor=%23ecf1f7&tabColor=%23f3f8fd" async></script></div>
                         </div>
 
+                        <!-- Italia -->
                         <div id="ITA" class="tabcontent">
                             <div id="widget-llkdmumh65vu" class="scoreaxis-widget" style="width: auto;height: auto;font-size: 14px;background-color: #ffffff;color: #141416;border: 1px solid;border-color: #ecf1f7;overflow: auto;"><script src="https://widgets.scoreaxis.com/api/football/league-table/62322b827aee66235a2be718?widgetId=llkdmumh65vu&lang=id&teamLogo=1&tableLines=0&homeAway=1&header=1&position=1&goals=1&gamesCount=1&diff=1&winCount=1&drawCount=1&loseCount=1&lastGames=1&points=1&teamsLimit=all&links=1&noFollowLinks=0&font=heebo&fontSize=14&rowDensity=100&widgetWidth=auto&widgetHeight=auto&bodyColor=%23ffffff&textColor=%23141416&linkColor=%23141416&borderColor=%23ecf1f7&tabColor=%23f3f8fd" async></script></div>
                         </div>
 
+                        <!-- Jerman -->
                         <div id="GER" class="tabcontent">
                             <div id="widget-t6xvmumh55i6" class="scoreaxis-widget" style="width: auto;height: auto;font-size: 14px;background-color: #ffffff;color: #141416;border: 1px solid;border-color: #ecf1f7;overflow: auto;"><script src="https://widgets.scoreaxis.com/api/football/league-table/62321f50f7016c22d3650732?widgetId=t6xvmumh55i6&lang=id&teamLogo=1&tableLines=0&homeAway=1&header=1&position=1&goals=1&gamesCount=1&diff=1&winCount=1&drawCount=1&loseCount=1&lastGames=1&points=1&teamsLimit=all&links=1&noFollowLinks=0&font=heebo&fontSize=14&rowDensity=100&widgetWidth=auto&widgetHeight=auto&bodyColor=%23ffffff&textColor=%23141416&linkColor=%23141416&borderColor=%23ecf1f7&tabColor=%23f3f8fd" async></script></div>
                         </div>
 
+                        <!-- Prancis -->
                         <div id="FRA" class="tabcontent">
                             <div id="widget-bjs9mumh5ta6" class="scoreaxis-widget" style="width: auto;height: auto;font-size: 14px;background-color: #ffffff;color: #141416;border: 1px solid;border-color: #ecf1f7;overflow: auto;"><script src="https://widgets.scoreaxis.com/api/football/league-table/62322b4efd209951602c9096?widgetId=bjs9mumh5ta6&lang=id&teamLogo=1&tableLines=0&homeAway=1&header=1&position=1&goals=1&gamesCount=1&diff=1&winCount=1&drawCount=1&loseCount=1&lastGames=1&points=1&teamsLimit=all&links=1&noFollowLinks=0&font=heebo&fontSize=14&rowDensity=100&widgetWidth=auto&widgetHeight=auto&bodyColor=%23ffffff&textColor=%23141416&linkColor=%23141416&borderColor=%23ecf1f7&tabColor=%23f3f8fd" async></script></div>
                         </div>
 
+                        <!-- Indonesia -->
                         <div id="IDN" class="tabcontent">
                             <div id="widget-wrt7mumh7146" class="scoreaxis-widget" style="width: auto;height: auto;font-size: 14px;background-color: #ffffff;color: #141416;border: 1px solid;border-color: #ecf1f7;overflow: auto;"><script src="https://widgets.scoreaxis.com/api/football/league-table/623225c009ac1611ee0dc0f6?widgetId=wrt7mumh7146&lang=id&teamLogo=1&tableLines=0&homeAway=1&header=1&position=1&goals=1&gamesCount=1&diff=1&winCount=1&drawCount=1&loseCount=1&lastGames=1&points=1&teamsLimit=all&links=1&noFollowLinks=0&font=heebo&fontSize=14&rowDensity=100&widgetWidth=auto&widgetHeight=auto&bodyColor=%23ffffff&textColor=%23141416&linkColor=%23141416&borderColor=%23ecf1f7&tabColor=%23f3f8fd" async></script></div>
                         </div>
@@ -345,7 +355,7 @@ def update_homepage():
         </div>
 
         <script>
-            // PERBAIKAN LOGIK JAVASCRIPT TAB 
+            // PERBAIKAN SCRIPT TAB: Mengganti kelas tanpa mengubah atribut display
             function openLeague(evt, leagueName) {{
                 var i, tabcontent, tablinks;
                 tabcontent = document.getElementsByClassName("tabcontent");
