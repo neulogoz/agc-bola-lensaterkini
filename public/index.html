@@ -11,54 +11,71 @@
 
         
         <style>
+            @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+            
             * { box-sizing: border-box; }
-            body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f7f6; margin: 0; padding: 0; color: #333; }
+            body { font-family: 'Poppins', sans-serif; background-color: #f0f2f5; margin: 0; padding: 0; color: #2c3e50; }
             
-            header { background: #1a5276; color: white; padding: 30px 20px; text-align: center; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
-            .logo-container { display: flex; align-items: center; justify-content: center; gap: 15px; margin-bottom: 10px; }
-            .header-logo { width: 55px; height: 55px; filter: drop-shadow(0px 2px 4px rgba(0,0,0,0.3)); }
-            header h1 { margin: 0; font-size: 2.5em; text-shadow: 1px 1px 2px rgba(0,0,0,0.2); }
+            /* PREMIUM HEADER */
+            header { background: linear-gradient(135deg, #0f2027, #203a43, #2c5364); color: white; padding: 40px 20px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.2); border-bottom: 4px solid #e74c3c; }
+            .logo-container { display: flex; align-items: center; justify-content: center; gap: 15px; margin-bottom: 12px; }
+            .header-logo { width: 60px; height: 60px; filter: drop-shadow(0px 4px 6px rgba(0,0,0,0.4)); }
+            header h1 { margin: 0; font-size: 2.8em; font-weight: 700; letter-spacing: 1px; }
+            header p { margin: 5px 0 0 0; opacity: 0.8; font-size: 1.1em; }
             
-            .ad-slot { background: #fff; border: 1px dashed #ccc; padding: 15px; text-align: center; margin: 20px auto; max-width: 1100px; color: #888; font-weight: bold; overflow: hidden; }
-            .main-container { display: flex; flex-wrap: wrap; max-width: 1200px; margin: 0 auto; padding: 20px; gap: 30px; }
+            .main-container { display: flex; flex-wrap: wrap; max-width: 1250px; margin: 30px auto; padding: 0 20px; gap: 35px; }
             .content-left { flex: 1; min-width: 60%; }
+            .sidebar-right { width: 360px; flex-shrink: 0; }
             
-            .search-box { width: 100%; padding: 12px 20px; margin-bottom: 20px; border: 2px solid #bdc3c7; border-radius: 25px; font-size: 1.1em; outline: none; transition: 0.3s; }
-            .search-box:focus { border-color: #1a5276; box-shadow: 0 0 8px rgba(26,82,118,0.2); }
+            .ad-slot { background: #fff; border: 1px dashed #ced4da; padding: 15px; text-align: center; margin: 20px auto; max-width: 1100px; border-radius: 8px; }
             
-            .news-card { display: flex; background: #fff; border-radius: 8px; margin-bottom: 20px; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
-            .news-thumb { width: 250px; height: 180px; object-fit: cover; flex-shrink: 0; background-color: #eaeaea; }
-            .news-info { padding: 20px; display: flex; flex-direction: column; justify-content: center; }
-            .news-info h3 { margin: 0 0 10px 0; font-size: 1.3em; line-height: 1.4; }
-            .news-info a { text-decoration: none; color: #333; }
-            .news-info a:hover { color: #1a5276; }
-            .news-info p { margin: 0; color: #666; font-size: 0.95em; line-height: 1.6; }
+            /* SEARCH BOX PRO */
+            .search-box { width: 100%; padding: 15px 25px; margin-bottom: 30px; border: 2px solid #e1e8ed; border-radius: 30px; font-size: 1.1em; font-family: inherit; transition: 0.3s; box-shadow: 0 4px 10px rgba(0,0,0,0.03); }
+            .search-box:focus { border-color: #00416A; outline: none; box-shadow: 0 4px 15px rgba(0,65,106,0.15); }
             
-            .pagination { display: flex; justify-content: center; align-items: center; margin: 30px 0; gap: 15px; }
-            .pagination button { padding: 10px 20px; background: #1a5276; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; }
-            .pagination button:disabled { background: #ccc; cursor: not-allowed; }
+            /* MODERN GRID NEWS CARD */
+            .news-card { display: grid; grid-template-columns: 240px 1fr; gap: 20px; background: #fff; border-radius: 12px; margin-bottom: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.04); transition: all 0.3s ease; border: 1px solid #f0f0f0; padding: 15px; }
+            .news-card:hover { transform: translateY(-5px); box-shadow: 0 12px 25px rgba(0,0,0,0.08); border-color: #00416A; }
+            .news-thumb { width: 100%; height: 160px; object-fit: cover; border-radius: 8px; }
+            .news-info { display: flex; flex-direction: column; justify-content: center; }
+            .news-badge { color: white; padding: 4px 12px; border-radius: 20px; font-size: 0.75em; font-weight: 600; align-self: flex-start; margin-bottom: 10px; }
+            .news-info h3 { margin: 0 0 10px 0; font-size: 1.25em; line-height: 1.4; }
+            .news-info a { text-decoration: none; color: #0f2027; transition: color 0.2s; }
+            .news-info a:hover { color: #e74c3c; }
+            .news-info p { margin: 0; color: #555; font-size: 0.95em; line-height: 1.6; }
             
-            .sidebar-right { width: 350px; flex-shrink: 0; }
+            .pagination { display: flex; justify-content: center; align-items: center; margin: 40px 0; gap: 15px; }
+            .pagination button { padding: 10px 25px; background: #00416A; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; font-family: inherit; transition: 0.3s; }
+            .pagination button:hover:not(:disabled) { background: #002d4a; transform: translateY(-2px); }
+            .pagination button:disabled { background: #bdc3c7; cursor: not-allowed; }
+            .pagination span { font-weight: 600; }
             
-            .telegram-banner { background: linear-gradient(135deg, #0088cc, #00aaff); border-radius: 8px; padding: 20px; text-align: center; color: white; margin-bottom: 30px; box-shadow: 0 4px 10px rgba(0,136,204,0.3); }
-            .telegram-banner h3 { margin: 0 0 10px 0; font-size: 1.4em; }
-            .telegram-banner p { font-size: 0.95em; margin-bottom: 15px; opacity: 0.9; }
-            .btn-telegram { display: inline-block; background: #fff; color: #0088cc; padding: 10px 20px; border-radius: 25px; text-decoration: none; font-weight: bold; font-size: 1.1em; transition: 0.3s; }
-            .btn-telegram:hover { transform: scale(1.05); box-shadow: 0 4px 10px rgba(255,255,255,0.4); }
+            /* PREMIUM TELEGRAM BANNER */
+            .telegram-banner { background: linear-gradient(135deg, #1c92d2, #f2fcfe); border-radius: 12px; padding: 25px 20px; text-align: center; color: #0f2027; margin-bottom: 30px; box-shadow: 0 8px 20px rgba(28,146,210,0.15); position: relative; overflow: hidden; border: 1px solid rgba(255,255,255,0.5); }
+            .telegram-banner h3 { margin: 0 0 10px 0; font-size: 1.5em; font-weight: 700; }
+            .telegram-banner p { font-size: 0.95em; margin-bottom: 20px; color: #333; }
+            .btn-telegram { display: inline-block; background: #0088cc; color: #fff; padding: 12px 25px; border-radius: 30px; text-decoration: none; font-weight: 600; font-size: 1.1em; transition: 0.3s; box-shadow: 0 4px 10px rgba(0,136,204,0.3); }
+            .btn-telegram:hover { transform: scale(1.05); background: #0077b3; }
             
-            .widget-box { background: #fff; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); margin-bottom: 30px; overflow: hidden; border: 1px solid #eaeaea; }
-            .widget-box h3 { margin: 0; color: #fff; background: #1a5276; padding: 15px; text-align: center; font-size: 1.2em; }
+            /* WIDGET KLASEMEN (TAB CSS LAYER METHOD - FIX ANTI BLANK) */
+            .widget-box { background: #fff; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 30px; overflow: hidden; border: 1px solid #f0f0f0; }
+            .widget-box h3 { margin: 0; color: #fff; background: #0f2027; padding: 18px; text-align: center; font-size: 1.2em; letter-spacing: 1px; }
             
-            .tab { display: flex; flex-wrap: wrap; background-color: #f1f1f1; border-bottom: 2px solid #1a5276; }
-            .tab button { background-color: inherit; color: #555; border: none; outline: none; cursor: pointer; padding: 12px 10px; font-size: 13px; font-weight: bold; flex-grow: 1; border-right: 1px solid #ddd; border-bottom: 1px solid #ddd; }
-            .tab button.active { background-color: #1a5276; color: white; border-bottom: none; }
-            .dynamic-widget-container { padding: 10px; min-height: 500px; text-align: center; }
+            .tab { display: flex; flex-wrap: wrap; background-color: #f8f9fa; border-bottom: 2px solid #ecf0f1; }
+            .tab button { background-color: inherit; color: #666; border: none; outline: none; cursor: pointer; padding: 12px 0; font-size: 13px; font-weight: 600; flex-grow: 1; font-family: inherit; transition: 0.3s; border-bottom: 3px solid transparent; }
+            .tab button:hover { color: #00416A; background: #f1f3f5; }
+            .tab button.active { color: #00416A; border-bottom: 3px solid #00416A; background: #fff; }
+            
+            /* Trik Layering agar script ScoreAxis membaca ukuran div dengan sempurna */
+            .tab-wrapper { position: relative; min-height: 520px; background: #fff; }
+            .tabcontent { position: absolute; top: 0; left: 0; width: 100%; opacity: 0; z-index: -1; transition: opacity 0.3s ease; padding: 10px; }
+            .tabcontent.active-tab { opacity: 1; z-index: 1; }
             
             @media (max-width: 900px) {
                 .main-container { flex-direction: column; }
                 .sidebar-right { width: 100%; }
-                .news-card { flex-direction: column; }
-                .news-thumb { width: 100%; height: 200px; }
+                .news-card { grid-template-columns: 1fr; }
+                .news-thumb { height: 200px; }
             }
         </style>
     </head>
@@ -88,14 +105,14 @@
 
         <div class="main-container">
             <div class="content-left">
-                <input type="text" id="searchInput" class="search-box" placeholder="🔍 Cari berita bola di sini..." onkeyup="searchNews()">
+                <input type="text" id="searchInput" class="search-box" placeholder="🔍 Cari berita klub atau liga di sini..." onkeyup="searchNews()">
                 
                 <div id="news-list">
                     
                 <div class="news-card" data-title="panas! fifa tuduh uefa sebar kampanye misinformasi terkait gianni infantino">
                     <img src="https://wsrv.nl/?url=https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/5548/live/fe59a060-bbd9-11f1-a430-4d16ee157c41.jpg&w=800&output=webp" alt="Thumbnail Berita" class="news-thumb" loading="lazy" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1579952363873-27f3bade9f55?q=80&w=800&auto=format&fit=crop';">
                     <div class="news-info">
-                        <span style="background:#2980b9;color:white;padding:3px 8px;border-radius:10px;font-size:0.75em;font-weight:bold;display:inline-block;margin-bottom:8px;">INTERNASIONAL</span>
+                        <span class="news-badge" style="background:#00416A;">INTERNASIONAL</span>
                         <h3><a href="/berita/panas-fifa-tuduh-uefa-sebar-kampanye-misinformasi-terkait-gianni-infantino.html">Panas! FIFA Tuduh UEFA Sebar Kampanye Misinformasi Terkait Gianni Infantino</a></h3>
                         <p>Hubungan dua kekuatan terbesar dalam tata kelola sepak bola global kembali memanas. Federasi Sepak Bola Internasional (FIFA) melancarkan serangan terb...</p>
                     </div>
@@ -104,7 +121,7 @@
                 <div class="news-card" data-title="start tanpa kemenangan di wsl, aston villa resmi pecat natalia arroyo">
                     <img src="https://wsrv.nl/?url=https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/4a03/live/f19730a0-bbdd-11f1-bfea-9d5bb7e7d40b.jpg&w=800&output=webp" alt="Thumbnail Berita" class="news-thumb" loading="lazy" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1579952363873-27f3bade9f55?q=80&w=800&auto=format&fit=crop';">
                     <div class="news-info">
-                        <span style="background:#2980b9;color:white;padding:3px 8px;border-radius:10px;font-size:0.75em;font-weight:bold;display:inline-block;margin-bottom:8px;">INTERNASIONAL</span>
+                        <span class="news-badge" style="background:#00416A;">INTERNASIONAL</span>
                         <h3><a href="/berita/start-tanpa-kemenangan-di-wsl-aston-villa-resmi-pecat-natalia-arroyo.html">Start Tanpa Kemenangan di WSL, Aston Villa Resmi Pecat Natalia Arroyo</a></h3>
                         <p>Klub sepak bola wanita Aston Villa mengambil langkah drastis menyusul performa buruk yang dialami tim pada awal kompetisi Women's Super League (WSL). ...</p>
                     </div>
@@ -113,7 +130,7 @@
                 <div class="news-card" data-title="misi balas dendam atau tragedi jilid dua? ceko kembali guncang wembley setelah tiga dekade nestapa euro 96!">
                     <img src="https://wsrv.nl/?url=https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/4d74/live/e5bdb600-bb4c-11f1-a071-65d2e11c8f4a.jpg&w=800&output=webp" alt="Thumbnail Berita" class="news-thumb" loading="lazy" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1579952363873-27f3bade9f55?q=80&w=800&auto=format&fit=crop';">
                     <div class="news-info">
-                        <span style="background:#2980b9;color:white;padding:3px 8px;border-radius:10px;font-size:0.75em;font-weight:bold;display:inline-block;margin-bottom:8px;">INTERNASIONAL</span>
+                        <span class="news-badge" style="background:#00416A;">INTERNASIONAL</span>
                         <h3><a href="/berita/misi-balas-dendam-atau-tragedi-jilid-dua-ceko-kembali-guncang-wembley-setelah-tiga-dekade-nestapa-euro-96.html">Misi Balas Dendam atau Tragedi Jilid Dua? Ceko Kembali Guncang Wembley Setelah Tiga Dekade Nestapa Euro 96!</a></h3>
                         <p>Stadion legendaris Wembley di London bersiap kembali menjadi saksi bisu bentrokan sarat emosi dan sejarah. Tim nasional Republik Ceko dijadwalkan bert...</p>
                     </div>
@@ -122,7 +139,7 @@
                 <div class="news-card" data-title="perang terbuka dua raksasa! fifa ngamuk tuding uefa sebar hoaks demi gagalkan rencana megaproyek piala dunia">
                     <img src="https://images.unsplash.com/photo-1579952363873-27f3bade9f55?q=80&w=800&auto=format&fit=crop" alt="Thumbnail Berita" class="news-thumb" loading="lazy" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1579952363873-27f3bade9f55?q=80&w=800&auto=format&fit=crop';">
                     <div class="news-info">
-                        <span style="background:#2980b9;color:white;padding:3px 8px;border-radius:10px;font-size:0.75em;font-weight:bold;display:inline-block;margin-bottom:8px;">INTERNASIONAL</span>
+                        <span class="news-badge" style="background:#00416A;">INTERNASIONAL</span>
                         <h3><a href="/berita/perang-terbuka-dua-raksasa-fifa-ngamuk-tuding-uefa-sebar-hoaks-demi-gagalkan-rencana-megaproyek-piala-dunia.html">Perang Terbuka Dua Raksasa! FIFA Ngamuk Tuding UEFA Sebar Hoaks Demi Gagalkan Rencana Megaproyek Piala Dunia</a></h3>
                         <p>Panggung sepak bola dunia kembali memanas menyusul perseteruan terbuka antara dua otoritas paling berkuasa di jagat lapangan hijau. Federasi Sepak Bol...</p>
                     </div>
@@ -131,7 +148,7 @@
                 <div class="news-card" data-title="banjir dolar untuk anggota fifa! gianni infantino janjikan guyuran dana segar fantastis dari kas cadangan">
                     <img src="https://wsrv.nl/?url=https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/ef71/live/e2976ac0-bb83-11f1-a7f1-45ae25eeed0b.jpg&w=800&output=webp" alt="Thumbnail Berita" class="news-thumb" loading="lazy" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1579952363873-27f3bade9f55?q=80&w=800&auto=format&fit=crop';">
                     <div class="news-info">
-                        <span style="background:#2980b9;color:white;padding:3px 8px;border-radius:10px;font-size:0.75em;font-weight:bold;display:inline-block;margin-bottom:8px;">INTERNASIONAL</span>
+                        <span class="news-badge" style="background:#00416A;">INTERNASIONAL</span>
                         <h3><a href="/berita/banjir-dolar-untuk-anggota-fifa-gianni-infantino-janjikan-guyuran-dana-segar-fantastis-dari-kas-cadangan.html">Banjir Dolar untuk Anggota FIFA! Gianni Infantino Janjikan Guyuran Dana Segar Fantastis dari Kas Cadangan</a></h3>
                         <p>Presiden FIFA, Gianni Infantino, kembali membuat gebrakan besar yang menghebohkan panggung sepak bola dunia. Pria asal Swiss tersebut baru saja member...</p>
                     </div>
@@ -140,7 +157,7 @@
                 <div class="news-card" data-title="siapa berani lawan infantino? ditekan uefa habis-habisan, sang presiden fifa justru kian tak tergoyahkan!">
                     <img src="https://images.unsplash.com/photo-1579952363873-27f3bade9f55?q=80&w=800&auto=format&fit=crop" alt="Thumbnail Berita" class="news-thumb" loading="lazy" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1579952363873-27f3bade9f55?q=80&w=800&auto=format&fit=crop';">
                     <div class="news-info">
-                        <span style="background:#2980b9;color:white;padding:3px 8px;border-radius:10px;font-size:0.75em;font-weight:bold;display:inline-block;margin-bottom:8px;">INTERNASIONAL</span>
+                        <span class="news-badge" style="background:#00416A;">INTERNASIONAL</span>
                         <h3><a href="/berita/siapa-berani-lawan-infantino-ditekan-uefa-habis-habisan-sang-presiden-fifa-justru-kian-tak-tergoyahkan.html">Siapa Berani Lawan Infantino? Ditekan UEFA Habis-habisan, Sang Presiden FIFA Justru Kian Tak Tergoyahkan!</a></h3>
                         <p>Panggung sepak bola global kembali membuktikan satu hal: Gianni Infantino bukan sosok yang mudah digoyahkan. Di tengah derasnya gelombang kritik dan t...</p>
                     </div>
@@ -149,7 +166,7 @@
                 <div class="news-card" data-title="bagi-bagi uang kaget! gianni infantino janjikan guyuran dana segar fantastis untuk anggota fifa">
                     <img src="https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/ef71/live/e2976ac0-bb83-11f1-a7f1-45ae25eeed0b.jpg" alt="Thumbnail Berita" class="news-thumb" loading="lazy" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1579952363873-27f3bade9f55?q=80&w=800&auto=format&fit=crop';">
                     <div class="news-info">
-                        <span style="background:#2980b9;color:white;padding:3px 8px;border-radius:10px;font-size:0.75em;font-weight:bold;display:inline-block;margin-bottom:8px;">INTERNASIONAL</span>
+                        <span class="news-badge" style="background:#00416A;">INTERNASIONAL</span>
                         <h3><a href="/berita/bagi-bagi-uang-kaget-gianni-infantino-janjikan-guyuran-dana-segar-fantastis-untuk-anggota-fifa.html">Bagi-Bagi Uang Kaget! Gianni Infantino Janjikan Guyuran Dana Segar Fantastis untuk Anggota FIFA</a></h3>
                         <p>Kabar gembira berhembus kencang dari markas besar federasi sepak bola dunia. Presiden FIFA, Gianni Infantino, secara terbuka memberikan sinyal kuat ba...</p>
                     </div>
@@ -158,7 +175,7 @@
                 <div class="news-card" data-title="bursa transfer memanas: arsenal dan man united saling sikut demi bintang porto, man city pasang banderol gila haaland!">
                     <img src="https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/5ead/live/7c391d60-bb7d-11f1-aa8c-25a48ac48e8f.png" alt="Thumbnail Berita" class="news-thumb" loading="lazy" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1579952363873-27f3bade9f55?q=80&w=800&auto=format&fit=crop';">
                     <div class="news-info">
-                        <span style="background:#2980b9;color:white;padding:3px 8px;border-radius:10px;font-size:0.75em;font-weight:bold;display:inline-block;margin-bottom:8px;">INTERNASIONAL</span>
+                        <span class="news-badge" style="background:#00416A;">INTERNASIONAL</span>
                         <h3><a href="/berita/bursa-transfer-memanas-arsenal-dan-man-united-saling-sikut-demi-bintang-porto-man-city-pasang-banderol-gila-haaland.html">Bursa Transfer Memanas: Arsenal dan Man United Saling Sikut Demi Bintang Porto, Man City Pasang Banderol Gila Haaland!</a></h3>
                         <p>Panggung bursa transfer Eropa kembali menyajikan drama panas menjelang dibukanya jendela transfer musim dingin dan musim panas mendatang. Dua raksasa ...</p>
                     </div>
@@ -167,7 +184,7 @@
                 <div class="news-card" data-title="bikin merinding! bisikan rahasia lamine yamal ke lionel messi di final piala dunia 2026 akhirnya terbongkar">
                     <img src="https://images.unsplash.com/photo-1518605368461-1e1c071d3326?q=80&w=800&auto=format&fit=crop" alt="Thumbnail Berita" class="news-thumb" loading="lazy" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1579952363873-27f3bade9f55?q=80&w=800&auto=format&fit=crop';">
                     <div class="news-info">
-                        <span style="background:#2980b9;color:white;padding:3px 8px;border-radius:10px;font-size:0.75em;font-weight:bold;display:inline-block;margin-bottom:8px;">INTERNASIONAL</span>
+                        <span class="news-badge" style="background:#00416A;">INTERNASIONAL</span>
                         <h3><a href="/berita/bikin-merinding-bisikan-rahasia-lamine-yamal-ke-lionel-messi-di-final-piala-dunia-2026-akhirnya-terbongkar.html">Bikin Merinding! Bisikan Rahasia Lamine Yamal ke Lionel Messi di Final Piala Dunia 2026 Akhirnya Terbongkar</a></h3>
                         <p>Dunia sepak bola sempat menahan napas ketika peluit panjang tanda berakhirnya laga final Piala Dunia 2026 dibunyikan. Di tengah gemuruh stadion dan so...</p>
                     </div>
@@ -191,18 +208,36 @@
                 </div>
 
                 <div class="widget-box">
-                    <h3>🏆 KLASEMEN LIGA</h3>
+                    <h3>🏆 PUSAT KLASEMEN</h3>
                     <div class="tab">
-                      <button class="tablinks active" onclick="loadWidget('ENG')">Inggris</button>
-                      <button class="tablinks" onclick="loadWidget('ESP')">Spanyol</button>
-                      <button class="tablinks" onclick="loadWidget('ITA')">Italia</button>
-                      <button class="tablinks" onclick="loadWidget('GER')">Jerman</button>
-                      <button class="tablinks" onclick="loadWidget('FRA')">Prancis</button>
-                      <button class="tablinks" onclick="loadWidget('IDN')">Indonesia</button>
+                      <button class="tablinks active" onclick="switchTab(event, 'ENG')">Inggris</button>
+                      <button class="tablinks" onclick="switchTab(event, 'ESP')">Spanyol</button>
+                      <button class="tablinks" onclick="switchTab(event, 'ITA')">Italia</button>
+                      <button class="tablinks" onclick="switchTab(event, 'GER')">Jerman</button>
+                      <button class="tablinks" onclick="switchTab(event, 'FRA')">Prancis</button>
+                      <button class="tablinks" onclick="switchTab(event, 'IDN')">Indo</button>
                     </div>
                     
-                    <div id="dynamic-widget-container" class="dynamic-widget-container">
-                        Mempersiapkan klasemen...
+                    <div class="tab-wrapper">
+                        <!-- Dengan menaruh semua script di dalam HTML secara langsung, ScoreAxis merender sempurna -->
+                        <div id="ENG" class="tabcontent active-tab">
+                            <div id="widget-atvlmumh1msi" class="scoreaxis-widget" style="width: 100%;height: auto;font-size: 14px;background-color: #ffffff;color: #141416;border: 1px solid;border-color: #ecf1f7;overflow: auto;"><script src="https://widgets.scoreaxis.com/api/football/league-table/6232265abf1fa71a672159ec?widgetId=atvlmumh1msi&lang=id&teamLogo=1&tableLines=0&homeAway=1&header=1&position=1&goals=1&gamesCount=1&diff=1&winCount=1&drawCount=1&loseCount=1&lastGames=1&points=1&teamsLimit=all&links=1&noFollowLinks=0&font=poppins&fontSize=14&rowDensity=100&widgetWidth=auto&widgetHeight=auto&bodyColor=%23ffffff&textColor=%23141416&linkColor=%23141416&borderColor=%23ecf1f7&tabColor=%23f3f8fd" async></script></div>
+                        </div>
+                        <div id="ESP" class="tabcontent">
+                            <div id="widget-j7xwmumh3y7m" class="scoreaxis-widget" style="width: 100%;height: auto;font-size: 14px;background-color: #ffffff;color: #141416;border: 1px solid;border-color: #ecf1f7;overflow: auto;"><script src="https://widgets.scoreaxis.com/api/football/league-table/62322c053617da0b83221cc6?widgetId=j7xwmumh3y7m&lang=id&teamLogo=1&tableLines=0&homeAway=1&header=1&position=1&goals=1&gamesCount=1&diff=1&winCount=1&drawCount=1&loseCount=1&lastGames=1&points=1&teamsLimit=all&links=1&noFollowLinks=0&font=poppins&fontSize=14&rowDensity=100&widgetWidth=auto&widgetHeight=auto&bodyColor=%23ffffff&textColor=%23141416&linkColor=%23141416&borderColor=%23ecf1f7&tabColor=%23f3f8fd" async></script></div>
+                        </div>
+                        <div id="ITA" class="tabcontent">
+                            <div id="widget-llkdmumh65vu" class="scoreaxis-widget" style="width: 100%;height: auto;font-size: 14px;background-color: #ffffff;color: #141416;border: 1px solid;border-color: #ecf1f7;overflow: auto;"><script src="https://widgets.scoreaxis.com/api/football/league-table/62322b827aee66235a2be718?widgetId=llkdmumh65vu&lang=id&teamLogo=1&tableLines=0&homeAway=1&header=1&position=1&goals=1&gamesCount=1&diff=1&winCount=1&drawCount=1&loseCount=1&lastGames=1&points=1&teamsLimit=all&links=1&noFollowLinks=0&font=poppins&fontSize=14&rowDensity=100&widgetWidth=auto&widgetHeight=auto&bodyColor=%23ffffff&textColor=%23141416&linkColor=%23141416&borderColor=%23ecf1f7&tabColor=%23f3f8fd" async></script></div>
+                        </div>
+                        <div id="GER" class="tabcontent">
+                            <div id="widget-t6xvmumh55i6" class="scoreaxis-widget" style="width: 100%;height: auto;font-size: 14px;background-color: #ffffff;color: #141416;border: 1px solid;border-color: #ecf1f7;overflow: auto;"><script src="https://widgets.scoreaxis.com/api/football/league-table/62321f50f7016c22d3650732?widgetId=t6xvmumh55i6&lang=id&teamLogo=1&tableLines=0&homeAway=1&header=1&position=1&goals=1&gamesCount=1&diff=1&winCount=1&drawCount=1&loseCount=1&lastGames=1&points=1&teamsLimit=all&links=1&noFollowLinks=0&font=poppins&fontSize=14&rowDensity=100&widgetWidth=auto&widgetHeight=auto&bodyColor=%23ffffff&textColor=%23141416&linkColor=%23141416&borderColor=%23ecf1f7&tabColor=%23f3f8fd" async></script></div>
+                        </div>
+                        <div id="FRA" class="tabcontent">
+                            <div id="widget-bjs9mumh5ta6" class="scoreaxis-widget" style="width: 100%;height: auto;font-size: 14px;background-color: #ffffff;color: #141416;border: 1px solid;border-color: #ecf1f7;overflow: auto;"><script src="https://widgets.scoreaxis.com/api/football/league-table/62322b4efd209951602c9096?widgetId=bjs9mumh5ta6&lang=id&teamLogo=1&tableLines=0&homeAway=1&header=1&position=1&goals=1&gamesCount=1&diff=1&winCount=1&drawCount=1&loseCount=1&lastGames=1&points=1&teamsLimit=all&links=1&noFollowLinks=0&font=poppins&fontSize=14&rowDensity=100&widgetWidth=auto&widgetHeight=auto&bodyColor=%23ffffff&textColor=%23141416&linkColor=%23141416&borderColor=%23ecf1f7&tabColor=%23f3f8fd" async></script></div>
+                        </div>
+                        <div id="IDN" class="tabcontent">
+                            <div id="widget-wrt7mumh7146" class="scoreaxis-widget" style="width: 100%;height: auto;font-size: 14px;background-color: #ffffff;color: #141416;border: 1px solid;border-color: #ecf1f7;overflow: auto;"><script src="https://widgets.scoreaxis.com/api/football/league-table/623225c009ac1611ee0dc0f6?widgetId=wrt7mumh7146&lang=id&teamLogo=1&tableLines=0&homeAway=1&header=1&position=1&goals=1&gamesCount=1&diff=1&winCount=1&drawCount=1&loseCount=1&lastGames=1&points=1&teamsLimit=all&links=1&noFollowLinks=0&font=poppins&fontSize=14&rowDensity=100&widgetWidth=auto&widgetHeight=auto&bodyColor=%23ffffff&textColor=%23141416&linkColor=%23141416&borderColor=%23ecf1f7&tabColor=%23f3f8fd" async></script></div>
+                        </div>
                     </div>
                 </div>
 
@@ -241,17 +276,27 @@ hs.src = ('//s10.histats.com/js15_as.js');
         </div>
 
         <script>
+            // TAB LOGIC (CSS Based - Aman dari Script blocker)
+            function switchTab(evt, leagueName) {
+                let tablinks = document.getElementsByClassName("tablinks");
+                for (let i = 0; i < tablinks.length; i++) { tablinks[i].classList.remove("active"); }
+                evt.currentTarget.classList.add("active");
+
+                let tabcontents = document.getElementsByClassName("tabcontent");
+                for (let i = 0; i < tabcontents.length; i++) { tabcontents[i].classList.remove("active-tab"); }
+                document.getElementById(leagueName).classList.add("active-tab");
+            }
+
+            // SEARCH LOGIC
             function searchNews() {
                 const input = document.getElementById('searchInput').value.toLowerCase();
                 const cards = document.querySelectorAll('.news-card');
-                let hasResults = false;
                 
                 if(input.length > 0) {
                     document.querySelector('.pagination').style.display = 'none';
                     cards.forEach(card => {
                         if (card.getAttribute('data-title').includes(input)) {
-                            card.style.display = 'flex';
-                            hasResults = true;
+                            card.style.display = 'grid';
                         } else {
                             card.style.display = 'none';
                         }
@@ -262,32 +307,8 @@ hs.src = ('//s10.histats.com/js15_as.js');
                 }
             }
 
-            const scoreAxisWidgets = {
-                'ENG': { id: 'widget-atvlmumh1msi', url: 'https://widgets.scoreaxis.com/api/football/league-table/6232265abf1fa71a672159ec?widgetId=atvlmumh1msi&lang=id&teamLogo=1&tableLines=0&homeAway=1&header=1&position=1&goals=1&gamesCount=1&diff=1&winCount=1&drawCount=1&loseCount=1&lastGames=1&points=1&teamsLimit=all&links=1&noFollowLinks=0&font=heebo&fontSize=14&rowDensity=100&widgetWidth=auto&widgetHeight=auto&bodyColor=%23ffffff&textColor=%23141416&linkColor=%23141416&borderColor=%23ecf1f7&tabColor=%23f3f8fd' },
-                'ESP': { id: 'widget-j7xwmumh3y7m', url: 'https://widgets.scoreaxis.com/api/football/league-table/62322c053617da0b83221cc6?widgetId=j7xwmumh3y7m&lang=id&teamLogo=1&tableLines=0&homeAway=1&header=1&position=1&goals=1&gamesCount=1&diff=1&winCount=1&drawCount=1&loseCount=1&lastGames=1&points=1&teamsLimit=all&links=1&noFollowLinks=0&font=heebo&fontSize=14&rowDensity=100&widgetWidth=auto&widgetHeight=auto&bodyColor=%23ffffff&textColor=%23141416&linkColor=%23141416&borderColor=%23ecf1f7&tabColor=%23f3f8fd' },
-                'ITA': { id: 'widget-llkdmumh65vu', url: 'https://widgets.scoreaxis.com/api/football/league-table/62322b827aee66235a2be718?widgetId=llkdmumh65vu&lang=id&teamLogo=1&tableLines=0&homeAway=1&header=1&position=1&goals=1&gamesCount=1&diff=1&winCount=1&drawCount=1&loseCount=1&lastGames=1&points=1&teamsLimit=all&links=1&noFollowLinks=0&font=heebo&fontSize=14&rowDensity=100&widgetWidth=auto&widgetHeight=auto&bodyColor=%23ffffff&textColor=%23141416&linkColor=%23141416&borderColor=%23ecf1f7&tabColor=%23f3f8fd' },
-                'GER': { id: 'widget-t6xvmumh55i6', url: 'https://widgets.scoreaxis.com/api/football/league-table/62321f50f7016c22d3650732?widgetId=t6xvmumh55i6&lang=id&teamLogo=1&tableLines=0&homeAway=1&header=1&position=1&goals=1&gamesCount=1&diff=1&winCount=1&drawCount=1&loseCount=1&lastGames=1&points=1&teamsLimit=all&links=1&noFollowLinks=0&font=heebo&fontSize=14&rowDensity=100&widgetWidth=auto&widgetHeight=auto&bodyColor=%23ffffff&textColor=%23141416&linkColor=%23141416&borderColor=%23ecf1f7&tabColor=%23f3f8fd' },
-                'FRA': { id: 'widget-bjs9mumh5ta6', url: 'https://widgets.scoreaxis.com/api/football/league-table/62322b4efd209951602c9096?widgetId=bjs9mumh5ta6&lang=id&teamLogo=1&tableLines=0&homeAway=1&header=1&position=1&goals=1&gamesCount=1&diff=1&winCount=1&drawCount=1&loseCount=1&lastGames=1&points=1&teamsLimit=all&links=1&noFollowLinks=0&font=heebo&fontSize=14&rowDensity=100&widgetWidth=auto&widgetHeight=auto&bodyColor=%23ffffff&textColor=%23141416&linkColor=%23141416&borderColor=%23ecf1f7&tabColor=%23f3f8fd' },
-                'IDN': { id: 'widget-wrt7mumh7146', url: 'https://widgets.scoreaxis.com/api/football/league-table/623225c009ac1611ee0dc0f6?widgetId=wrt7mumh7146&lang=id&teamLogo=1&tableLines=0&homeAway=1&header=1&position=1&goals=1&gamesCount=1&diff=1&winCount=1&drawCount=1&loseCount=1&lastGames=1&points=1&teamsLimit=all&links=1&noFollowLinks=0&font=heebo&fontSize=14&rowDensity=100&widgetWidth=auto&widgetHeight=auto&bodyColor=%23ffffff&textColor=%23141416&linkColor=%23141416&borderColor=%23ecf1f7&tabColor=%23f3f8fd' }
-            };
-
-            function loadWidget(leagueKey) {
-                let tablinks = document.getElementsByClassName("tablinks");
-                for (let i = 0; i < tablinks.length; i++) { tablinks[i].classList.remove("active"); }
-                if(event) event.currentTarget.classList.add("active");
-
-                const container = document.getElementById("dynamic-widget-container");
-                const wData = scoreAxisWidgets[leagueKey];
-                
-                container.innerHTML = `<div id="${wData.id}" class="scoreaxis-widget" style="width: 100%;"><p style="padding:20px;color:#888;">Memuat Data...</p></div>`;
-                
-                const scriptEl = document.createElement('script');
-                scriptEl.src = wData.url;
-                scriptEl.async = true;
-                document.getElementById(wData.id).appendChild(scriptEl);
-            }
-
-            const itemsPerPage = 6;
+            // PAGINATION LOGIC
+            const itemsPerPage = 5;
             let currentPage = 1;
             const articles = document.querySelectorAll('.news-card');
             const totalPages = Math.ceil(articles.length / itemsPerPage);
@@ -297,7 +318,7 @@ hs.src = ('//s10.histats.com/js15_as.js');
                 
                 articles.forEach((card, index) => {
                     if (index >= (page - 1) * itemsPerPage && index < page * itemsPerPage) {
-                        card.style.display = 'flex';
+                        card.style.display = 'grid'; // Grid styling baru
                     } else {
                         card.style.display = 'none';
                     }
@@ -314,7 +335,6 @@ hs.src = ('//s10.histats.com/js15_as.js');
             }
 
             if(articles.length > 0) showPage(1);
-            window.onload = function() { loadWidget('ENG'); };
         </script>
     </body>
     </html>
