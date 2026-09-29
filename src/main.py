@@ -7,7 +7,10 @@ import json
 import re
 from datetime import datetime
 
-print("=== MEMULAI SCRIPT AGC BOLA (CHAMPIONS LEAGUE EDITION & ADS OPTIMIZED) ===")
+print("=== MEMULAI SCRIPT AGC BOLA (SITEMAP XML AUTO-GENERATOR) ===")
+
+# 🔥 GANTI DENGAN ALAMAT WEB ASLI ANDA (CONTOH: https://lensaterkini.pages.dev) 🔥
+SITE_URL = "https://domainanda.pages.dev" 
 
 API_KEYS_STRING = os.environ.get("GEMINI_API_KEYS")
 
@@ -32,7 +35,7 @@ os.makedirs(OUTPUT_DIR, exist_ok=True)
 LOGO_URL = "https://upload.wikimedia.org/wikipedia/commons/d/d3/Soccerball.svg"
 
 # =====================================================================
-# WIDGET SCOREAXIS 100% ORIGINAL (TERMASUK LIGA CHAMPIONS)
+# WIDGET SCOREAXIS 100% ORIGINAL
 # =====================================================================
 WIDGET_ENG = """<div id="widget-atvlmumh1msi" class="scoreaxis-widget" style="width: auto;height: auto;font-size: 14px;background-color: #ffffff;color: #141416;border: 1px solid;border-color: #ecf1f7;overflow: auto;"><script src="https://widgets.scoreaxis.com/api/football/league-table/6232265abf1fa71a672159ec?widgetId=atvlmumh1msi&lang=id&teamLogo=1&tableLines=0&homeAway=1&header=1&position=1&goals=1&gamesCount=1&diff=1&winCount=1&drawCount=1&loseCount=1&lastGames=1&points=1&teamsLimit=all&links=1&noFollowLinks=0&font=heebo&fontSize=14&rowDensity=100&widgetWidth=auto&widgetHeight=auto&bodyColor=%23ffffff&textColor=%23141416&linkColor=%23141416&borderColor=%23ecf1f7&tabColor=%23f3f8fd" async></script><div class="widget-main-link" style="padding: 6px 12px;font-weight: 500;">Live data by <a href="https://www.scoreaxis.com/" style="color: inherit;">Scoreaxis</a></div></div>"""
 WIDGET_ESP = """<div id="widget-j7xwmumh3y7m" class="scoreaxis-widget" style="width: auto;height: auto;font-size: 14px;background-color: #ffffff;color: #141416;border: 1px solid;border-color: #ecf1f7;overflow: auto;"><script src="https://widgets.scoreaxis.com/api/football/league-table/62322c053617da0b83221cc6?widgetId=j7xwmumh3y7m&lang=id&teamLogo=1&tableLines=0&homeAway=1&header=1&position=1&goals=1&gamesCount=1&diff=1&winCount=1&drawCount=1&loseCount=1&lastGames=1&points=1&teamsLimit=all&links=1&noFollowLinks=0&font=heebo&fontSize=14&rowDensity=100&widgetWidth=auto&widgetHeight=auto&bodyColor=%23ffffff&textColor=%23141416&linkColor=%23141416&borderColor=%23ecf1f7&tabColor=%23f3f8fd" async></script><div class="widget-main-link" style="padding: 6px 12px;font-weight: 500;">Live data by <a href="https://www.scoreaxis.com/" style="color: inherit;">Scoreaxis</a></div></div>"""
@@ -71,7 +74,6 @@ SCRIPT_ADSTERRA_300 = """
 <script src="https://www.highrevenueformat.com/29f673e95ea974afd5b3ecb133ef6a9e/invoke.js"></script>
 """
 
-# Pop-Under diberi tipe javascript & data-cfasync agar lolos dari pemblokir Cloudflare
 SCRIPT_POPUNDER = """
 <script type='text/javascript' src='//pl31570858.profitableratecpmnetwork.com/bf/7c/c8/bf7cc8b38eeb859ad03672bf296c81ba.js' data-cfasync='false'></script>
 """
@@ -259,7 +261,9 @@ def save_as_html(content, title, excerpt, thumbnail, category):
         <meta name="publish-date" content="{timestamp}">
         <meta name="article-category" content="{category}">
         
-        <!-- POPUNDER HARUS DI HEAD AGAR AKTIF SEJAK KLIK PERTAMA -->
+        <!-- TAG VERIFIKASI GOOGLE ANDA MASUKKAN KEMBALI DI SINI -->
+        <!-- <meta name="google-site-verification" content="GANTI_KODE_ANDA" /> -->
+
         {SCRIPT_POPUNDER}
         
         <style>
@@ -294,7 +298,6 @@ def save_as_html(content, title, excerpt, thumbnail, category):
             </a>
         </header>
         
-        <!-- Iklan Top -->
         <div class="ad-slot">
             {SCRIPT_ADSTERRA_728}
         </div>
@@ -369,7 +372,9 @@ def update_homepage():
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Lensa Terkini Bola - Portal Berita Sepak Bola</title>
         
-        <!-- POPUNDER HARUS DI HEAD AGAR AKTIF SEJAK KLIK PERTAMA -->
+        <!-- TAG VERIFIKASI GOOGLE ANDA MASUKKAN KEMBALI DI SINI -->
+        <!-- <meta name="google-site-verification" content="GANTI_KODE_ANDA" /> -->
+
         {SCRIPT_POPUNDER}
         
         <style>
@@ -386,7 +391,7 @@ def update_homepage():
             
             .ad-slot {{ background: #fff; border: 1px dashed #ced4da; padding: 15px; text-align: center; margin: 20px auto; max-width: 1250px; border-radius: 8px; overflow: hidden; }}
             
-            /* MEGA KLASEMEN (CAROUSEL / SCROLL HORIZONTAL) */
+            /* MEGA KLASEMEN (CAROUSEL) */
             .mega-standings-wrapper {{ max-width: 1250px; margin: 10px auto 30px auto; padding: 0 20px; }}
             .section-heading {{ font-size: 1.8em; color: #0f2027; border-left: 5px solid #e74c3c; padding-left: 15px; margin-bottom: 20px; font-weight: 700; display: flex; align-items: center; gap: 10px; }}
             
@@ -467,7 +472,6 @@ def update_homepage():
             <p>Portal Berita & Update Skor Bola Dunia</p>
         </header>
 
-        <!-- IKLAN BANNER BESAR: Tepat di Bawah Header -->
         <div class="ad-slot">
             {SCRIPT_ADSTERRA_728}
         </div>
@@ -550,6 +554,47 @@ def update_homepage():
     with open('public/index.html', 'w', encoding='utf-8') as f:
         f.write(homepage_template)
 
+
+# =====================================================================
+# FUNGSI AUTO-GENERATE SITEMAP XML UNTUK GOOGLE SEARCH CONSOLE
+# =====================================================================
+def generate_sitemap():
+    print("Membuat Sitemap XML...")
+    now = datetime.now().strftime("%Y-%m-%dT%H:%M:%S+00:00")
+    sitemap_content = f"""<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    <url>
+        <loc>{SITE_URL}/</loc>
+        <lastmod>{now}</lastmod>
+        <changefreq>hourly</changefreq>
+        <priority>1.0</priority>
+    </url>
+"""
+    berita_files = [f for f in os.listdir(OUTPUT_DIR) if f.endswith('.html')]
+    for filename in berita_files:
+        filepath = os.path.join(OUTPUT_DIR, filename)
+        try:
+            with open(filepath, 'r', encoding='utf-8') as f:
+                content = f.read()
+                match = re.search(r'<meta name="publish-date" content="(.*?)">', content)
+                ts = int(match.group(1)) if match else int(time.time())
+        except:
+            ts = int(time.time())
+        
+        lastmod = datetime.fromtimestamp(ts).strftime("%Y-%m-%dT%H:%M:%S+00:00")
+        
+        sitemap_content += f"""    <url>
+        <loc>{SITE_URL}/berita/{filename}</loc>
+        <lastmod>{lastmod}</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>\n"""
+        
+    sitemap_content += "</urlset>"
+    
+    with open('public/sitemap.xml', 'w', encoding='utf-8') as f:
+        f.write(sitemap_content)
+
 def main():
     try:
         int_news = []
@@ -586,6 +631,7 @@ def main():
                 save_as_html(content, title, excerpt, thumb, category)
         
         update_homepage()
+        generate_sitemap() # Memanggil fungsi sitemap pemikat Google
                 
     except Exception as e:
         print(f"ERROR UTAMA: {e}")
