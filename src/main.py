@@ -8,30 +8,35 @@ from google import genai
 import json
 import re
 
+print("=== MEMULAI SCRIPT AGC BOLA ===")
+
 API_KEYS_STRING = os.environ.get("GEMINI_API_KEYS")
 
 if not API_KEYS_STRING:
+    print("ERROR: GEMINI_API_KEYS tidak ditemukan!")
     raise ValueError("GEMINI_API_KEYS belum di-set di GitHub.")
 
 API_KEYS_LIST = [key.strip() for key in API_KEYS_STRING.split(",")]
 SCOREBAT_API_URL = "https://www.scorebat.com/video-api/v3/feed"
 OUTPUT_DIR = "public/berita"
 os.makedirs(OUTPUT_DIR, exist_ok=True)
+print(f"API Keys berhasil di-load: {len(API_KEYS_LIST)} kunci.")
 
 def get_gemini_response(prompt):
     random.shuffle(API_KEYS_LIST)
     for current_key in API_KEYS_LIST:
         try:
-            # Menggunakan format library google-genai yang baru
+            print(f"Mencoba AI Generate dengan key: {current_key[:10]}...")
             client = genai.Client(api_key=current_key)
             response = client.models.generate_content(
                 model='gemini-1.5-flash',
                 contents=prompt,
             )
+            print("-> Berhasil mendapatkan artikel dari Gemini!")
             return response.text
         except Exception as e:
             error_msg = str(e)
-            print(f"Key {current_key[:10]}... gagal. Error: {error_msg}")
+            print(f"-> Key gagal. Error: {error_msg}")
             if "429" in error_msg or "ResourceExhausted" in error_msg or "quota" in error_msg.lower():
                 time.sleep(2)
                 continue
@@ -49,7 +54,7 @@ def generate_article_with_gemini(match_data):
     if videos and len(videos) > 0:
         embed_iframe = videos[0].get('embed', '')
     
-    print(f"Membuat artikel untuk: {title}")
+    print(f"\nMemproses: {title} ({competition})")
     
     prompt = f"""
     Bertindaklah sebagai jurnalis olahraga profesional dari Indonesia. 
@@ -59,7 +64,6 @@ def generate_article_with_gemini(match_data):
     - Tanggal: {date_str}
     
     Buatlah artikel highlight singkat (sekitar 300 kata) dalam Bahasa Indonesia.
-    
     Gunakan struktur Markdown berikut:
     # [Tulis Judul Artikel]
     [Paragraf pembuka dramatis]
@@ -110,19 +114,41 @@ def save_as_html(markdown_content, raw_title):
     """
     with open(filename, 'w', encoding='utf-8') as f:
         f.write(html_template)
-    print(f"Berhasil menyimpan: {filename}")
+    print(f"V Berhasil membuat file HTML: {filename}")
 
 def main():
     try:
-        response = requests.get(SCOREBAT_API_URL)
+        print("\nMenghubungi ScoreBat API...")
+        response = requests.get(SCOREBAT_API_URL, timeout=10)
+        print(f"Status koneksi API: HTTP {response.status_code}")
+        
         data = response.json()
-        matches = data.get('response', [])
-        for match in matches[:3]:  # Batasi 3 artikel dulu untuk tes
+        
+        # Mengecek format struktur data dari Scorebat
+        if isinstance(data, dict):
+            matches = data.get('response', [])
+        elif isinstance(data, list):
+            matches = data
+        else:
+            matches = []
+            
+        print(f"Total pertandingan yang ditemukan dari API: {len(matches)}")
+        
+        if not matches:
+            print("PERHATIAN: Tidak ada data pertandingan. Proses dihentikan.")
+            return
+            
+        # Proses 3 pertandingan saja untuk percobaan awal
+        for match in matches[:3]:
             content, title = generate_article_with_gemini(match)
             if content:
                 save_as_html(content, title)
+            else:
+                print(f"X Gagal memproses artikel: {title}")
+                
     except Exception as e:
-        print(f"Error fetch data: {e}")
+        print(f"!!! ERROR UTAMA: {e}")
 
 if __name__ == "__main__":
     main()
+    print("\n=== SCRIPT SELESAI ===")
