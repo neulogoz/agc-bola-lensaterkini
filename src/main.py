@@ -7,7 +7,7 @@ import json
 import re
 from datetime import datetime
 
-print("=== MEMULAI SCRIPT AGC BOLA (PREMIUM UI + ANTI SYNTAX ERROR) ===")
+print("=== MEMULAI SCRIPT AGC BOLA (PREMIUM UI + CSS GRID KLASEMEN 100% FIX) ===")
 
 API_KEYS_STRING = os.environ.get("GEMINI_API_KEYS")
 
@@ -17,22 +17,30 @@ if not API_KEYS_STRING:
 
 API_KEYS_LIST = [key.strip() for key in API_KEYS_STRING.split(",")]
 
+# Pemisahan Sumber RSS
 RSS_INT = [
-    "[https://feeds.bbci.co.uk/sport/football/rss.xml](https://feeds.bbci.co.uk/sport/football/rss.xml)",
-    "[https://www.espn.com/espn/rss/soccer/news](https://www.espn.com/espn/rss/soccer/news)"
+    "https://feeds.bbci.co.uk/sport/football/rss.xml",
+    "https://www.espn.com/espn/rss/soccer/news"
 ]
 RSS_LOKAL = [
-    "[https://www.bola.net/feed/](https://www.bola.net/feed/)",
-    "[https://www.suara.com/rss/bola](https://www.suara.com/rss/bola)"
+    "https://www.bola.net/feed/",
+    "https://www.suara.com/rss/bola"
 ]
 
 OUTPUT_DIR = "public/berita"
 os.makedirs(OUTPUT_DIR, exist_ok=True)
-LOGO_URL = "[https://upload.wikimedia.org/wikipedia/commons/d/d3/Soccerball.svg](https://upload.wikimedia.org/wikipedia/commons/d/d3/Soccerball.svg)"
+LOGO_URL = "https://upload.wikimedia.org/wikipedia/commons/d/d3/Soccerball.svg"
 
 # =====================================================================
-# BLOK VARIABEL AMAN (Tanpa Backtick agar tidak error saat Copy-Paste)
+# BLOK VARIABEL AMAN KODE WIDGET ASLI SCOREAXIS (DIMUAT STATIS)
 # =====================================================================
+WIDGET_ENG = """<div id="widget-atvlmumh1msi" class="scoreaxis-widget" style="width: 100%;height: auto;font-size: 14px;background-color: #ffffff;color: #141416;border: none;overflow: auto;"><script src="https://widgets.scoreaxis.com/api/football/league-table/6232265abf1fa71a672159ec?widgetId=atvlmumh1msi&lang=id&teamLogo=1&tableLines=0&homeAway=1&header=1&position=1&goals=1&gamesCount=1&diff=1&winCount=1&drawCount=1&loseCount=1&lastGames=1&points=1&teamsLimit=all&links=1&noFollowLinks=0&font=poppins&fontSize=14&rowDensity=100&widgetWidth=auto&widgetHeight=auto&bodyColor=%23ffffff&textColor=%23141416&linkColor=%23141416&borderColor=%23ecf1f7&tabColor=%23f3f8fd" async></script></div>"""
+WIDGET_ESP = """<div id="widget-j7xwmumh3y7m" class="scoreaxis-widget" style="width: 100%;height: auto;font-size: 14px;background-color: #ffffff;color: #141416;border: none;overflow: auto;"><script src="https://widgets.scoreaxis.com/api/football/league-table/62322c053617da0b83221cc6?widgetId=j7xwmumh3y7m&lang=id&teamLogo=1&tableLines=0&homeAway=1&header=1&position=1&goals=1&gamesCount=1&diff=1&winCount=1&drawCount=1&loseCount=1&lastGames=1&points=1&teamsLimit=all&links=1&noFollowLinks=0&font=poppins&fontSize=14&rowDensity=100&widgetWidth=auto&widgetHeight=auto&bodyColor=%23ffffff&textColor=%23141416&linkColor=%23141416&borderColor=%23ecf1f7&tabColor=%23f3f8fd" async></script></div>"""
+WIDGET_ITA = """<div id="widget-llkdmumh65vu" class="scoreaxis-widget" style="width: 100%;height: auto;font-size: 14px;background-color: #ffffff;color: #141416;border: none;overflow: auto;"><script src="https://widgets.scoreaxis.com/api/football/league-table/62322b827aee66235a2be718?widgetId=llkdmumh65vu&lang=id&teamLogo=1&tableLines=0&homeAway=1&header=1&position=1&goals=1&gamesCount=1&diff=1&winCount=1&drawCount=1&loseCount=1&lastGames=1&points=1&teamsLimit=all&links=1&noFollowLinks=0&font=poppins&fontSize=14&rowDensity=100&widgetWidth=auto&widgetHeight=auto&bodyColor=%23ffffff&textColor=%23141416&linkColor=%23141416&borderColor=%23ecf1f7&tabColor=%23f3f8fd" async></script></div>"""
+WIDGET_GER = """<div id="widget-t6xvmumh55i6" class="scoreaxis-widget" style="width: 100%;height: auto;font-size: 14px;background-color: #ffffff;color: #141416;border: none;overflow: auto;"><script src="https://widgets.scoreaxis.com/api/football/league-table/62321f50f7016c22d3650732?widgetId=t6xvmumh55i6&lang=id&teamLogo=1&tableLines=0&homeAway=1&header=1&position=1&goals=1&gamesCount=1&diff=1&winCount=1&drawCount=1&loseCount=1&lastGames=1&points=1&teamsLimit=all&links=1&noFollowLinks=0&font=poppins&fontSize=14&rowDensity=100&widgetWidth=auto&widgetHeight=auto&bodyColor=%23ffffff&textColor=%23141416&linkColor=%23141416&borderColor=%23ecf1f7&tabColor=%23f3f8fd" async></script></div>"""
+WIDGET_FRA = """<div id="widget-bjs9mumh5ta6" class="scoreaxis-widget" style="width: 100%;height: auto;font-size: 14px;background-color: #ffffff;color: #141416;border: none;overflow: auto;"><script src="https://widgets.scoreaxis.com/api/football/league-table/62322b4efd209951602c9096?widgetId=bjs9mumh5ta6&lang=id&teamLogo=1&tableLines=0&homeAway=1&header=1&position=1&goals=1&gamesCount=1&diff=1&winCount=1&drawCount=1&loseCount=1&lastGames=1&points=1&teamsLimit=all&links=1&noFollowLinks=0&font=poppins&fontSize=14&rowDensity=100&widgetWidth=auto&widgetHeight=auto&bodyColor=%23ffffff&textColor=%23141416&linkColor=%23141416&borderColor=%23ecf1f7&tabColor=%23f3f8fd" async></script></div>"""
+WIDGET_IDN = """<div id="widget-wrt7mumh7146" class="scoreaxis-widget" style="width: 100%;height: auto;font-size: 14px;background-color: #ffffff;color: #141416;border: none;overflow: auto;"><script src="https://widgets.scoreaxis.com/api/football/league-table/623225c009ac1611ee0dc0f6?widgetId=wrt7mumh7146&lang=id&teamLogo=1&tableLines=0&homeAway=1&header=1&position=1&goals=1&gamesCount=1&diff=1&winCount=1&drawCount=1&loseCount=1&lastGames=1&points=1&teamsLimit=all&links=1&noFollowLinks=0&font=poppins&fontSize=14&rowDensity=100&widgetWidth=auto&widgetHeight=auto&bodyColor=%23ffffff&textColor=%23141416&linkColor=%23141416&borderColor=%23ecf1f7&tabColor=%23f3f8fd" async></script></div>"""
+
 SCRIPT_ADSTERRA_728 = """
 <script>
   atOptions = {
@@ -43,7 +51,7 @@ SCRIPT_ADSTERRA_728 = """
     'params' : {}
   };
 </script>
-<script src="[https://www.highrevenueformat.com/70f7df03b8ac15936657a97b9d6d37f7/invoke.js](https://www.highrevenueformat.com/70f7df03b8ac15936657a97b9d6d37f7/invoke.js)"></script>
+<script src="https://www.highrevenueformat.com/70f7df03b8ac15936657a97b9d6d37f7/invoke.js"></script>
 """
 
 SCRIPT_ADSTERRA_300 = """
@@ -56,11 +64,11 @@ SCRIPT_ADSTERRA_300 = """
     'params' : {}
   };
 </script>
-<script src="[https://www.highrevenueformat.com/29f673e95ea974afd5b3ecb133ef6a9e/invoke.js](https://www.highrevenueformat.com/29f673e95ea974afd5b3ecb133ef6a9e/invoke.js)"></script>
+<script src="https://www.highrevenueformat.com/29f673e95ea974afd5b3ecb133ef6a9e/invoke.js"></script>
 """
 
 SCRIPT_POPUNDER = """
-<script src="[https://pl31570858.profitableratecpmnetwork.com/bf/7c/c8/bf7cc8b38eeb859ad03672bf296c81ba.js](https://pl31570858.profitableratecpmnetwork.com/bf/7c/c8/bf7cc8b38eeb859ad03672bf296c81ba.js)"></script>
+<script src="https://pl31570858.profitableratecpmnetwork.com/bf/7c/c8/bf7cc8b38eeb859ad03672bf296c81ba.js"></script>
 """
 
 SCRIPT_HISTATS = """
@@ -71,50 +79,27 @@ _Hasync.push(['Histats.fasi', '1']);
 _Hasync.push(['Histats.track_hits', '']);
 (function() {
 var hs = document.createElement('script'); hs.type = 'text/javascript'; hs.async = true;
-hs.src = ('//[s10.histats.com/js15_as.js](https://s10.histats.com/js15_as.js)');
+hs.src = ('//s10.histats.com/js15_as.js');
 (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(hs);
 })();</script>
-<noscript><a href="/" target="_blank"><img  src="//[sstatic1.histats.com/0.gif?5055086&101](https://sstatic1.histats.com/0.gif?5055086&101)" alt="frontpage hit counter" border="0"></a></noscript>
+<noscript><a href="/" target="_blank"><img  src="//sstatic1.histats.com/0.gif?5055086&101" alt="frontpage hit counter" border="0"></a></noscript>
 <!-- Histats.com  END  -->
-"""
-
-SCRIPT_WIDGET_LOGIC = """
-<script>
-    const scoreAxisWidgets = {
-        'ENG': { id: 'widget-atvlmumh1msi', url: '[https://widgets.scoreaxis.com/api/football/league-table/6232265abf1fa71a672159ec?widgetId=atvlmumh1msi&lang=id&teamLogo=1&tableLines=0&homeAway=1&header=1&position=1&goals=1&gamesCount=1&diff=1&winCount=1&drawCount=1&loseCount=1&lastGames=1&points=1&teamsLimit=all&links=1&noFollowLinks=0&font=poppins&fontSize=14&rowDensity=100&widgetWidth=auto&widgetHeight=auto&bodyColor=%23ffffff&textColor=%23141416&linkColor=%23141416&borderColor=%23ecf1f7&tabColor=%23f3f8fd](https://widgets.scoreaxis.com/api/football/league-table/6232265abf1fa71a672159ec?widgetId=atvlmumh1msi&lang=id&teamLogo=1&tableLines=0&homeAway=1&header=1&position=1&goals=1&gamesCount=1&diff=1&winCount=1&drawCount=1&loseCount=1&lastGames=1&points=1&teamsLimit=all&links=1&noFollowLinks=0&font=poppins&fontSize=14&rowDensity=100&widgetWidth=auto&widgetHeight=auto&bodyColor=%23ffffff&textColor=%23141416&linkColor=%23141416&borderColor=%23ecf1f7&tabColor=%23f3f8fd)' },
-        'ESP': { id: 'widget-j7xwmumh3y7m', url: '[https://widgets.scoreaxis.com/api/football/league-table/62322c053617da0b83221cc6?widgetId=j7xwmumh3y7m&lang=id&teamLogo=1&tableLines=0&homeAway=1&header=1&position=1&goals=1&gamesCount=1&diff=1&winCount=1&drawCount=1&loseCount=1&lastGames=1&points=1&teamsLimit=all&links=1&noFollowLinks=0&font=poppins&fontSize=14&rowDensity=100&widgetWidth=auto&widgetHeight=auto&bodyColor=%23ffffff&textColor=%23141416&linkColor=%23141416&borderColor=%23ecf1f7&tabColor=%23f3f8fd](https://widgets.scoreaxis.com/api/football/league-table/62322c053617da0b83221cc6?widgetId=j7xwmumh3y7m&lang=id&teamLogo=1&tableLines=0&homeAway=1&header=1&position=1&goals=1&gamesCount=1&diff=1&winCount=1&drawCount=1&loseCount=1&lastGames=1&points=1&teamsLimit=all&links=1&noFollowLinks=0&font=poppins&fontSize=14&rowDensity=100&widgetWidth=auto&widgetHeight=auto&bodyColor=%23ffffff&textColor=%23141416&linkColor=%23141416&borderColor=%23ecf1f7&tabColor=%23f3f8fd)' },
-        'ITA': { id: 'widget-llkdmumh65vu', url: '[https://widgets.scoreaxis.com/api/football/league-table/62322b827aee66235a2be718?widgetId=llkdmumh65vu&lang=id&teamLogo=1&tableLines=0&homeAway=1&header=1&position=1&goals=1&gamesCount=1&diff=1&winCount=1&drawCount=1&loseCount=1&lastGames=1&points=1&teamsLimit=all&links=1&noFollowLinks=0&font=poppins&fontSize=14&rowDensity=100&widgetWidth=auto&widgetHeight=auto&bodyColor=%23ffffff&textColor=%23141416&linkColor=%23141416&borderColor=%23ecf1f7&tabColor=%23f3f8fd](https://widgets.scoreaxis.com/api/football/league-table/62322b827aee66235a2be718?widgetId=llkdmumh65vu&lang=id&teamLogo=1&tableLines=0&homeAway=1&header=1&position=1&goals=1&gamesCount=1&diff=1&winCount=1&drawCount=1&loseCount=1&lastGames=1&points=1&teamsLimit=all&links=1&noFollowLinks=0&font=poppins&fontSize=14&rowDensity=100&widgetWidth=auto&widgetHeight=auto&bodyColor=%23ffffff&textColor=%23141416&linkColor=%23141416&borderColor=%23ecf1f7&tabColor=%23f3f8fd)' },
-        'GER': { id: 'widget-t6xvmumh55i6', url: '[https://widgets.scoreaxis.com/api/football/league-table/62321f50f7016c22d3650732?widgetId=t6xvmumh55i6&lang=id&teamLogo=1&tableLines=0&homeAway=1&header=1&position=1&goals=1&gamesCount=1&diff=1&winCount=1&drawCount=1&loseCount=1&lastGames=1&points=1&teamsLimit=all&links=1&noFollowLinks=0&font=poppins&fontSize=14&rowDensity=100&widgetWidth=auto&widgetHeight=auto&bodyColor=%23ffffff&textColor=%23141416&linkColor=%23141416&borderColor=%23ecf1f7&tabColor=%23f3f8fd](https://widgets.scoreaxis.com/api/football/league-table/62321f50f7016c22d3650732?widgetId=t6xvmumh55i6&lang=id&teamLogo=1&tableLines=0&homeAway=1&header=1&position=1&goals=1&gamesCount=1&diff=1&winCount=1&drawCount=1&loseCount=1&lastGames=1&points=1&teamsLimit=all&links=1&noFollowLinks=0&font=poppins&fontSize=14&rowDensity=100&widgetWidth=auto&widgetHeight=auto&bodyColor=%23ffffff&textColor=%23141416&linkColor=%23141416&borderColor=%23ecf1f7&tabColor=%23f3f8fd)' },
-        'FRA': { id: 'widget-bjs9mumh5ta6', url: '[https://widgets.scoreaxis.com/api/football/league-table/62322b4efd209951602c9096?widgetId=bjs9mumh5ta6&lang=id&teamLogo=1&tableLines=0&homeAway=1&header=1&position=1&goals=1&gamesCount=1&diff=1&winCount=1&drawCount=1&loseCount=1&lastGames=1&points=1&teamsLimit=all&links=1&noFollowLinks=0&font=poppins&fontSize=14&rowDensity=100&widgetWidth=auto&widgetHeight=auto&bodyColor=%23ffffff&textColor=%23141416&linkColor=%23141416&borderColor=%23ecf1f7&tabColor=%23f3f8fd](https://widgets.scoreaxis.com/api/football/league-table/62322b4efd209951602c9096?widgetId=bjs9mumh5ta6&lang=id&teamLogo=1&tableLines=0&homeAway=1&header=1&position=1&goals=1&gamesCount=1&diff=1&winCount=1&drawCount=1&loseCount=1&lastGames=1&points=1&teamsLimit=all&links=1&noFollowLinks=0&font=poppins&fontSize=14&rowDensity=100&widgetWidth=auto&widgetHeight=auto&bodyColor=%23ffffff&textColor=%23141416&linkColor=%23141416&borderColor=%23ecf1f7&tabColor=%23f3f8fd)' },
-        'IDN': { id: 'widget-wrt7mumh7146', url: '[https://widgets.scoreaxis.com/api/football/league-table/623225c009ac1611ee0dc0f6?widgetId=wrt7mumh7146&lang=id&teamLogo=1&tableLines=0&homeAway=1&header=1&position=1&goals=1&gamesCount=1&diff=1&winCount=1&drawCount=1&loseCount=1&lastGames=1&points=1&teamsLimit=all&links=1&noFollowLinks=0&font=poppins&fontSize=14&rowDensity=100&widgetWidth=auto&widgetHeight=auto&bodyColor=%23ffffff&textColor=%23141416&linkColor=%23141416&borderColor=%23ecf1f7&tabColor=%23f3f8fd](https://widgets.scoreaxis.com/api/football/league-table/623225c009ac1611ee0dc0f6?widgetId=wrt7mumh7146&lang=id&teamLogo=1&tableLines=0&homeAway=1&header=1&position=1&goals=1&gamesCount=1&diff=1&winCount=1&drawCount=1&loseCount=1&lastGames=1&points=1&teamsLimit=all&links=1&noFollowLinks=0&font=poppins&fontSize=14&rowDensity=100&widgetWidth=auto&widgetHeight=auto&bodyColor=%23ffffff&textColor=%23141416&linkColor=%23141416&borderColor=%23ecf1f7&tabColor=%23f3f8fd)' }
-    };
-
-    function loadWidget(leagueKey) {
-        let tablinks = document.getElementsByClassName("tablinks");
-        for (let i = 0; i < tablinks.length; i++) { tablinks[i].classList.remove("active"); }
-        if (event && event.currentTarget) {
-            event.currentTarget.classList.add("active");
-        } else {
-            tablinks[0].classList.add("active"); 
-        }
-
-        const container = document.getElementById("dynamic-widget-container");
-        const wData = scoreAxisWidgets[leagueKey];
-        
-        container.innerHTML = '<div id="' + wData.id + '" class="scoreaxis-widget" style="width: 100%; min-height: 400px; display: flex; align-items: center; justify-content: center; color: #888; font-weight: bold;">Mempersiapkan Klasemen...</div>';
-        
-        const scriptEl = document.createElement('script');
-        scriptEl.src = wData.url;
-        scriptEl.async = true;
-        document.getElementById(wData.id).appendChild(scriptEl);
-    }
-    
-    window.onload = function() { loadWidget('ENG'); };
-</script>
 """
 
 SCRIPT_PAGINATION_SEARCH = """
 <script>
+    // Tab Logic dengan CSS Layering
+    function switchTab(evt, leagueName) {
+        let tablinks = document.getElementsByClassName("tablinks");
+        for (let i = 0; i < tablinks.length; i++) { tablinks[i].classList.remove("active"); }
+        if (evt) evt.currentTarget.classList.add("active");
+
+        let tabcontents = document.getElementsByClassName("tabcontent");
+        for (let i = 0; i < tabcontents.length; i++) { tabcontents[i].classList.remove("active-tab"); }
+        document.getElementById(leagueName).classList.add("active-tab");
+    }
+
+    // Search Logic
     function searchNews() {
         const input = document.getElementById('searchInput').value.toLowerCase();
         const cards = document.querySelectorAll('.news-card');
@@ -134,6 +119,7 @@ SCRIPT_PAGINATION_SEARCH = """
         }
     }
 
+    // Pagination Logic
     const itemsPerPage = 5;
     let currentPage = 1;
     const articles = document.querySelectorAll('.news-card');
@@ -179,8 +165,6 @@ def get_gemini_response(prompt):
                         contents=prompt,
                     )
                     text = response.text
-                    # Menggunakan chr(96) untuk membuat 3 simbol backtick secara dinamis
-                    # Ini mencegah GitHub Actions Error!
                     bt = chr(96) * 3 
                     text = re.sub(bt + r'html', '', text, flags=re.IGNORECASE)
                     text = text.replace(bt, '')
@@ -206,9 +190,9 @@ def generate_article_with_gemini(news_item):
         thumbnail = news_item.get('thumbnail', '')
         
     if not thumbnail or not thumbnail.startswith('http'):
-        thumbnail = "[https://images.unsplash.com/photo-1579952363873-27f3bade9f55?q=80&w=800&auto=format&fit=crop](https://images.unsplash.com/photo-1579952363873-27f3bade9f55?q=80&w=800&auto=format&fit=crop)"
+        thumbnail = "https://images.unsplash.com/photo-1579952363873-27f3bade9f55?q=80&w=800&auto=format&fit=crop"
     else:
-        thumbnail = f"[https://wsrv.nl/?url=](https://wsrv.nl/?url=){thumbnail}&w=800&output=webp"
+        thumbnail = f"https://wsrv.nl/?url={thumbnail}&w=800&output=webp"
         
     prompt = f"""
     Bertindaklah sebagai jurnalis sepak bola profesional dari Indonesia. 
@@ -282,7 +266,7 @@ def save_as_html(content, title, excerpt, thumbnail, category):
         {SCRIPT_POPUNDER}
         
         <style>
-            @import url('[https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap](https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap)');
+            @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
             * {{ box-sizing: border-box; }}
             body {{ font-family: 'Poppins', sans-serif; background-color: #f0f2f5; margin: 0; padding: 0; color: #2c3e50; }}
             .container {{ max-width: 850px; margin: 40px auto; padding: 40px; background: #fff; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }}
@@ -297,7 +281,7 @@ def save_as_html(content, title, excerpt, thumbnail, category):
             .hero-img {{ width: 100%; max-height: 500px; object-fit: cover; border-radius: 12px; margin-bottom: 25px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }}
             
             .ad-slot {{ background: #f8f9fa; border: 1px dashed #ced4da; padding: 15px; text-align: center; margin: 30px 0; border-radius: 8px; overflow: hidden; }}
-            p {{ line-height: 1.8; font-size: 1.15em; margin-bottom: 20px; color: #444; }}
+            p {{ line-height: 1.8; font-size: 1.15em; margin-bottom: 20px; color: #444; text-align: justify; }}
             
             .back-btn {{ display: inline-flex; align-items: center; justify-content: center; padding: 12px 25px; background: #00416A; color: white; text-decoration: none; border-radius: 8px; font-weight: 600; transition: 0.3s; margin-top: 20px; box-shadow: 0 4px 10px rgba(0,65,106,0.2); }}
             .back-btn:hover {{ background: #002d4a; transform: translateY(-2px); }}
@@ -314,7 +298,7 @@ def save_as_html(content, title, excerpt, thumbnail, category):
             </header>
             
             <h1>{title}</h1>
-            <img src="{thumbnail}" alt="{title}" class="hero-img" onerror="this.onerror=null;this.src='[https://images.unsplash.com/photo-1518605368461-1e1c071d3326?q=80&w=800&auto=format&fit=crop](https://images.unsplash.com/photo-1518605368461-1e1c071d3326?q=80&w=800&auto=format&fit=crop)';">
+            <img src="{thumbnail}" alt="{title}" class="hero-img" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1518605368461-1e1c071d3326?q=80&w=800&auto=format&fit=crop';">
             
             <div class="ad-slot">
                 {SCRIPT_ADSTERRA_728}
@@ -360,13 +344,13 @@ def update_homepage():
                 excerpt = get_meta(filepath, "description", "Baca selengkapnya...")
                 category = get_meta(filepath, "article-category", "INTERNASIONAL")
                 img_match = re.search(r'<img src="(.*?)" alt=".*?" class="hero-img"', html_content)
-                thumbnail = img_match.group(1) if img_match else "[https://images.unsplash.com/photo-1518605368461-1e1c071d3326?q=80&w=800](https://images.unsplash.com/photo-1518605368461-1e1c071d3326?q=80&w=800)"
+                thumbnail = img_match.group(1) if img_match else "https://images.unsplash.com/photo-1518605368461-1e1c071d3326?q=80&w=800"
                 
                 cat_color = "#e74c3c" if category == "LOKAL" else "#00416A"
                 
                 daftar_artikel_html += f'''
                 <div class="news-card" data-title="{title.lower()}">
-                    <img src="{thumbnail}" alt="Thumbnail Berita" class="news-thumb" loading="lazy" onerror="this.onerror=null;this.src='[https://images.unsplash.com/photo-1579952363873-27f3bade9f55?q=80&w=800&auto=format&fit=crop](https://images.unsplash.com/photo-1579952363873-27f3bade9f55?q=80&w=800&auto=format&fit=crop)';">
+                    <img src="{thumbnail}" alt="Thumbnail Berita" class="news-thumb" loading="lazy" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1579952363873-27f3bade9f55?q=80&w=800&auto=format&fit=crop';">
                     <div class="news-info">
                         <span class="news-badge" style="background:{cat_color};">{category}</span>
                         <h3><a href="/berita/{filename}">{title}</a></h3>
@@ -387,7 +371,7 @@ def update_homepage():
         {SCRIPT_POPUNDER}
         
         <style>
-            @import url('[https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap](https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap)');
+            @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
             
             * {{ box-sizing: border-box; }}
             body {{ font-family: 'Poppins', sans-serif; background-color: #f0f2f5; margin: 0; padding: 0; color: #2c3e50; }}
@@ -429,6 +413,7 @@ def update_homepage():
             .btn-telegram {{ display: inline-block; background: #0088cc; color: #fff; padding: 12px 25px; border-radius: 30px; text-decoration: none; font-weight: 600; font-size: 1.1em; transition: 0.3s; box-shadow: 0 4px 10px rgba(0,136,204,0.3); }}
             .btn-telegram:hover {{ transform: scale(1.05); background: #0077b3; }}
             
+            /* TAB KLASEMEN DENGAN CSS GRID (100% WORKS) */
             .widget-box {{ background: #fff; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 30px; overflow: hidden; border: 1px solid #f0f0f0; }}
             .widget-box h3 {{ margin: 0; color: #fff; background: #0f2027; padding: 18px; text-align: center; font-size: 1.2em; letter-spacing: 1px; }}
             
@@ -436,7 +421,11 @@ def update_homepage():
             .tab button {{ background-color: inherit; color: #666; border: none; outline: none; cursor: pointer; padding: 12px 0; font-size: 13px; font-weight: 600; flex-grow: 1; font-family: inherit; transition: 0.3s; border-bottom: 3px solid transparent; }}
             .tab button:hover {{ color: #00416A; background: #f1f3f5; }}
             .tab button.active {{ color: #00416A; border-bottom: 3px solid #00416A; background: #fff; }}
-            .dynamic-widget-container {{ padding: 10px; min-height: 400px; }}
+            
+            /* Trik Grid Stacking: Menumpuk semua tabel di satu sel agar ScoreAxis tetap merender! */
+            .tab-wrapper {{ display: grid; grid-template-columns: 1fr; grid-template-rows: 1fr; min-height: 500px; background: #fff; }}
+            .tabcontent {{ grid-column: 1 / 2; grid-row: 1 / 2; opacity: 0; pointer-events: none; z-index: 1; transition: opacity 0.3s ease; padding: 10px; }}
+            .tabcontent.active-tab {{ opacity: 1; pointer-events: auto; z-index: 2; }}
             
             @media (max-width: 900px) {{
                 .main-container {{ flex-direction: column; }}
@@ -479,21 +468,30 @@ def update_homepage():
                 <div class="telegram-banner">
                     <h3>🔥 Nonton Bola Gratis!</h3>
                     <p>Gabung komunitas kami dan dapatkan link live streaming pertandingan bola terupdate setiap harinya tanpa bayar.</p>
+                    <!-- TAUTAN TELEGRAM ANDA MASUKKAN DISINI MENGGANTIKAN TANDA '#' -->
                     <a href="#" class="btn-telegram" rel="nofollow noopener noreferrer">Tonton Sekarang ➔</a>
                 </div>
 
                 <div class="widget-box">
                     <h3>🏆 PUSAT KLASEMEN</h3>
                     <div class="tab">
-                      <button class="tablinks active" onclick="loadWidget('ENG')">Inggris</button>
-                      <button class="tablinks" onclick="loadWidget('ESP')">Spanyol</button>
-                      <button class="tablinks" onclick="loadWidget('ITA')">Italia</button>
-                      <button class="tablinks" onclick="loadWidget('GER')">Jerman</button>
-                      <button class="tablinks" onclick="loadWidget('FRA')">Prancis</button>
-                      <button class="tablinks" onclick="loadWidget('IDN')">Indo</button>
+                      <button class="tablinks active" onclick="switchTab(event, 'ENG')">Inggris</button>
+                      <button class="tablinks" onclick="switchTab(event, 'ESP')">Spanyol</button>
+                      <button class="tablinks" onclick="switchTab(event, 'ITA')">Italia</button>
+                      <button class="tablinks" onclick="switchTab(event, 'GER')">Jerman</button>
+                      <button class="tablinks" onclick="switchTab(event, 'FRA')">Prancis</button>
+                      <button class="tablinks" onclick="switchTab(event, 'IDN')">Indo</button>
                     </div>
                     
-                    <div id="dynamic-widget-container" class="dynamic-widget-container"></div>
+                    <!-- SEMUA WIDGET DITANAM SECARA STATIS (100% AMAN DARI BLOKIRAN SCOREAXIS) -->
+                    <div class="tab-wrapper">
+                        <div id="ENG" class="tabcontent active-tab">{WIDGET_ENG}</div>
+                        <div id="ESP" class="tabcontent">{WIDGET_ESP}</div>
+                        <div id="ITA" class="tabcontent">{WIDGET_ITA}</div>
+                        <div id="GER" class="tabcontent">{WIDGET_GER}</div>
+                        <div id="FRA" class="tabcontent">{WIDGET_FRA}</div>
+                        <div id="IDN" class="tabcontent">{WIDGET_IDN}</div>
+                    </div>
                 </div>
 
                 <div class="ad-slot">
@@ -506,7 +504,6 @@ def update_homepage():
             {SCRIPT_HISTATS}
         </div>
 
-        {SCRIPT_WIDGET_LOGIC}
         {SCRIPT_PAGINATION_SEARCH}
     </body>
     </html>
@@ -517,20 +514,21 @@ def update_homepage():
 
 def main():
     try:
+        # LOGIKA PEMISAHAN: 3 Internasional, 2 Lokal
         int_news = []
         lokal_news = []
         
         print("\nMengumpulkan berita Internasional...")
         for source in RSS_INT:
             try:
-                res = requests.get(f"[https://api.rss2json.com/v1/api.json?rss_url=](https://api.rss2json.com/v1/api.json?rss_url=){source}", timeout=10)
+                res = requests.get(f"https://api.rss2json.com/v1/api.json?rss_url={source}", timeout=10)
                 if 'items' in res.json(): int_news.extend(res.json()['items'])
             except: pass
             
         print("Mengumpulkan berita Lokal...")
         for source in RSS_LOKAL:
             try:
-                res = requests.get(f"[https://api.rss2json.com/v1/api.json?rss_url=](https://api.rss2json.com/v1/api.json?rss_url=){source}", timeout=10)
+                res = requests.get(f"https://api.rss2json.com/v1/api.json?rss_url={source}", timeout=10)
                 if 'items' in res.json(): lokal_news.extend(res.json()['items'])
             except: pass
                 
