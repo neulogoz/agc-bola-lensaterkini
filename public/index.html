@@ -165,6 +165,33 @@
                 
                 <div id="news-list">
                     
+                <div class="news-card" data-title="dinyatakan bersalah atas ratusan pelanggaran finansial, manchester city hadapi ancaman krisis terbesar">
+                    <img src="https://images.unsplash.com/photo-1579952363873-27f3bade9f55?q=80&w=800&auto=format&fit=crop" alt="Thumbnail Berita" class="news-thumb" loading="lazy" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1579952363873-27f3bade9f55?q=80&w=800&auto=format&fit=crop';">
+                    <div class="news-info">
+                        <span class="news-badge" style="background:#00416A;">INTERNASIONAL</span>
+                        <h3><a href="/berita/dinyatakan-bersalah-atas-ratusan-pelanggaran-finansial-manchester-city-hadapi-ancaman-krisis-terbesar.html">Dinyatakan Bersalah atas Ratusan Pelanggaran Finansial, Manchester City Hadapi Ancaman Krisis Terbesar</a></h3>
+                        <p>Dunia sepak bola internasional diguncang kabar luar biasa menyusul pengumuman resmi dari otoritas Premier League pada Selasa waktu setempat. Mancheste...</p>
+                    </div>
+                </div>
+
+                <div class="news-card" data-title="roy keane kecam manchester city: saya akan buang medali ke tempat sampah">
+                    <img src="https://wsrv.nl/?url=https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/f828/live/4dd96190-bc55-11f1-8053-53e939fa7624.jpg&w=800&output=webp" alt="Thumbnail Berita" class="news-thumb" loading="lazy" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1579952363873-27f3bade9f55?q=80&w=800&auto=format&fit=crop';">
+                    <div class="news-info">
+                        <span class="news-badge" style="background:#00416A;">INTERNASIONAL</span>
+                        <h3><a href="/berita/roy-keane-kecam-manchester-city-saya-akan-buang-medali-ke-tempat-sampah.html">Roy Keane Kecam Manchester City: Saya Akan Buang Medali ke Tempat Sampah</a></h3>
+                        <p>Legenda Manchester United, Roy Keane, kembali melontarkan kritik pedas yang mengguncang jagat sepak bola Inggris. Mantan kapten Setan Merah yang diken...</p>
+                    </div>
+                </div>
+
+                <div class="news-card" data-title="gordon dan kane bawa inggris tundukkan 10 pemain ceko usai hari penuh drama">
+                    <img src="https://images.unsplash.com/photo-1579952363873-27f3bade9f55?q=80&w=800&auto=format&fit=crop" alt="Thumbnail Berita" class="news-thumb" loading="lazy" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1579952363873-27f3bade9f55?q=80&w=800&auto=format&fit=crop';">
+                    <div class="news-info">
+                        <span class="news-badge" style="background:#00416A;">INTERNASIONAL</span>
+                        <h3><a href="/berita/gordon-dan-kane-bawa-inggris-tundukkan-10-pemain-ceko-usai-hari-penuh-drama.html">Gordon dan Kane Bawa Inggris Tundukkan 10 Pemain Ceko Usai Hari Penuh Drama</a></h3>
+                        <p>Tim nasional Inggris sukses mengamankan kemenangan penting dalam lawatan mereka ke markas Republik Ceko dengan skor meyakinkan 2-0. Dua gol kemenangan...</p>
+                    </div>
+                </div>
+
                 <div class="news-card" data-title="ashley sanchez kembali perkuat timnas wanita as, jaedyn shaw terdepak jelang hadapi spanyol">
                     <img src="https://images.unsplash.com/photo-1579952363873-27f3bade9f55?q=80&w=800&auto=format&fit=crop" alt="Thumbnail Berita" class="news-thumb" loading="lazy" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1579952363873-27f3bade9f55?q=80&w=800&auto=format&fit=crop';">
                     <div class="news-info">
@@ -302,10 +329,11 @@
 
             <div class="sidebar-right">
                 
+                <!-- BANNER TELEGRAM HOMEPAGE -->
                 <div class="telegram-banner">
                     <h3>🔥 Nonton Bola Gratis!</h3>
                     <p>Gabung komunitas kami dan dapatkan link live streaming pertandingan bola terupdate setiap harinya tanpa bayar.</p>
-                    <a href="#" class="btn-telegram" rel="nofollow noopener noreferrer">Tonton Sekarang ➔</a>
+                    <a href="https://t.me/GANTI_DENGAN_LINK_GRUP_ANDA" target="_blank" class="btn-telegram" rel="nofollow noopener noreferrer">Tonton Sekarang ➔</a>
                 </div>
 
                 <div class="ad-slot">
@@ -342,62 +370,60 @@ hs.src = ('//s10.histats.com/js15_as.js');
 
         </div>
         
-        
-<script>
-    function searchNews() {
-        const input = document.getElementById('searchInput').value.toLowerCase();
-        const cards = document.querySelectorAll('.news-card');
-        
-        if(input.length > 0) {
-            document.querySelector('.pagination').style.display = 'none';
-            cards.forEach(card => {
-                if (card.getAttribute('data-title').includes(input)) {
-                    card.style.display = 'grid';
+        <script>
+            // SCRIPT PENCARIAN & PAGINASI
+            function searchNews() {
+                const input = document.getElementById('searchInput').value.toLowerCase();
+                const cards = document.querySelectorAll('.news-card');
+                
+                if(input.length > 0) {
+                    document.querySelector('.pagination').style.display = 'none';
+                    cards.forEach(card => {
+                        if (card.getAttribute('data-title').includes(input)) {
+                            card.style.display = 'grid';
+                        } else {
+                            card.style.display = 'none';
+                        }
+                    });
                 } else {
-                    card.style.display = 'none';
+                    document.querySelector('.pagination').style.display = 'flex';
+                    showPage(currentPage);
                 }
-            });
-        } else {
-            document.querySelector('.pagination').style.display = 'flex';
-            showPage(currentPage);
-        }
-    }
-
-    const itemsPerPage = 5;
-    let currentPage = 1;
-    const articles = document.querySelectorAll('.news-card');
-    const totalPages = Math.ceil(articles.length / itemsPerPage);
-
-    function showPage(page) {
-        if(document.getElementById('searchInput') && document.getElementById('searchInput').value.length > 0) return;
-        
-        articles.forEach((card, index) => {
-            if (index >= (page - 1) * itemsPerPage && index < page * itemsPerPage) {
-                card.style.display = 'grid';
-            } else {
-                card.style.display = 'none';
             }
-        });
-        if(document.getElementById('page-info')) document.getElementById('page-info').innerText = 'Halaman ' + page + ' dari ' + totalPages;
-        if(document.getElementById('btn-prev')) document.getElementById('btn-prev').disabled = page === 1;
-        if(document.getElementById('btn-next')) document.getElementById('btn-next').disabled = page === totalPages || totalPages === 0;
-    }
 
-    function changePage(delta) {
-        currentPage += delta;
-        showPage(currentPage);
-        const newsSection = document.getElementById('berita-terbaru');
-        if(newsSection) {
-            newsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        } else {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-    }
+            const itemsPerPage = 5;
+            let currentPage = 1;
+            const articles = document.querySelectorAll('.news-card');
+            const totalPages = Math.ceil(articles.length / itemsPerPage);
 
-    if(articles.length > 0) showPage(1);
-</script>
+            function showPage(page) {
+                if(document.getElementById('searchInput') && document.getElementById('searchInput').value.length > 0) return;
+                
+                articles.forEach((card, index) => {
+                    if (index >= (page - 1) * itemsPerPage && index < page * itemsPerPage) {
+                        card.style.display = 'grid';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+                if(document.getElementById('page-info')) document.getElementById('page-info').innerText = 'Halaman ' + page + ' dari ' + totalPages;
+                if(document.getElementById('btn-prev')) document.getElementById('btn-prev').disabled = page === 1;
+                if(document.getElementById('btn-next')) document.getElementById('btn-next').disabled = page === totalPages || totalPages === 0;
+            }
 
+            function changePage(delta) {
+                currentPage += delta;
+                showPage(currentPage);
+                const newsSection = document.getElementById('berita-terbaru');
+                if(newsSection) {
+                    newsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                } else {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                }
+            }
 
+            if(articles.length > 0) showPage(1);
+        </script>
     </body>
     </html>
     
