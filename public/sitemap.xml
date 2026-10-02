@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
         <loc>https://domainanda.pages.dev/</loc>
-        <lastmod>2026-10-01T20:48:55+00:00</lastmod>
+        <lastmod>2026-10-02T04:05:55+00:00</lastmod>
         <changefreq>hourly</changefreq>
         <priority>1.0</priority>
     </url>
@@ -14,13 +14,19 @@
     </url>
     <url>
         <loc>https://domainanda.pages.dev/berita/bagi-bagi-uang-kaget-gianni-infantino-janjikan-guyuran-dana-segar-fantastis-untuk-anggota-fifa.html</loc>
-        <lastmod>2026-10-01T20:48:55+00:00</lastmod>
+        <lastmod>2026-10-02T04:05:55+00:00</lastmod>
         <changefreq>daily</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
         <loc>https://domainanda.pages.dev/berita/gordon-dan-kane-bawa-inggris-tundukkan-10-pemain-ceko-usai-hari-penuh-drama.html</loc>
         <lastmod>2026-09-29T23:59:31+00:00</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://domainanda.pages.dev/berita/skandal-negreira-memanas-real-madrid-serahkan-bukti-krusial-kasus-pembayaran-wasit-barcelona-ke-uefa.html</loc>
+        <lastmod>2026-10-02T04:05:00+00:00</lastmod>
         <changefreq>daily</changefreq>
         <priority>0.8</priority>
     </url>
@@ -38,13 +44,19 @@
     </url>
     <url>
         <loc>https://domainanda.pages.dev/berita/bursa-transfer-memanas-arsenal-dan-man-united-saling-sikut-demi-bintang-porto-man-city-pasang-banderol-gila-haaland.html</loc>
-        <lastmod>2026-10-01T20:48:55+00:00</lastmod>
+        <lastmod>2026-10-02T04:05:55+00:00</lastmod>
         <changefreq>daily</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
         <loc>https://domainanda.pages.dev/berita/manchester-city-dinyatakan-bersalah-jagat-sepak-bola-inggris-gempar.html</loc>
         <lastmod>2026-09-29T23:32:09+00:00</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://domainanda.pages.dev/berita/manuver-politik-di-balik-kasus-manchester-city-mengapa-sikap-burnham-dan-komentar-perdana-menteri-menjadi-sorotan-publik.html</loc>
+        <lastmod>2026-10-02T04:05:17+00:00</lastmod>
         <changefreq>daily</changefreq>
         <priority>0.8</priority>
     </url>
@@ -86,7 +98,7 @@
     </url>
     <url>
         <loc>https://domainanda.pages.dev/berita/bikin-merinding-bisikan-rahasia-lamine-yamal-ke-lionel-messi-di-final-piala-dunia-2026-akhirnya-terbongkar.html</loc>
-        <lastmod>2026-10-01T20:48:55+00:00</lastmod>
+        <lastmod>2026-10-02T04:05:55+00:00</lastmod>
         <changefreq>daily</changefreq>
         <priority>0.8</priority>
     </url>
@@ -99,6 +111,12 @@
     <url>
         <loc>https://domainanda.pages.dev/berita/roy-keane-kecam-manchester-city-saya-bakal-buang-medali-juara-ke-tempat-sampah.html</loc>
         <lastmod>2026-09-30T04:00:08+00:00</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://domainanda.pages.dev/berita/menakar-jejak-para-bintang-britania-raya-di-panggung-eropa-abad-ini-siapa-yang-terbaik.html</loc>
+        <lastmod>2026-10-02T04:05:55+00:00</lastmod>
         <changefreq>daily</changefreq>
         <priority>0.8</priority>
     </url>
