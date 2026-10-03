@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
         <loc>https://domainanda.pages.dev/</loc>
-        <lastmod>2026-10-03T09:40:45+00:00</lastmod>
+        <lastmod>2026-10-03T15:44:13+00:00</lastmod>
         <changefreq>hourly</changefreq>
         <priority>1.0</priority>
     </url>
@@ -14,13 +14,25 @@
     </url>
     <url>
         <loc>https://domainanda.pages.dev/berita/bagi-bagi-uang-kaget-gianni-infantino-janjikan-guyuran-dana-segar-fantastis-untuk-anggota-fifa.html</loc>
-        <lastmod>2026-10-03T09:40:45+00:00</lastmod>
+        <lastmod>2026-10-03T15:44:13+00:00</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://domainanda.pages.dev/berita/tebak-bintang-wsl-menakar-wawasan-penggemar-sepak-bola-wanita-lewat-kuis-interaktif.html</loc>
+        <lastmod>2026-10-03T15:43:45+00:00</lastmod>
         <changefreq>daily</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
         <loc>https://domainanda.pages.dev/berita/gordon-dan-kane-bawa-inggris-tundukkan-10-pemain-ceko-usai-hari-penuh-drama.html</loc>
         <lastmod>2026-09-29T23:59:31+00:00</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://domainanda.pages.dev/berita/mauricio-pochettino-tunjuk-tyler-adams-jadi-kapten-timnas-amerika-serikat-menuju-piala-dunia-2026.html</loc>
+        <lastmod>2026-10-03T15:44:13+00:00</lastmod>
         <changefreq>daily</changefreq>
         <priority>0.8</priority>
     </url>
@@ -56,7 +68,7 @@
     </url>
     <url>
         <loc>https://domainanda.pages.dev/berita/bursa-transfer-memanas-arsenal-dan-man-united-saling-sikut-demi-bintang-porto-man-city-pasang-banderol-gila-haaland.html</loc>
-        <lastmod>2026-10-03T09:40:45+00:00</lastmod>
+        <lastmod>2026-10-03T15:44:13+00:00</lastmod>
         <changefreq>daily</changefreq>
         <priority>0.8</priority>
     </url>
@@ -134,7 +146,7 @@
     </url>
     <url>
         <loc>https://domainanda.pages.dev/berita/bikin-merinding-bisikan-rahasia-lamine-yamal-ke-lionel-messi-di-final-piala-dunia-2026-akhirnya-terbongkar.html</loc>
-        <lastmod>2026-10-03T09:40:45+00:00</lastmod>
+        <lastmod>2026-10-03T15:44:13+00:00</lastmod>
         <changefreq>daily</changefreq>
         <priority>0.8</priority>
     </url>
@@ -189,6 +201,12 @@
     <url>
         <loc>https://domainanda.pages.dev/berita/perang-terbuka-dua-raksasa-fifa-ngamuk-tuding-uefa-sebar-hoaks-demi-gagalkan-rencana-megaproyek-piala-dunia.html</loc>
         <lastmod>2026-09-29T09:48:48+00:00</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://domainanda.pages.dev/berita/badai-cedera-terpa-timnas-spanyol-ferran-torres-terpaksa-menepi-bintang-muda-madrid-esp-raih-panggilan-perdana.html</loc>
+        <lastmod>2026-10-03T15:43:59+00:00</lastmod>
         <changefreq>daily</changefreq>
         <priority>0.8</priority>
     </url>
