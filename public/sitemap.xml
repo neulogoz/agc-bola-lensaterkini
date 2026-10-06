@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
         <loc>https://domainanda.pages.dev/</loc>
-        <lastmod>2026-10-06T17:59:44+00:00</lastmod>
+        <lastmod>2026-10-06T23:35:32+00:00</lastmod>
         <changefreq>hourly</changefreq>
         <priority>1.0</priority>
     </url>
@@ -20,7 +20,7 @@
     </url>
     <url>
         <loc>https://domainanda.pages.dev/berita/bagi-bagi-uang-kaget-gianni-infantino-janjikan-guyuran-dana-segar-fantastis-untuk-anggota-fifa.html</loc>
-        <lastmod>2026-10-06T17:59:44+00:00</lastmod>
+        <lastmod>2026-10-06T23:35:32+00:00</lastmod>
         <changefreq>daily</changefreq>
         <priority>0.8</priority>
     </url>
@@ -92,7 +92,7 @@
     </url>
     <url>
         <loc>https://domainanda.pages.dev/berita/bursa-transfer-memanas-arsenal-dan-man-united-saling-sikut-demi-bintang-porto-man-city-pasang-banderol-gila-haaland.html</loc>
-        <lastmod>2026-10-06T17:59:44+00:00</lastmod>
+        <lastmod>2026-10-06T23:35:32+00:00</lastmod>
         <changefreq>daily</changefreq>
         <priority>0.8</priority>
     </url>
@@ -147,6 +147,12 @@
     <url>
         <loc>https://domainanda.pages.dev/berita/takjub-dengan-ketajaman-lamine-yamal-luis-de-la-fuente-dia-menuju-jalur-legenda.html</loc>
         <lastmod>2026-10-04T19:11:39+00:00</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://domainanda.pages.dev/berita/tuntut-menit-bermain-perwakilan-wonderkid-jj-gabriel-buat-manchester-united-tertegun.html</loc>
+        <lastmod>2026-10-06T23:34:34+00:00</lastmod>
         <changefreq>daily</changefreq>
         <priority>0.8</priority>
     </url>
@@ -218,13 +224,19 @@
     </url>
     <url>
         <loc>https://domainanda.pages.dev/berita/bikin-merinding-bisikan-rahasia-lamine-yamal-ke-lionel-messi-di-final-piala-dunia-2026-akhirnya-terbongkar.html</loc>
-        <lastmod>2026-10-06T17:59:44+00:00</lastmod>
+        <lastmod>2026-10-06T23:35:32+00:00</lastmod>
         <changefreq>daily</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
         <loc>https://domainanda.pages.dev/berita/kembali-bersinar-di-nwsl-ashley-sanchez-dipanggil-masuk-skuad-timnas-putri-as-kontra-spanyol.html</loc>
         <lastmod>2026-09-29T23:32:27+00:00</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://domainanda.pages.dev/berita/babak-baru-skandal-finansial-sikap-empat-raksasa-liga-inggris-usai-manchester-city-dinyatakan-bersalah.html</loc>
+        <lastmod>2026-10-06T23:34:11+00:00</lastmod>
         <changefreq>daily</changefreq>
         <priority>0.8</priority>
     </url>
