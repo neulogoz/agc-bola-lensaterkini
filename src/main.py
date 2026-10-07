@@ -6,13 +6,16 @@ from google import genai
 import json
 import re
 from datetime import datetime
+from google.oauth2 import service_account
+from google.auth.transport.requests import AuthorizedSession
 
-print("=== MEMULAI SCRIPT AGC BOLA (TELEGRAM BANNER INSIDE ARTICLES) ===")
+print("=== MEMULAI SCRIPT AGC BOLA (INDEXING API & CHAMPIONS LEAGUE) ===")
 
-# 🔥 GANTI DENGAN ALAMAT WEB ASLI ANDA (CONTOH: https://lensaterkini.pages.dev) 🔥
-SITE_URL = "https://domainanda.pages.dev" 
+# ALAMAT WEB ASLI ANDA
+SITE_URL = "http://bola.lensaterkini.my.id" 
 
 API_KEYS_STRING = os.environ.get("GEMINI_API_KEYS")
+GCP_JSON_STRING = os.environ.get("GCP_SERVICE_ACCOUNT_JSON")
 
 if not API_KEYS_STRING:
     print("ERROR: GEMINI_API_KEYS tidak ditemukan!")
@@ -205,9 +208,6 @@ def save_as_html(content, title, excerpt, thumbnail, category):
         <meta name="publish-date" content="{timestamp}">
         <meta name="article-category" content="{category}">
         
-        <!-- TAG VERIFIKASI GOOGLE ANDA MASUKKAN KEMBALI DI SINI -->
-        <!-- <meta name="google-site-verification" content="GANTI_KODE_ANDA" /> -->
-
         {SCRIPT_POPUNDER}
         
         <style>
@@ -261,7 +261,6 @@ def save_as_html(content, title, excerpt, thumbnail, category):
             
             <article>{content}</article>
             
-            <!-- BANNER TELEGRAM DI DALAM ARTIKEL -->
             <div class="telegram-banner">
                 <h3>🔥 Nonton Bola Gratis!</h3>
                 <p>Gabung komunitas kami di Telegram dan dapatkan link live streaming pertandingan bola terupdate setiap harinya tanpa bayar.</p>
@@ -283,6 +282,8 @@ def save_as_html(content, title, excerpt, thumbnail, category):
     """
     with open(filename, 'w', encoding='utf-8') as f:
         f.write(html_template)
+    
+    return f"{SITE_URL}/berita/{filename}"
 
 def update_homepage():
     def get_meta(filepath, meta_name, default=""):
@@ -330,9 +331,6 @@ def update_homepage():
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Lensa Terkini Bola - Portal Berita Sepak Bola</title>
         
-        <!-- TAG VERIFIKASI GOOGLE ANDA MASUKKAN KEMBALI DI SINI -->
-        <!-- <meta name="google-site-verification" content="GANTI_KODE_ANDA" /> -->
-
         {SCRIPT_POPUNDER}
         
         <style>
@@ -349,7 +347,6 @@ def update_homepage():
             
             .ad-slot {{ background: #fff; border: 1px dashed #ced4da; padding: 15px; text-align: center; margin: 20px auto; max-width: 1250px; border-radius: 8px; overflow: hidden; }}
             
-            /* MEGA KLASEMEN (CAROUSEL) */
             .mega-standings-wrapper {{ max-width: 1250px; margin: 10px auto 30px auto; padding: 0 20px; }}
             .section-heading {{ font-size: 1.8em; color: #0f2027; border-left: 5px solid #e74c3c; padding-left: 15px; margin-bottom: 20px; font-weight: 700; display: flex; align-items: center; gap: 10px; }}
             
@@ -383,7 +380,6 @@ def update_homepage():
             .standings-box::-webkit-scrollbar {{ width: 5px; }}
             .standings-box::-webkit-scrollbar-thumb {{ background: #ccc; border-radius: 5px; }}
             
-            /* BERITA DAN SIDEBAR BAWAH */
             .main-container {{ display: flex; flex-wrap: wrap; max-width: 1250px; margin: 40px auto; padding: 0 20px; gap: 35px; border-top: 2px dashed #ccc; padding-top: 40px; }}
             .content-left {{ flex: 1; min-width: 60%; }}
             .sidebar-right {{ width: 360px; flex-shrink: 0; }}
@@ -487,7 +483,6 @@ def update_homepage():
 
             <div class="sidebar-right">
                 
-                <!-- BANNER TELEGRAM HOMEPAGE -->
                 <div class="telegram-banner">
                     <h3>🔥 Nonton Bola Gratis!</h3>
                     <p>Gabung komunitas kami dan dapatkan link live streaming pertandingan bola terupdate setiap harinya tanpa bayar.</p>
@@ -505,11 +500,9 @@ def update_homepage():
         </div>
         
         <script>
-            // SCRIPT PENCARIAN & PAGINASI
             function searchNews() {{
                 const input = document.getElementById('searchInput').value.toLowerCase();
                 const cards = document.querySelectorAll('.news-card');
-                
                 if(input.length > 0) {{
                     document.querySelector('.pagination').style.display = 'none';
                     cards.forEach(card => {{
@@ -524,15 +517,12 @@ def update_homepage():
                     showPage(currentPage);
                 }}
             }}
-
             const itemsPerPage = 5;
             let currentPage = 1;
             const articles = document.querySelectorAll('.news-card');
             const totalPages = Math.ceil(articles.length / itemsPerPage);
-
             function showPage(page) {{
                 if(document.getElementById('searchInput') && document.getElementById('searchInput').value.length > 0) return;
-                
                 articles.forEach((card, index) => {{
                     if (index >= (page - 1) * itemsPerPage && index < page * itemsPerPage) {{
                         card.style.display = 'grid';
@@ -544,28 +534,25 @@ def update_homepage():
                 if(document.getElementById('btn-prev')) document.getElementById('btn-prev').disabled = page === 1;
                 if(document.getElementById('btn-next')) document.getElementById('btn-next').disabled = page === totalPages || totalPages === 0;
             }}
-
             function changePage(delta) {{
                 currentPage += delta;
                 showPage(currentPage);
                 const newsSection = document.getElementById('berita-terbaru');
-                if(newsSection) {{
-                    newsSection.scrollIntoView({{ behavior: 'smooth', block: 'start' }});
-                }} else {{
-                    window.scrollTo({{ top: 0, behavior: 'smooth' }});
-                }}
+                if(newsSection) {{ newsSection.scrollIntoView({{ behavior: 'smooth', block: 'start' }}); }} 
+                else {{ window.scrollTo({{ top: 0, behavior: 'smooth' }}); }}
             }}
-
             if(articles.length > 0) showPage(1);
         </script>
     </body>
     </html>
     """
-    
     with open('public/index.html', 'w', encoding='utf-8') as f:
         f.write(homepage_template)
 
 
+# =====================================================================
+# FUNGSI AUTO-GENERATE SITEMAP XML
+# =====================================================================
 def generate_sitemap():
     print("Membuat Sitemap XML...")
     now = datetime.now().strftime("%Y-%m-%dT%H:%M:%S+00:00")
@@ -576,8 +563,7 @@ def generate_sitemap():
         <lastmod>{now}</lastmod>
         <changefreq>hourly</changefreq>
         <priority>1.0</priority>
-    </url>
-"""
+    </url>\n"""
     berita_files = [f for f in os.listdir(OUTPUT_DIR) if f.endswith('.html')]
     for filename in berita_files:
         filepath = os.path.join(OUTPUT_DIR, filename)
@@ -588,20 +574,44 @@ def generate_sitemap():
                 ts = int(match.group(1)) if match else int(time.time())
         except:
             ts = int(time.time())
-        
         lastmod = datetime.fromtimestamp(ts).strftime("%Y-%m-%dT%H:%M:%S+00:00")
-        
         sitemap_content += f"""    <url>
         <loc>{SITE_URL}/berita/{filename}</loc>
         <lastmod>{lastmod}</lastmod>
         <changefreq>daily</changefreq>
         <priority>0.8</priority>
     </url>\n"""
-        
     sitemap_content += "</urlset>"
-    
     with open('public/sitemap.xml', 'w', encoding='utf-8') as f:
         f.write(sitemap_content)
+
+
+# =====================================================================
+# FUNGSI GOOGLE INDEXING API (MENGIRIM NOTIFIKASI KE GOOGLE)
+# =====================================================================
+def submit_to_google_indexing_api(urls):
+    if not GCP_JSON_STRING:
+        print("⚠️ GCP_SERVICE_ACCOUNT_JSON tidak ditemukan. Lewati Google Indexing API.")
+        return
+    try:
+        credentials = service_account.Credentials.from_service_account_info(
+            json.loads(GCP_JSON_STRING),
+            scopes=["https://www.googleapis.com/auth/indexing"]
+        )
+        session = AuthorizedSession(credentials)
+        for url in urls:
+            endpoint = "https://indexing.googleapis.com/v3/urlNotifications:publish"
+            payload = {
+                "url": url,
+                "type": "URL_UPDATED"
+            }
+            response = session.post(endpoint, json=payload)
+            if response.status_code == 200:
+                print(f"✅ Sukses Notifikasi Google Indexing: {url}")
+            else:
+                print(f"❌ Gagal Notifikasi Google Indexing: {url} | Error: {response.text}")
+    except Exception as e:
+        print(f"ERROR saat menjalankan Google Indexing API: {e}")
 
 def main():
     try:
@@ -632,13 +642,21 @@ def main():
             print("PERHATIAN: Tidak ada data berita.")
             return
             
+        urls_to_index = []
+        
         for item in final_news_batch: 
             content, title, excerpt, thumb, category = generate_article_with_gemini(item)
             if content:
-                save_as_html(content, title, excerpt, thumb, category)
+                article_url = save_as_html(content, title, excerpt, thumb, category)
+                urls_to_index.append(article_url)
         
         update_homepage()
         generate_sitemap()
+        
+        # Kirim Halaman Utama dan Artikel Baru ke Google Indexing API
+        if urls_to_index:
+            urls_to_index.append(SITE_URL + "/") 
+            submit_to_google_indexing_api(urls_to_index)
                 
     except Exception as e:
         print(f"ERROR UTAMA: {e}")
