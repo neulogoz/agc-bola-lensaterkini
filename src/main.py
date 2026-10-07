@@ -11,7 +11,7 @@ from google.auth.transport.requests import AuthorizedSession
 
 print("=== MEMULAI SCRIPT AGC BOLA (INDEXING API & CHAMPIONS LEAGUE) ===")
 
-# ALAMAT WEB ASLI ANDA
+# ALAMAT WEB ASLI ANDA (SUDAH HTTPS)
 SITE_URL = "https://bola.lensaterkini.my.id" 
 
 API_KEYS_STRING = os.environ.get("GEMINI_API_KEYS")
@@ -264,6 +264,7 @@ def save_as_html(content, title, excerpt, thumbnail, category):
             <div class="telegram-banner">
                 <h3>🔥 Nonton Bola Gratis!</h3>
                 <p>Gabung komunitas kami di Telegram dan dapatkan link live streaming pertandingan bola terupdate setiap harinya tanpa bayar.</p>
+                <!-- JANGAN LUPA GANTI LINK DI BAWAH INI -->
                 <a href="https://t.me/GANTI_DENGAN_LINK_GRUP_ANDA" target="_blank" class="btn-telegram" rel="nofollow noopener noreferrer">Join Grup Telegram ➔</a>
             </div>
             
@@ -283,7 +284,8 @@ def save_as_html(content, title, excerpt, thumbnail, category):
     with open(filename, 'w', encoding='utf-8') as f:
         f.write(html_template)
     
-    return f"{SITE_URL}/berita/{filename}"
+    # PERBAIKAN BUG URL DISINI
+    return f"{SITE_URL}/berita/{slug}.html"
 
 def update_homepage():
     def get_meta(filepath, meta_name, default=""):
@@ -486,6 +488,7 @@ def update_homepage():
                 <div class="telegram-banner">
                     <h3>🔥 Nonton Bola Gratis!</h3>
                     <p>Gabung komunitas kami dan dapatkan link live streaming pertandingan bola terupdate setiap harinya tanpa bayar.</p>
+                    <!-- JANGAN LUPA GANTI LINK DI BAWAH INI -->
                     <a href="https://t.me/GANTI_DENGAN_LINK_GRUP_ANDA" target="_blank" class="btn-telegram" rel="nofollow noopener noreferrer">Tonton Sekarang ➔</a>
                 </div>
 
