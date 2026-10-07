@@ -12,7 +12,7 @@ from google.auth.transport.requests import AuthorizedSession
 print("=== MEMULAI SCRIPT AGC BOLA (INDEXING API & CHAMPIONS LEAGUE) ===")
 
 # ALAMAT WEB ASLI ANDA
-SITE_URL = "http://bola.lensaterkini.my.id" 
+SITE_URL = "https://bola.lensaterkini.my.id" 
 
 API_KEYS_STRING = os.environ.get("GEMINI_API_KEYS")
 GCP_JSON_STRING = os.environ.get("GCP_SERVICE_ACCOUNT_JSON")
