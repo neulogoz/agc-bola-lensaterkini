@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
         <loc>https://bola.lensaterkini.my.id/</loc>
-        <lastmod>2026-10-07T23:07:14+00:00</lastmod>
+        <lastmod>2026-10-07T23:48:02+00:00</lastmod>
         <changefreq>hourly</changefreq>
         <priority>1.0</priority>
     </url>
@@ -26,7 +26,7 @@
     </url>
     <url>
         <loc>https://bola.lensaterkini.my.id/berita/bagi-bagi-uang-kaget-gianni-infantino-janjikan-guyuran-dana-segar-fantastis-untuk-anggota-fifa.html</loc>
-        <lastmod>2026-10-07T23:07:14+00:00</lastmod>
+        <lastmod>2026-10-07T23:48:02+00:00</lastmod>
         <changefreq>daily</changefreq>
         <priority>0.8</priority>
     </url>
@@ -39,6 +39,12 @@
     <url>
         <loc>https://bola.lensaterkini.my.id/berita/tebak-bintang-wsl-menakar-wawasan-penggemar-sepak-bola-wanita-lewat-kuis-interaktif.html</loc>
         <lastmod>2026-10-03T15:43:45+00:00</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://bola.lensaterkini.my.id/berita/rose-lavelle-tegaskan-laga-melawan-spanyol-jadi-tolok-ukur-kesiapan-timnas-putri-as.html</loc>
+        <lastmod>2026-10-07T23:47:05+00:00</lastmod>
         <changefreq>daily</changefreq>
         <priority>0.8</priority>
     </url>
@@ -116,7 +122,7 @@
     </url>
     <url>
         <loc>https://bola.lensaterkini.my.id/berita/bursa-transfer-memanas-arsenal-dan-man-united-saling-sikut-demi-bintang-porto-man-city-pasang-banderol-gila-haaland.html</loc>
-        <lastmod>2026-10-07T23:07:14+00:00</lastmod>
+        <lastmod>2026-10-07T23:48:02+00:00</lastmod>
         <changefreq>daily</changefreq>
         <priority>0.8</priority>
     </url>
@@ -199,6 +205,12 @@
         <priority>0.8</priority>
     </url>
     <url>
+        <loc>https://bola.lensaterkini.my.id/berita/skandal-spygate-manajer-southampton-tonda-eckert-terhindar-dari-sanksi-larangan-bertanding-langsung.html</loc>
+        <lastmod>2026-10-07T23:47:23+00:00</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
         <loc>https://bola.lensaterkini.my.id/berita/tuntut-menit-bermain-perwakilan-wonderkid-jj-gabriel-buat-manchester-united-tertegun.html</loc>
         <lastmod>2026-10-06T23:34:34+00:00</lastmod>
         <changefreq>daily</changefreq>
@@ -272,7 +284,7 @@
     </url>
     <url>
         <loc>https://bola.lensaterkini.my.id/berita/bikin-merinding-bisikan-rahasia-lamine-yamal-ke-lionel-messi-di-final-piala-dunia-2026-akhirnya-terbongkar.html</loc>
-        <lastmod>2026-10-07T23:07:14+00:00</lastmod>
+        <lastmod>2026-10-07T23:48:02+00:00</lastmod>
         <changefreq>daily</changefreq>
         <priority>0.8</priority>
     </url>
