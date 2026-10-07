@@ -6,9 +6,6 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Lensa Terkini Bola - Portal Berita Sepak Bola</title>
         
-        <!-- TAG VERIFIKASI GOOGLE ANDA MASUKKAN KEMBALI DI SINI -->
-        <!-- <meta name="google-site-verification" content="GANTI_KODE_ANDA" /> -->
-
         
 <script type='text/javascript' src='//pl31570858.profitableratecpmnetwork.com/bf/7c/c8/bf7cc8b38eeb859ad03672bf296c81ba.js' data-cfasync='false'></script>
 
@@ -27,7 +24,6 @@
             
             .ad-slot { background: #fff; border: 1px dashed #ced4da; padding: 15px; text-align: center; margin: 20px auto; max-width: 1250px; border-radius: 8px; overflow: hidden; }
             
-            /* MEGA KLASEMEN (CAROUSEL) */
             .mega-standings-wrapper { max-width: 1250px; margin: 10px auto 30px auto; padding: 0 20px; }
             .section-heading { font-size: 1.8em; color: #0f2027; border-left: 5px solid #e74c3c; padding-left: 15px; margin-bottom: 20px; font-weight: 700; display: flex; align-items: center; gap: 10px; }
             
@@ -61,7 +57,6 @@
             .standings-box::-webkit-scrollbar { width: 5px; }
             .standings-box::-webkit-scrollbar-thumb { background: #ccc; border-radius: 5px; }
             
-            /* BERITA DAN SIDEBAR BAWAH */
             .main-container { display: flex; flex-wrap: wrap; max-width: 1250px; margin: 40px auto; padding: 0 20px; gap: 35px; border-top: 2px dashed #ccc; padding-top: 40px; }
             .content-left { flex: 1; min-width: 60%; }
             .sidebar-right { width: 360px; flex-shrink: 0; }
@@ -165,6 +160,24 @@
                 
                 <div id="news-list">
                     
+                <div class="news-card" data-title="klub rival premier league desak manchester city dijatuhi hukuman retrospektif dan sanksi masa depan">
+                    <img src="https://wsrv.nl/?url=https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/135d/live/c0091b70-c19b-11f1-a64c-550be9e3c66b.jpg&w=800&output=webp" alt="Thumbnail Berita" class="news-thumb" loading="lazy" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1579952363873-27f3bade9f55?q=80&w=800&auto=format&fit=crop';">
+                    <div class="news-info">
+                        <span class="news-badge" style="background:#00416A;">INTERNASIONAL</span>
+                        <h3><a href="/berita/klub-rival-premier-league-desak-manchester-city-dijatuhi-hukuman-retrospektif-dan-sanksi-masa-depan.html">Klub Rival Premier League Desak Manchester City Dijatuhi Hukuman Retrospektif dan Sanksi Masa Depan</a></h3>
+                        <p>Ketegangan di kasta tertinggi sepak bola Inggris kian memanas setelah sejumlah klub rival Premier League dilaporkan bersatu untuk mendesak otoritas li...</p>
+                    </div>
+                </div>
+
+                <div class="news-card" data-title="tak pernah puas, timnas spanyol perpanjang rekor 43 laga tak terkalahkan usai tundukkan kroasia">
+                    <img src="https://images.unsplash.com/photo-1579952363873-27f3bade9f55?q=80&w=800&auto=format&fit=crop" alt="Thumbnail Berita" class="news-thumb" loading="lazy" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1579952363873-27f3bade9f55?q=80&w=800&auto=format&fit=crop';">
+                    <div class="news-info">
+                        <span class="news-badge" style="background:#00416A;">INTERNASIONAL</span>
+                        <h3><a href="/berita/tak-pernah-puas-timnas-spanyol-perpanjang-rekor-43-laga-tak-terkalahkan-usai-tundukkan-kroasia.html">Tak Pernah Puas, Timnas Spanyol Perpanjang Rekor 43 Laga Tak Terkalahkan Usai Tundukkan Kroasia</a></h3>
+                        <p>Tim nasional Spanyol kembali menegaskan dominasi mutlak mereka di panggung sepak bola dunia. Skuad berjuluk La Roja tersebut sukses mengamankan kemena...</p>
+                    </div>
+                </div>
+
                 <div class="news-card" data-title="masa bulan madu berakhir, skotlandia asuhan pocognoli terjebak krisis di kandang sendiri">
                     <img src="https://wsrv.nl/?url=https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/c4be/live/c8a91df0-c1d4-11f1-a85d-a124076c9e55.jpg&w=800&output=webp" alt="Thumbnail Berita" class="news-thumb" loading="lazy" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1579952363873-27f3bade9f55?q=80&w=800&auto=format&fit=crop';">
                     <div class="news-info">
@@ -680,7 +693,6 @@
 
             <div class="sidebar-right">
                 
-                <!-- BANNER TELEGRAM HOMEPAGE -->
                 <div class="telegram-banner">
                     <h3>🔥 Nonton Bola Gratis!</h3>
                     <p>Gabung komunitas kami dan dapatkan link live streaming pertandingan bola terupdate setiap harinya tanpa bayar.</p>
@@ -722,11 +734,9 @@ hs.src = ('//s10.histats.com/js15_as.js');
         </div>
         
         <script>
-            // SCRIPT PENCARIAN & PAGINASI
             function searchNews() {
                 const input = document.getElementById('searchInput').value.toLowerCase();
                 const cards = document.querySelectorAll('.news-card');
-                
                 if(input.length > 0) {
                     document.querySelector('.pagination').style.display = 'none';
                     cards.forEach(card => {
@@ -741,15 +751,12 @@ hs.src = ('//s10.histats.com/js15_as.js');
                     showPage(currentPage);
                 }
             }
-
             const itemsPerPage = 5;
             let currentPage = 1;
             const articles = document.querySelectorAll('.news-card');
             const totalPages = Math.ceil(articles.length / itemsPerPage);
-
             function showPage(page) {
                 if(document.getElementById('searchInput') && document.getElementById('searchInput').value.length > 0) return;
-                
                 articles.forEach((card, index) => {
                     if (index >= (page - 1) * itemsPerPage && index < page * itemsPerPage) {
                         card.style.display = 'grid';
@@ -761,18 +768,13 @@ hs.src = ('//s10.histats.com/js15_as.js');
                 if(document.getElementById('btn-prev')) document.getElementById('btn-prev').disabled = page === 1;
                 if(document.getElementById('btn-next')) document.getElementById('btn-next').disabled = page === totalPages || totalPages === 0;
             }
-
             function changePage(delta) {
                 currentPage += delta;
                 showPage(currentPage);
                 const newsSection = document.getElementById('berita-terbaru');
-                if(newsSection) {
-                    newsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                } else {
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                }
+                if(newsSection) { newsSection.scrollIntoView({ behavior: 'smooth', block: 'start' }); } 
+                else { window.scrollTo({ top: 0, behavior: 'smooth' }); }
             }
-
             if(articles.length > 0) showPage(1);
         </script>
     </body>
