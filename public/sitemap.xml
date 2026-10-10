@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
         <loc>https://bola.lensaterkini.my.id/</loc>
-        <lastmod>2026-10-10T14:17:59+00:00</lastmod>
+        <lastmod>2026-10-10T19:45:45+00:00</lastmod>
         <changefreq>hourly</changefreq>
         <priority>1.0</priority>
     </url>
@@ -32,7 +32,7 @@
     </url>
     <url>
         <loc>https://bola.lensaterkini.my.id/berita/bagi-bagi-uang-kaget-gianni-infantino-janjikan-guyuran-dana-segar-fantastis-untuk-anggota-fifa.html</loc>
-        <lastmod>2026-10-10T14:17:59+00:00</lastmod>
+        <lastmod>2026-10-10T19:45:45+00:00</lastmod>
         <changefreq>daily</changefreq>
         <priority>0.8</priority>
     </url>
@@ -51,6 +51,12 @@
     <url>
         <loc>https://bola.lensaterkini.my.id/berita/tebak-bintang-wsl-menakar-wawasan-penggemar-sepak-bola-wanita-lewat-kuis-interaktif.html</loc>
         <lastmod>2026-10-03T15:43:45+00:00</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://bola.lensaterkini.my.id/berita/tundukkan-yunani-3-1-timnas-putri-inggris-amankan-modal-berharga-menuju-piala-dunia.html</loc>
+        <lastmod>2026-10-10T19:45:45+00:00</lastmod>
         <changefreq>daily</changefreq>
         <priority>0.8</priority>
     </url>
@@ -152,13 +158,19 @@
     </url>
     <url>
         <loc>https://bola.lensaterkini.my.id/berita/bursa-transfer-memanas-arsenal-dan-man-united-saling-sikut-demi-bintang-porto-man-city-pasang-banderol-gila-haaland.html</loc>
-        <lastmod>2026-10-10T14:17:59+00:00</lastmod>
+        <lastmod>2026-10-10T19:45:45+00:00</lastmod>
         <changefreq>daily</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
         <loc>https://bola.lensaterkini.my.id/berita/manchester-city-dinyatakan-bersalah-jagat-sepak-bola-inggris-gempar.html</loc>
         <lastmod>2026-09-29T23:32:09+00:00</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://bola.lensaterkini.my.id/berita/bocorkan-dokumen-finansial-manchester-city-peretas-football-leaks-tetap-diberi-perlindungan-saksi.html</loc>
+        <lastmod>2026-10-10T19:45:33+00:00</lastmod>
         <changefreq>daily</changefreq>
         <priority>0.8</priority>
     </url>
@@ -338,7 +350,7 @@
     </url>
     <url>
         <loc>https://bola.lensaterkini.my.id/berita/bikin-merinding-bisikan-rahasia-lamine-yamal-ke-lionel-messi-di-final-piala-dunia-2026-akhirnya-terbongkar.html</loc>
-        <lastmod>2026-10-10T14:17:59+00:00</lastmod>
+        <lastmod>2026-10-10T19:45:45+00:00</lastmod>
         <changefreq>daily</changefreq>
         <priority>0.8</priority>
     </url>
