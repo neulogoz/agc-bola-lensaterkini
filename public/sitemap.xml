@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
         <loc>https://bola.lensaterkini.my.id/</loc>
-        <lastmod>2026-10-13T23:41:27+00:00</lastmod>
+        <lastmod>2026-10-14T03:34:26+00:00</lastmod>
         <changefreq>hourly</changefreq>
         <priority>1.0</priority>
     </url>
@@ -44,7 +44,7 @@
     </url>
     <url>
         <loc>https://bola.lensaterkini.my.id/berita/bagi-bagi-uang-kaget-gianni-infantino-janjikan-guyuran-dana-segar-fantastis-untuk-anggota-fifa.html</loc>
-        <lastmod>2026-10-13T23:41:27+00:00</lastmod>
+        <lastmod>2026-10-14T03:34:26+00:00</lastmod>
         <changefreq>daily</changefreq>
         <priority>0.8</priority>
     </url>
@@ -218,7 +218,7 @@
     </url>
     <url>
         <loc>https://bola.lensaterkini.my.id/berita/bursa-transfer-memanas-arsenal-dan-man-united-saling-sikut-demi-bintang-porto-man-city-pasang-banderol-gila-haaland.html</loc>
-        <lastmod>2026-10-13T23:41:27+00:00</lastmod>
+        <lastmod>2026-10-14T03:34:26+00:00</lastmod>
         <changefreq>daily</changefreq>
         <priority>0.8</priority>
     </url>
@@ -349,6 +349,12 @@
         <priority>0.8</priority>
     </url>
     <url>
+        <loc>https://bola.lensaterkini.my.id/berita/kembalinya-premier-league-diwarnai-drama-amarah-suporter-man-city-hingga-spekulasi-transfer-liverpool.html</loc>
+        <lastmod>2026-10-14T03:33:48+00:00</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
         <loc>https://bola.lensaterkini.my.id/berita/skandal-spygate-manajer-southampton-tonda-eckert-terhindar-dari-sanksi-larangan-bertanding-langsung.html</loc>
         <lastmod>2026-10-07T23:47:23+00:00</lastmod>
         <changefreq>daily</changefreq>
@@ -446,7 +452,7 @@
     </url>
     <url>
         <loc>https://bola.lensaterkini.my.id/berita/bikin-merinding-bisikan-rahasia-lamine-yamal-ke-lionel-messi-di-final-piala-dunia-2026-akhirnya-terbongkar.html</loc>
-        <lastmod>2026-10-13T23:41:27+00:00</lastmod>
+        <lastmod>2026-10-14T03:34:26+00:00</lastmod>
         <changefreq>daily</changefreq>
         <priority>0.8</priority>
     </url>
@@ -621,6 +627,12 @@
     <url>
         <loc>https://bola.lensaterkini.my.id/berita/reaksi-tak-biasa-roberto-de-zerbi-cium-rodrigo-bentancur-usai-kartu-merah-kontra-manchester-united.html</loc>
         <lastmod>2026-10-11T14:44:55+00:00</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://bola.lensaterkini.my.id/berita/lisandro-martinez-kritik-keras-manajemen-manchester-united-usai-lolos-ke-liga-champions.html</loc>
+        <lastmod>2026-10-14T03:34:10+00:00</lastmod>
         <changefreq>daily</changefreq>
         <priority>0.8</priority>
     </url>
