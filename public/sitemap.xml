@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
         <loc>https://bola.lensaterkini.my.id/</loc>
-        <lastmod>2026-10-15T16:24:37+00:00</lastmod>
+        <lastmod>2026-10-15T22:54:42+00:00</lastmod>
         <changefreq>hourly</changefreq>
         <priority>1.0</priority>
     </url>
@@ -50,7 +50,7 @@
     </url>
     <url>
         <loc>https://bola.lensaterkini.my.id/berita/bagi-bagi-uang-kaget-gianni-infantino-janjikan-guyuran-dana-segar-fantastis-untuk-anggota-fifa.html</loc>
-        <lastmod>2026-10-15T16:24:37+00:00</lastmod>
+        <lastmod>2026-10-15T22:54:42+00:00</lastmod>
         <changefreq>daily</changefreq>
         <priority>0.8</priority>
     </url>
@@ -205,6 +205,12 @@
         <priority>0.8</priority>
     </url>
     <url>
+        <loc>https://bola.lensaterkini.my.id/berita/matchday-2-liga-champions-kejutan-wakil-norwegia-nestapa-manchester-united-hingga-pesona-barcelona-dan-psg.html</loc>
+        <lastmod>2026-10-15T22:54:42+00:00</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
         <loc>https://bola.lensaterkini.my.id/berita/alarm-bahaya-sepak-bola-inggris-mayoritas-klub-di-ambang-bencana-finansial.html</loc>
         <lastmod>2026-10-13T23:41:27+00:00</lastmod>
         <changefreq>daily</changefreq>
@@ -236,7 +242,7 @@
     </url>
     <url>
         <loc>https://bola.lensaterkini.my.id/berita/bursa-transfer-memanas-arsenal-dan-man-united-saling-sikut-demi-bintang-porto-man-city-pasang-banderol-gila-haaland.html</loc>
-        <lastmod>2026-10-15T16:24:37+00:00</lastmod>
+        <lastmod>2026-10-15T22:54:42+00:00</lastmod>
         <changefreq>daily</changefreq>
         <priority>0.8</priority>
     </url>
@@ -494,7 +500,7 @@
     </url>
     <url>
         <loc>https://bola.lensaterkini.my.id/berita/bikin-merinding-bisikan-rahasia-lamine-yamal-ke-lionel-messi-di-final-piala-dunia-2026-akhirnya-terbongkar.html</loc>
-        <lastmod>2026-10-15T16:24:37+00:00</lastmod>
+        <lastmod>2026-10-15T22:54:42+00:00</lastmod>
         <changefreq>daily</changefreq>
         <priority>0.8</priority>
     </url>
@@ -627,6 +633,12 @@
     <url>
         <loc>https://bola.lensaterkini.my.id/berita/ikat-masa-depan-jangka-panjang-cole-palmer-resmi-perpanjang-kontrak-di-chelsea-hingga-2034.html</loc>
         <lastmod>2026-10-10T23:14:00+00:00</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://bola.lensaterkini.my.id/berita/sampaikan-maaf-di-rapat-dewan-gianni-infantino-dinilai-masih-hindari-isu-krusial-fifa.html</loc>
+        <lastmod>2026-10-15T22:54:18+00:00</lastmod>
         <changefreq>daily</changefreq>
         <priority>0.8</priority>
     </url>
