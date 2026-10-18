@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
         <loc>https://bola.lensaterkini.my.id/</loc>
-        <lastmod>2026-10-17T21:58:40+00:00</lastmod>
+        <lastmod>2026-10-18T03:03:18+00:00</lastmod>
         <changefreq>hourly</changefreq>
         <priority>1.0</priority>
     </url>
@@ -15,6 +15,12 @@
     <url>
         <loc>https://bola.lensaterkini.my.id/berita/uji-wawasan-si-kulit-bundar-tantangan-kuis-who-am-i-dan-asah-otak-sepak-bola-hari-ini.html</loc>
         <lastmod>2026-10-17T14:59:00+00:00</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://bola.lensaterkini.my.id/berita/florian-wirtz-bersinar-di-liverpool-namun-tetap-jadi-dilema-taktis-bagi-andoni-iraola.html</loc>
+        <lastmod>2026-10-18T03:03:05+00:00</lastmod>
         <changefreq>daily</changefreq>
         <priority>0.8</priority>
     </url>
@@ -74,7 +80,7 @@
     </url>
     <url>
         <loc>https://bola.lensaterkini.my.id/berita/bagi-bagi-uang-kaget-gianni-infantino-janjikan-guyuran-dana-segar-fantastis-untuk-anggota-fifa.html</loc>
-        <lastmod>2026-10-17T21:58:40+00:00</lastmod>
+        <lastmod>2026-10-18T03:03:18+00:00</lastmod>
         <changefreq>daily</changefreq>
         <priority>0.8</priority>
     </url>
@@ -290,7 +296,7 @@
     </url>
     <url>
         <loc>https://bola.lensaterkini.my.id/berita/bursa-transfer-memanas-arsenal-dan-man-united-saling-sikut-demi-bintang-porto-man-city-pasang-banderol-gila-haaland.html</loc>
-        <lastmod>2026-10-17T21:58:40+00:00</lastmod>
+        <lastmod>2026-10-18T03:03:18+00:00</lastmod>
         <changefreq>daily</changefreq>
         <priority>0.8</priority>
     </url>
@@ -584,13 +590,19 @@
     </url>
     <url>
         <loc>https://bola.lensaterkini.my.id/berita/bikin-merinding-bisikan-rahasia-lamine-yamal-ke-lionel-messi-di-final-piala-dunia-2026-akhirnya-terbongkar.html</loc>
-        <lastmod>2026-10-17T21:58:40+00:00</lastmod>
+        <lastmod>2026-10-18T03:03:18+00:00</lastmod>
         <changefreq>daily</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
         <loc>https://bola.lensaterkini.my.id/berita/dua-ikon-dua-takdir-akhir-manis-lionel-messi-dan-senjakala-pahit-cristiano-ronaldo.html</loc>
         <lastmod>2026-10-07T23:07:14+00:00</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://bola.lensaterkini.my.id/berita/erling-haaland-tertatih-tatih-usai-manchester-city-bungkam-ipswich-kekhawatiran-cedera-mereda.html</loc>
+        <lastmod>2026-10-18T03:03:18+00:00</lastmod>
         <changefreq>daily</changefreq>
         <priority>0.8</priority>
     </url>
