@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
         <loc>https://bola.lensaterkini.my.id/</loc>
-        <lastmod>2026-10-20T09:08:06+00:00</lastmod>
+        <lastmod>2026-10-20T16:26:22+00:00</lastmod>
         <changefreq>hourly</changefreq>
         <priority>1.0</priority>
     </url>
@@ -99,6 +99,12 @@
     <url>
         <loc>https://bola.lensaterkini.my.id/berita/klub-rival-premier-league-desak-manchester-city-dijatuhi-hukuman-retrospektif-dan-sanksi-masa-depan.html</loc>
         <lastmod>2026-10-07T05:53:38+00:00</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://bola.lensaterkini.my.id/berita/tinggalkan-pemusatan-latihan-cristiano-ronaldo-dijatuhi-skorsing-30-hari-dan-denda-oleh-federasi-sepak-bola-portugal.html</loc>
+        <lastmod>2026-10-20T16:26:04+00:00</lastmod>
         <changefreq>daily</changefreq>
         <priority>0.8</priority>
     </url>
@@ -343,6 +349,12 @@
         <priority>0.8</priority>
     </url>
     <url>
+        <loc>https://bola.lensaterkini.my.id/berita/bantai-hearts-7-1-apakah-celtic-justru-lebih-mematikan-tanpa-rekrutan-termahalnya.html</loc>
+        <lastmod>2026-10-20T16:24:39+00:00</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
         <loc>https://bola.lensaterkini.my.id/berita/cucurella-pasang-badan-untuk-real-madrid-asuhan-mourinho-terlalu-dini-beri-penilaian.html</loc>
         <lastmod>2026-10-03T03:49:26+00:00</lastmod>
         <changefreq>daily</changefreq>
@@ -488,7 +500,7 @@
     </url>
     <url>
         <loc>https://bola.lensaterkini.my.id/berita/bursa-transfer-memanas-arsenal-dan-man-united-saling-sikut-demi-bintang-porto-man-city-pasang-banderol-gila-haaland.html</loc>
-        <lastmod>2026-10-20T09:08:06+00:00</lastmod>
+        <lastmod>2026-10-20T16:26:22+00:00</lastmod>
         <changefreq>daily</changefreq>
         <priority>0.8</priority>
     </url>
@@ -632,7 +644,7 @@
     </url>
     <url>
         <loc>https://bola.lensaterkini.my.id/berita/bagi-bagi-uang-kaget-gianni-infantino-janjikan-guyuran-dana-segar-fantastis-untuk-anggota-fifa.html</loc>
-        <lastmod>2026-10-20T09:08:06+00:00</lastmod>
+        <lastmod>2026-10-20T16:26:22+00:00</lastmod>
         <changefreq>daily</changefreq>
         <priority>0.8</priority>
     </url>
@@ -889,6 +901,12 @@
         <priority>0.8</priority>
     </url>
     <url>
+        <loc>https://bola.lensaterkini.my.id/berita/erik-ten-hag-buka-suara-cristiano-ronaldo-telah-mengecewakan-saya-dan-manchester-united.html</loc>
+        <lastmod>2026-10-20T16:26:22+00:00</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
         <loc>https://bola.lensaterkini.my.id/berita/masa-bulan-madu-berakhir-skotlandia-asuhan-pocognoli-terjebak-krisis-di-kandang-sendiri.html</loc>
         <lastmod>2026-10-07T04:20:51+00:00</lastmod>
         <changefreq>daily</changefreq>
@@ -944,7 +962,7 @@
     </url>
     <url>
         <loc>https://bola.lensaterkini.my.id/berita/bikin-merinding-bisikan-rahasia-lamine-yamal-ke-lionel-messi-di-final-piala-dunia-2026-akhirnya-terbongkar.html</loc>
-        <lastmod>2026-10-20T09:08:06+00:00</lastmod>
+        <lastmod>2026-10-20T16:26:22+00:00</lastmod>
         <changefreq>daily</changefreq>
         <priority>0.8</priority>
     </url>
