@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
         <loc>https://bola.lensaterkini.my.id/</loc>
-        <lastmod>2026-11-01T04:26:42+00:00</lastmod>
+        <lastmod>2026-11-01T14:52:10+00:00</lastmod>
         <changefreq>hourly</changefreq>
         <priority>1.0</priority>
     </url>
@@ -26,7 +26,7 @@
     </url>
     <url>
         <loc>https://bola.lensaterkini.my.id/berita/bursa-transfer-memanas-arsenal-dan-man-united-saling-sikut-demi-bintang-porto-man-city-pasang-banderol-gila-haaland.html</loc>
-        <lastmod>2026-11-01T04:26:42+00:00</lastmod>
+        <lastmod>2026-11-01T14:52:10+00:00</lastmod>
         <changefreq>daily</changefreq>
         <priority>0.8</priority>
     </url>
@@ -757,6 +757,18 @@
         <priority>0.8</priority>
     </url>
     <url>
+        <loc>https://bola.lensaterkini.my.id/berita/taklukkan-sunderland-coventry-city-besutan-frank-lampard-keluar-dari-zona-degradasi.html</loc>
+        <lastmod>2026-11-01T14:52:10+00:00</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://bola.lensaterkini.my.id/berita/mimpi-buruk-di-santiago-bernabeu-trent-alexander-arnold-terlempar-jadi-pilihan-ketiga-di-real-madrid.html</loc>
+        <lastmod>2026-11-01T14:50:10+00:00</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
         <loc>https://bola.lensaterkini.my.id/berita/mikel-arteta-buka-suara-terkait-skandal-finansial-manchester-city-hati-nurani-saya-bersih.html</loc>
         <lastmod>2026-10-10T04:23:48+00:00</lastmod>
         <changefreq>daily</changefreq>
@@ -782,7 +794,7 @@
     </url>
     <url>
         <loc>https://bola.lensaterkini.my.id/berita/bagi-bagi-uang-kaget-gianni-infantino-janjikan-guyuran-dana-segar-fantastis-untuk-anggota-fifa.html</loc>
-        <lastmod>2026-11-01T04:26:42+00:00</lastmod>
+        <lastmod>2026-11-01T14:52:10+00:00</lastmod>
         <changefreq>daily</changefreq>
         <priority>0.8</priority>
     </url>
@@ -812,7 +824,7 @@
     </url>
     <url>
         <loc>https://bola.lensaterkini.my.id/berita/bikin-merinding-bisikan-rahasia-lamine-yamal-ke-lionel-messi-di-final-piala-dunia-2026-akhirnya-terbongkar.html</loc>
-        <lastmod>2026-11-01T04:26:42+00:00</lastmod>
+        <lastmod>2026-11-01T14:52:10+00:00</lastmod>
         <changefreq>daily</changefreq>
         <priority>0.8</priority>
     </url>
@@ -1035,6 +1047,12 @@
     <url>
         <loc>https://bola.lensaterkini.my.id/berita/jelang-hadapi-turki-roberto-mancini-soroti-kecemasan-berlebihan-di-tubuh-timnas-italia.html</loc>
         <lastmod>2026-10-04T22:44:23+00:00</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://bola.lensaterkini.my.id/berita/kontroversi-var-liga-inggris-apakah-lisandro-martinez-layak-kartu-merah.html</loc>
+        <lastmod>2026-11-01T14:47:58+00:00</lastmod>
         <changefreq>daily</changefreq>
         <priority>0.8</priority>
     </url>
