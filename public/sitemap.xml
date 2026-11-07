@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
         <loc>https://bola.lensaterkini.my.id/</loc>
-        <lastmod>2026-11-07T20:00:59+00:00</lastmod>
+        <lastmod>2026-11-07T23:39:14+00:00</lastmod>
         <changefreq>hourly</changefreq>
         <priority>1.0</priority>
     </url>
@@ -105,6 +105,12 @@
     <url>
         <loc>https://bola.lensaterkini.my.id/berita/masa-depan-skuad-manchester-city-di-tengah-bayang-bayang-vonis-bersalah.html</loc>
         <lastmod>2026-10-02T20:22:04+00:00</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://bola.lensaterkini.my.id/berita/tuah-oliver-glasner-dan-brace-liam-delap-titik-balik-kebangkitan-nottingham-forest.html</loc>
+        <lastmod>2026-11-07T23:28:00+00:00</lastmod>
         <changefreq>daily</changefreq>
         <priority>0.8</priority>
     </url>
@@ -512,7 +518,7 @@
     </url>
     <url>
         <loc>https://bola.lensaterkini.my.id/berita/bagi-bagi-uang-kaget-gianni-infantino-janjikan-guyuran-dana-segar-fantastis-untuk-anggota-fifa.html</loc>
-        <lastmod>2026-11-07T20:00:59+00:00</lastmod>
+        <lastmod>2026-11-07T23:39:14+00:00</lastmod>
         <changefreq>daily</changefreq>
         <priority>0.8</priority>
     </url>
@@ -571,6 +577,12 @@
         <priority>0.8</priority>
     </url>
     <url>
+        <loc>https://bola.lensaterkini.my.id/berita/thierno-barry-borong-dua-gol-everton-bangkit-tumbangkan-coventry-dan-tembus-lima-besar.html</loc>
+        <lastmod>2026-11-07T23:37:48+00:00</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
         <loc>https://bola.lensaterkini.my.id/berita/gol-krusial-alex-iwobi-bawa-fulham-raih-kemenangan-perdana-musim-ini.html</loc>
         <lastmod>2026-10-18T15:23:47+00:00</lastmod>
         <changefreq>daily</changefreq>
@@ -608,7 +620,7 @@
     </url>
     <url>
         <loc>https://bola.lensaterkini.my.id/berita/bursa-transfer-memanas-arsenal-dan-man-united-saling-sikut-demi-bintang-porto-man-city-pasang-banderol-gila-haaland.html</loc>
-        <lastmod>2026-11-07T20:00:59+00:00</lastmod>
+        <lastmod>2026-11-07T23:39:14+00:00</lastmod>
         <changefreq>daily</changefreq>
         <priority>0.8</priority>
     </url>
@@ -728,7 +740,7 @@
     </url>
     <url>
         <loc>https://bola.lensaterkini.my.id/berita/bikin-merinding-bisikan-rahasia-lamine-yamal-ke-lionel-messi-di-final-piala-dunia-2026-akhirnya-terbongkar.html</loc>
-        <lastmod>2026-11-07T20:00:59+00:00</lastmod>
+        <lastmod>2026-11-07T23:39:14+00:00</lastmod>
         <changefreq>daily</changefreq>
         <priority>0.8</priority>
     </url>
@@ -843,6 +855,12 @@
     <url>
         <loc>https://bola.lensaterkini.my.id/berita/arsenal-akhiri-kutukan-anfield-sejak-2012-tembok-kokoh-the-gunners-tundukkan-liverpool.html</loc>
         <lastmod>2026-11-02T04:33:04+00:00</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://bola.lensaterkini.my.id/berita/awal-manis-enzo-maresca-berubah-jadi-mimpi-buruk-di-city-ground-asa-juara-mulai-goyah.html</loc>
+        <lastmod>2026-11-07T23:39:14+00:00</lastmod>
         <changefreq>daily</changefreq>
         <priority>0.8</priority>
     </url>
