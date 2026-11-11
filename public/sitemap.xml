@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
         <loc>https://bola.lensaterkini.my.id/</loc>
-        <lastmod>2026-11-10T21:46:22+00:00</lastmod>
+        <lastmod>2026-11-11T04:45:17+00:00</lastmod>
         <changefreq>hourly</changefreq>
         <priority>1.0</priority>
     </url>
@@ -21,6 +21,12 @@
     <url>
         <loc>https://bola.lensaterkini.my.id/berita/jelang-hadapi-turki-roberto-mancini-soroti-kecemasan-berlebihan-di-tubuh-timnas-italia.html</loc>
         <lastmod>2026-10-04T22:44:23+00:00</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://bola.lensaterkini.my.id/berita/masa-depan-michael-carrick-jadi-agenda-krusial-petinggi-manchester-united-dan-sir-jim-ratcliffe-gelar-pertemuan-khusus.html</loc>
+        <lastmod>2026-11-11T04:45:17+00:00</lastmod>
         <changefreq>daily</changefreq>
         <priority>0.8</priority>
     </url>
@@ -117,6 +123,12 @@
     <url>
         <loc>https://bola.lensaterkini.my.id/berita/takjub-dengan-ketajaman-lamine-yamal-luis-de-la-fuente-dia-menuju-jalur-legenda.html</loc>
         <lastmod>2026-10-04T19:11:39+00:00</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://bola.lensaterkini.my.id/berita/arsenal-pantau-wonderkid-real-madrid-endrick-bursa-transfer-eropa-mulai-memanas.html</loc>
+        <lastmod>2026-11-11T04:44:35+00:00</lastmod>
         <changefreq>daily</changefreq>
         <priority>0.8</priority>
     </url>
@@ -361,6 +373,12 @@
         <priority>0.8</priority>
     </url>
     <url>
+        <loc>https://bola.lensaterkini.my.id/berita/pengakuan-mengejutkan-scott-mctominay-jalani-prosedur-kejut-jantung-dua-hari-sebelum-laga-piala-dunia.html</loc>
+        <lastmod>2026-11-11T04:44:52+00:00</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
         <loc>https://bola.lensaterkini.my.id/berita/uji-wawasan-si-kulit-bundar-tantangan-kuis-who-am-i-dan-asah-otak-sepak-bola-hari-ini.html</loc>
         <lastmod>2026-10-17T14:59:00+00:00</lastmod>
         <changefreq>daily</changefreq>
@@ -572,7 +590,7 @@
     </url>
     <url>
         <loc>https://bola.lensaterkini.my.id/berita/bagi-bagi-uang-kaget-gianni-infantino-janjikan-guyuran-dana-segar-fantastis-untuk-anggota-fifa.html</loc>
-        <lastmod>2026-11-10T21:46:22+00:00</lastmod>
+        <lastmod>2026-11-11T04:45:17+00:00</lastmod>
         <changefreq>daily</changefreq>
         <priority>0.8</priority>
     </url>
@@ -680,7 +698,7 @@
     </url>
     <url>
         <loc>https://bola.lensaterkini.my.id/berita/bursa-transfer-memanas-arsenal-dan-man-united-saling-sikut-demi-bintang-porto-man-city-pasang-banderol-gila-haaland.html</loc>
-        <lastmod>2026-11-10T21:46:22+00:00</lastmod>
+        <lastmod>2026-11-11T04:45:17+00:00</lastmod>
         <changefreq>daily</changefreq>
         <priority>0.8</priority>
     </url>
@@ -806,7 +824,7 @@
     </url>
     <url>
         <loc>https://bola.lensaterkini.my.id/berita/bikin-merinding-bisikan-rahasia-lamine-yamal-ke-lionel-messi-di-final-piala-dunia-2026-akhirnya-terbongkar.html</loc>
-        <lastmod>2026-11-10T21:46:22+00:00</lastmod>
+        <lastmod>2026-11-11T04:45:17+00:00</lastmod>
         <changefreq>daily</changefreq>
         <priority>0.8</priority>
     </url>
