@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
         <loc>https://bola.lensaterkini.my.id/</loc>
-        <lastmod>2026-11-11T16:09:14+00:00</lastmod>
+        <lastmod>2026-11-11T22:49:15+00:00</lastmod>
         <changefreq>hourly</changefreq>
         <priority>1.0</priority>
     </url>
@@ -45,6 +45,12 @@
     <url>
         <loc>https://bola.lensaterkini.my.id/berita/kevin-de-bruyne-cetak-gol-ke-200-dalam-kariernya-bawa-belgia-tundukkan-turkiye-di-uefa-nations-league.html</loc>
         <lastmod>2026-10-03T22:41:26+00:00</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://bola.lensaterkini.my.id/berita/pemimpin-teladan-dan-luar-biasa-kisah-bak-negeri-dongeng-harry-kane-bersama-timnas-inggris.html</loc>
+        <lastmod>2026-11-11T22:49:15+00:00</lastmod>
         <changefreq>daily</changefreq>
         <priority>0.8</priority>
     </url>
@@ -590,7 +596,7 @@
     </url>
     <url>
         <loc>https://bola.lensaterkini.my.id/berita/bagi-bagi-uang-kaget-gianni-infantino-janjikan-guyuran-dana-segar-fantastis-untuk-anggota-fifa.html</loc>
-        <lastmod>2026-11-11T16:09:14+00:00</lastmod>
+        <lastmod>2026-11-11T22:49:15+00:00</lastmod>
         <changefreq>daily</changefreq>
         <priority>0.8</priority>
     </url>
@@ -698,7 +704,7 @@
     </url>
     <url>
         <loc>https://bola.lensaterkini.my.id/berita/bursa-transfer-memanas-arsenal-dan-man-united-saling-sikut-demi-bintang-porto-man-city-pasang-banderol-gila-haaland.html</loc>
-        <lastmod>2026-11-11T16:09:14+00:00</lastmod>
+        <lastmod>2026-11-11T22:49:15+00:00</lastmod>
         <changefreq>daily</changefreq>
         <priority>0.8</priority>
     </url>
@@ -824,7 +830,7 @@
     </url>
     <url>
         <loc>https://bola.lensaterkini.my.id/berita/bikin-merinding-bisikan-rahasia-lamine-yamal-ke-lionel-messi-di-final-piala-dunia-2026-akhirnya-terbongkar.html</loc>
-        <lastmod>2026-11-11T16:09:14+00:00</lastmod>
+        <lastmod>2026-11-11T22:49:15+00:00</lastmod>
         <changefreq>daily</changefreq>
         <priority>0.8</priority>
     </url>
