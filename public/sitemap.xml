@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
         <loc>https://bola.lensaterkini.my.id/</loc>
-        <lastmod>2026-11-14T18:47:32+00:00</lastmod>
+        <lastmod>2026-11-15T00:01:27+00:00</lastmod>
         <changefreq>hourly</changefreq>
         <priority>1.0</priority>
     </url>
@@ -123,6 +123,12 @@
     <url>
         <loc>https://bola.lensaterkini.my.id/berita/badai-cedera-terpa-timnas-spanyol-ferran-torres-terpaksa-menepi-bintang-muda-madrid-esp-raih-panggilan-perdana.html</loc>
         <lastmod>2026-10-03T15:43:59+00:00</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://bola.lensaterkini.my.id/berita/insiden-maut-di-lapangan-kiper-andorra-jes-s-owono-disanksi-larangan-bertanding-12-laga-usai-benturan-fatal-yang-merenggut-nyawa-jes-s-de-miguel.html</loc>
+        <lastmod>2026-11-15T00:01:27+00:00</lastmod>
         <changefreq>daily</changefreq>
         <priority>0.8</priority>
     </url>
@@ -559,6 +565,12 @@
         <priority>0.8</priority>
     </url>
     <url>
+        <loc>https://bola.lensaterkini.my.id/berita/keberanian-taktik-sonia-bompastor-berbuah-manis-chelsea-ambil-alih-puncak-klasemen-wsl.html</loc>
+        <lastmod>2026-11-14T23:50:12+00:00</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
         <loc>https://bola.lensaterkini.my.id/berita/kontroversi-var-liga-inggris-apakah-lisandro-martinez-layak-kartu-merah.html</loc>
         <lastmod>2026-11-01T14:47:58+00:00</lastmod>
         <changefreq>daily</changefreq>
@@ -602,7 +614,7 @@
     </url>
     <url>
         <loc>https://bola.lensaterkini.my.id/berita/bagi-bagi-uang-kaget-gianni-infantino-janjikan-guyuran-dana-segar-fantastis-untuk-anggota-fifa.html</loc>
-        <lastmod>2026-11-14T18:47:32+00:00</lastmod>
+        <lastmod>2026-11-15T00:01:27+00:00</lastmod>
         <changefreq>daily</changefreq>
         <priority>0.8</priority>
     </url>
@@ -710,7 +722,7 @@
     </url>
     <url>
         <loc>https://bola.lensaterkini.my.id/berita/bursa-transfer-memanas-arsenal-dan-man-united-saling-sikut-demi-bintang-porto-man-city-pasang-banderol-gila-haaland.html</loc>
-        <lastmod>2026-11-14T18:47:32+00:00</lastmod>
+        <lastmod>2026-11-15T00:01:27+00:00</lastmod>
         <changefreq>daily</changefreq>
         <priority>0.8</priority>
     </url>
@@ -836,7 +848,7 @@
     </url>
     <url>
         <loc>https://bola.lensaterkini.my.id/berita/bikin-merinding-bisikan-rahasia-lamine-yamal-ke-lionel-messi-di-final-piala-dunia-2026-akhirnya-terbongkar.html</loc>
-        <lastmod>2026-11-14T18:47:32+00:00</lastmod>
+        <lastmod>2026-11-15T00:01:27+00:00</lastmod>
         <changefreq>daily</changefreq>
         <priority>0.8</priority>
     </url>
