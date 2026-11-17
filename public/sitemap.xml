@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
         <loc>https://bola.lensaterkini.my.id/</loc>
-        <lastmod>2026-11-16T04:55:04+00:00</lastmod>
+        <lastmod>2026-11-17T02:57:12+00:00</lastmod>
         <changefreq>hourly</changefreq>
         <priority>1.0</priority>
     </url>
@@ -205,6 +205,12 @@
         <priority>0.8</priority>
     </url>
     <url>
+        <loc>https://bola.lensaterkini.my.id/berita/sempat-meredup-di-awal-musim-vinicius-junior-akui-tertekan-rumor-ketertarikan-arsenal.html</loc>
+        <lastmod>2026-11-17T02:57:12+00:00</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
         <loc>https://bola.lensaterkini.my.id/berita/kabar-mengejutkan-david-silva-turun-gunung-dan-gabung-klub-hong-kong-di-usia-40-tahun.html</loc>
         <lastmod>2026-10-07T21:01:30+00:00</lastmod>
         <changefreq>daily</changefreq>
@@ -279,6 +285,12 @@
     <url>
         <loc>https://bola.lensaterkini.my.id/berita/peringkat-kekuatan-mls-inter-miami-temukan-ritme-terbaik-jelang-decision-day.html</loc>
         <lastmod>2026-11-03T02:02:42+00:00</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://bola.lensaterkini.my.id/berita/swansea-city-berjuang-keras-pertahankan-vitor-matos-dari-godaan-klub-ligue-1-strasbourg.html</loc>
+        <lastmod>2026-11-17T02:49:57+00:00</lastmod>
         <changefreq>daily</changefreq>
         <priority>0.8</priority>
     </url>
@@ -644,7 +656,7 @@
     </url>
     <url>
         <loc>https://bola.lensaterkini.my.id/berita/bagi-bagi-uang-kaget-gianni-infantino-janjikan-guyuran-dana-segar-fantastis-untuk-anggota-fifa.html</loc>
-        <lastmod>2026-11-16T04:55:04+00:00</lastmod>
+        <lastmod>2026-11-17T02:57:12+00:00</lastmod>
         <changefreq>daily</changefreq>
         <priority>0.8</priority>
     </url>
@@ -758,7 +770,7 @@
     </url>
     <url>
         <loc>https://bola.lensaterkini.my.id/berita/bursa-transfer-memanas-arsenal-dan-man-united-saling-sikut-demi-bintang-porto-man-city-pasang-banderol-gila-haaland.html</loc>
-        <lastmod>2026-11-16T04:55:04+00:00</lastmod>
+        <lastmod>2026-11-17T02:57:12+00:00</lastmod>
         <changefreq>daily</changefreq>
         <priority>0.8</priority>
     </url>
@@ -884,7 +896,7 @@
     </url>
     <url>
         <loc>https://bola.lensaterkini.my.id/berita/bikin-merinding-bisikan-rahasia-lamine-yamal-ke-lionel-messi-di-final-piala-dunia-2026-akhirnya-terbongkar.html</loc>
-        <lastmod>2026-11-16T04:55:04+00:00</lastmod>
+        <lastmod>2026-11-17T02:57:12+00:00</lastmod>
         <changefreq>daily</changefreq>
         <priority>0.8</priority>
     </url>
@@ -1083,6 +1095,12 @@
     <url>
         <loc>https://bola.lensaterkini.my.id/berita/diego-simeone-peringatkan-atletico-madrid-manchester-united-tetap-lawan-yang-berbahaya.html</loc>
         <lastmod>2026-10-12T17:22:31+00:00</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://bola.lensaterkini.my.id/berita/misi-penebusan-thomas-frank-menyelamatkan-crystal-palace-dan-memulihkan-reputasi.html</loc>
+        <lastmod>2026-11-17T02:53:24+00:00</lastmod>
         <changefreq>daily</changefreq>
         <priority>0.8</priority>
     </url>
