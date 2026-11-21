@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
         <loc>https://bola.lensaterkini.my.id/</loc>
-        <lastmod>2026-11-21T12:38:58+00:00</lastmod>
+        <lastmod>2026-11-21T21:30:48+00:00</lastmod>
         <changefreq>hourly</changefreq>
         <priority>1.0</priority>
     </url>
@@ -32,13 +32,13 @@
     </url>
     <url>
         <loc>https://bola.lensaterkini.my.id/berita/bagi-bagi-uang-kaget-gianni-infantino-janjikan-guyuran-dana-segar-fantastis-untuk-anggota-fifa.html</loc>
-        <lastmod>2026-11-21T12:38:58+00:00</lastmod>
+        <lastmod>2026-11-21T21:30:48+00:00</lastmod>
         <changefreq>daily</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
         <loc>https://bola.lensaterkini.my.id/berita/bursa-transfer-memanas-arsenal-dan-man-united-saling-sikut-demi-bintang-porto-man-city-pasang-banderol-gila-haaland.html</loc>
-        <lastmod>2026-11-21T12:38:58+00:00</lastmod>
+        <lastmod>2026-11-21T21:30:48+00:00</lastmod>
         <changefreq>daily</changefreq>
         <priority>0.8</priority>
     </url>
@@ -92,7 +92,7 @@
     </url>
     <url>
         <loc>https://bola.lensaterkini.my.id/berita/bikin-merinding-bisikan-rahasia-lamine-yamal-ke-lionel-messi-di-final-piala-dunia-2026-akhirnya-terbongkar.html</loc>
-        <lastmod>2026-11-21T12:38:58+00:00</lastmod>
+        <lastmod>2026-11-21T21:30:48+00:00</lastmod>
         <changefreq>daily</changefreq>
         <priority>0.8</priority>
     </url>
@@ -655,6 +655,12 @@
         <priority>0.8</priority>
     </url>
     <url>
+        <loc>https://bola.lensaterkini.my.id/berita/noah-okafor-bersinar-leeds-united-hancurkan-chelsea-4-1-di-stamford-bridge.html</loc>
+        <lastmod>2026-11-21T21:29:11+00:00</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
         <loc>https://bola.lensaterkini.my.id/berita/manchester-united-siap-tempuh-jalur-hukum-terkait-dugaan-pendekatan-ilegal-terhadap-jj-gabriel.html</loc>
         <lastmod>2026-11-19T12:49:38+00:00</lastmod>
         <changefreq>daily</changefreq>
@@ -783,6 +789,12 @@
     <url>
         <loc>https://bola.lensaterkini.my.id/berita/mengungsi-ke-london-shakhtar-donetsk-satukan-komunitas-ukraina-di-stamford-bridge.html</loc>
         <lastmod>2026-10-14T09:17:57+00:00</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://bola.lensaterkini.my.id/berita/debut-pahit-thomas-frank-gol-bunuh-diri-menit-akhir-bawa-coventry-city-tekuk-crystal-palace-3-2.html</loc>
+        <lastmod>2026-11-21T21:30:48+00:00</lastmod>
         <changefreq>daily</changefreq>
         <priority>0.8</priority>
     </url>
@@ -1005,6 +1017,12 @@
     <url>
         <loc>https://bola.lensaterkini.my.id/berita/belajar-dari-insiden-masa-lalu-thomas-frank-bertekad-hindari-kontroversi-cangkir-kopi-jelang-laga-kontra-palace.html</loc>
         <lastmod>2026-11-20T05:49:32+00:00</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://bola.lensaterkini.my.id/berita/ditahan-imbang-fulham-1-1-di-etihad-manchester-city-perpanjang-tren-tanpa-kemenangan.html</loc>
+        <lastmod>2026-11-21T21:28:08+00:00</lastmod>
         <changefreq>daily</changefreq>
         <priority>0.8</priority>
     </url>
